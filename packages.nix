@@ -79,11 +79,10 @@ let
     youtube-dl
     thunderbird
     octave
-    wine
-    winetricks
+    nfs-utils
+    qutebrowser
   ]) ++ (with rolling; [
     exa
-    qutebrowser
   ]) ++ (with edge; [
     pbpst
   ]);
