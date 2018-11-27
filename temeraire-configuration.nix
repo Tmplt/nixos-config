@@ -42,7 +42,6 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./temeraire-hardware-configuration.nix
-      (import ./packages.nix { inherit config pkgs lib; })
       ./pci-passthrough.nix
     ];
 
