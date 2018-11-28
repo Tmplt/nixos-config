@@ -10,10 +10,10 @@
   sound.enable = true;
   boot.cleanTmpDir = true;
 
-  # Update Intel microcode on boot (both systems use Intel)
-  hardware.cpu.intel.updateMicrocode = true;
-
   hardware = {
+    # Update Intel microcode on boot (both systems use Intel)
+    cpu.intel.updateMicrocode = true;
+
     pulseaudio = {
       enable = true;
       support32Bit = true;
