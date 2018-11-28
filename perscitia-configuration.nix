@@ -59,16 +59,9 @@ in
     defaultLocale = "en_US.UTF-8";
   };
 
-  hardware = {
-    opengl.driSupport = true;
-    pulseaudio.enable = true;
-    opengl.driSupport32Bit = true;
-    pulseaudio.support32Bit = true;
-
-    trackpoint = {
-      emulateWheel = true;
-      enable = true;
-    };
+  hardware.trackpoint = {
+    emulateWheel = true;
+    enable = true;
   };
 
   programs = {

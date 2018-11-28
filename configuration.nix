@@ -13,6 +13,18 @@
   # Update Intel microcode on boot (both systems use Intel)
   hardware.cpu.intel.updateMicrocode = true;
 
+  hardware = {
+    pulseaudio = {
+      enable = true;
+      support32Bit = true;
+    };
+
+    opengl = {
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+  };
+
   # Make ~/Downloads a tmpfs, so I don't end up using is as a non-volatile 'whatever'-directory
   # XXX: is this stored in RAM?
   fileSystems."/home/tmplt/Downloads" = {

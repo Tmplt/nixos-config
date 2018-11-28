@@ -57,9 +57,6 @@
   networking.hostName = "temeraire";
 
   hardware.pulseaudio = {
-    enable = true;
-    support32Bit = true;
-
     # Don't mute audio streams when Teamspeak's running.
     extraConfig = ''
       unload-module module-role-cork
@@ -72,7 +69,6 @@
       default-sample-rate = 384000;
     };
   };
-  hardware.opengl.driSupport32Bit = true;
 
   services.xserver = {
     videoDrivers = [ "amdgpu" ];
