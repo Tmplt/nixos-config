@@ -1,10 +1,29 @@
+# This file configures prerequisites for creating a libvirt/qemu/KVM/terms VM with GPU-passthrough.
+
 { config, pkgs, lib, ... }:
 
 with lib; let cfg = config.pciPassthrough;
-  edge = import (fetchTarball https://github.com/NixOS/nixpkgs/archive/master.tar.gz) { };
+  qemuPatched = ((pkgs.qemu.overrideAttrs (old: {
+    # TODO: update to qemu 3.0
+    version = "2.12.1";
+    name = "qemu-host-cpu-only-patched-${version}";
+
+    src = pkgs.fetchurl {
+      url = "https://download.qemu.org/qemu-2.12.1.tar.xz";
+      sha256 = "33583800e0006cd00b78226b85be5a27c8e3b156bed2e60e83ecbeb7b9b8364f";
+    };
+
+    patches = [
+      # Some yet-to-be-merged audio fixes. Highly recommended.
+      ./patches/qemu-sound-improvements-2.12.0.patch
+      ./patches/qemu-no-etc-install.patch
+    ];
+  })).override {
+    hostCpuOnly = true;
+  });
 
   cpuset = pkgs.python2Packages.buildPythonApplication rec {
-    name = "cpuset-${version}";
+    name = "cpuset-patched-${version}";
     version = "1.5.7";
 
     src = pkgs.fetchurl {
@@ -30,6 +49,9 @@ with lib; let cfg = config.pciPassthrough;
       gawk
     ];
   };
+
+  qemuHookFile = ./hooks/qemu;
+  hugepagesSizeFile = ./hooks/vm-mem-requirements;
 in
 {
   ###### interface
@@ -63,43 +85,54 @@ in
   ###### implementation
   config = (mkIf cfg.enable {
 
-    boot.kernelParams = [
+    boot = {
+      # Fix IOMMU groups for this particular system.
+      kernelPatches = [{
+        name = "add-acs-overrides";
+        patch = ./patches/add-acs-overrides.patch;
+      }];
+
+      kernelParams = [
       "pcie_acs_override=downstream"
       "${cfg.cpuType}_iommu=on"
-    ];
+      ];
 
-    # These modules are required for PCI passthrough, and must come before early modesetting stuff
-    boot.kernelModules = [ "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
+      # Enable required IOMMU modules.
+      kernelModules = [
+        "vfio"
+        "vfio_iommu_type1"
+        "vfio_pci"
+        "vfio_virqfd"
+      ];
 
-    boot.extraModprobeConfig ="options vfio-pci ids=${cfg.pciIDs}";
+      # Bind the vfio drivers to the devices that are going to be passed though.
+      extraModprobeConfig ="options vfio-pci ids=${cfg.pciIDs}";
+
+      # Blocklist their drivers, telling Linux we don't want to use them on the host.
+      blacklistedKernelModules = [
+        "nouveau" "nvidia"  # GPU
+        "r8169"  # network card
+      ];
+    };
 
     environment.systemPackages = with pkgs; [
       virtmanager
-      qemu
-      OVMF
-      pciutils
+      gnome3.dconf  # so that virtmanager remembers remote servers
     ];
 
     users.groups.libvirtd.members = [ "root" ] ++ cfg.libvirtUsers;
 
+    # Enable dynamic hugepages
+    fileSystems."/dev/hugepages" = {
+      device = "hugetlbfs";
+      fsType = "hugetlbfs";
+      options = ["defaults"];
+    };
+
     virtualisation.libvirtd = {
       enable = true;
-
-      qemuPackage = ((pkgs.qemu.overrideAttrs (old: {
-        version = "2.12.1";
-        src = pkgs.fetchurl {
-          url = "https://download.qemu.org/qemu-2.12.1.tar.xz";
-          sha256 = "33583800e0006cd00b78226b85be5a27c8e3b156bed2e60e83ecbeb7b9b8364f";
-        };
-
-        patches = [
-          # Some yet-to-be-merged audio fixes. Highly recommended.
-          ./patches/qemu-sound-improvements-2.12.0.patch
-          ./patches/qemu-no-etc-install.patch
-        ];
-      })).override {
-        hostCpuOnly = true;
-      });
+      qemuPackage = qemuPatched;
+      onShutdown = "suspend";
 
       qemuVerbatimConfig = ''
         user = "${cfg.qemuUser}"
@@ -119,8 +152,33 @@ in
 
     };
 
+    # Install qemu hook
+    systemd.services.libvirtd.preStart =
+    # XXX: Disgusting hack that allows me to login and kick Pulseaudio alive before
+    # qemu starts looking for it, in case the guest wasn't shutdown before the host was.
+    #
+    # Thread on the issue: <https://discourse.nixos.org/t/resuming-libvirt-guests-after-pulseaudio-units/1048/6>
+    # TODO: make it so guests must be manually started instead?
+    ''
+      ${pkgs.coreutils}/bin/coreutils --coreutils-prog=sleep 10
+    '' +
+    # TODO: calculate hugepage size instead of hard coding it.
+    ''
+      # source ${pkgs.stdenv}/setup
+
+      mkdir -p /var/lib/libvirt/hooks
+      chmod 755 /var/lib/libvirt/hooks
+
+      # Copy hook files
+      # substituteAll ${qemuHookFile} /var/lib/libvirt/hooks/qemu
+      cp -f ${qemuHookFile} /var/lib/libvirt/hooks/qemu
+      # cp -f ${hugepagesSizeFile} /var/lib/libvirt/hooks/vm-mem-requirements
+
+      # Make them executable
+      chmod +x /var/lib/libvirt/hooks/qemu
+      # chmod +x /var/lib/libvirt/hooks/vm-mem-requirements
+    '';
+
     systemd.services.libvirtd.path = [ qemuHookEnv ];
-
   });
-
 }

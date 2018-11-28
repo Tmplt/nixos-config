@@ -4,39 +4,7 @@
 
 { config, pkgs, lib, ... }:
 
-let
-  cpuset = pkgs.python2Packages.buildPythonApplication rec {
-    name = "cpuset-${version}";
-    version = "1.5.7";
-
-    src = pkgs.fetchurl {
-      url = "https://github.com/lpechacek/cpuset/archive/v1.5.7.tar.gz";
-      sha256 = "32334e164415ed5aec83c5ffc3dc01c418406eb02d96d881fdfd495587ff0c01";
-    };
-
-    # Required for shield creation on this machine
-    patches = [ ./patches/cpuset-fix-shield.patch ];
-
-    doCheck = false;
-  };
-
-  qemuHookFile = ./hooks/qemu;
-  hugepagesSizeFile = ./hooks/vm-mem-requirements;
-  qemuHookEnv = pkgs.buildEnv {
-    name = "qemu-hook-env";
-    paths = with pkgs; [
-      bash
-      cpuset
-      coreutils
-      gnugrep
-      procps # for sysctl(8)
-      python # for calculating hugepages
-      gawk
-    ];
-  };
-in
 {
-
   nixpkgs.config.allowUnfree = true;
 
   imports =
@@ -45,45 +13,10 @@ in
       ./pci-passthrough.nix
     ];
 
-  # TODO: move this to pci-passthrough
-  systemd.services.libvirtd.path = [ qemuHookEnv ];
-  systemd.services.libvirtd.preStart = ''
-    # source ${pkgs.stdenv}/setup
-
-    mkdir -p /var/lib/libvirt/hooks
-    chmod 755 /var/lib/libvirt/hooks
-
-    # Copy hook files
-    # substituteAll ${qemuHookFile} /var/lib/libvirt/hooks/qemu
-    cp -f ${qemuHookFile} /var/lib/libvirt/hooks/qemu
-    # cp -f ${hugepagesSizeFile} /var/lib/libvirt/hooks/vm-mem-requirements
-
-    # Make them executable
-    chmod +x /var/lib/libvirt/hooks/qemu
-    # chmod +x /var/lib/libvirt/hooks/vm-mem-requirements
-  '';
-
-  # Allow me to login and have the required Pulseaudio daemon start before
-  # running the domains that require it.
-  systemd.services.libvirt-guests.preStart = ''
-    ${pkgs.coreutils}/bin/coreutils --coreutils-prog=sleep 10
-  '';
-
-  virtualisation.libvirtd.onShutdown = "suspend";
-
   boot = {
     # Use the systemd-boot EFI boot loader.
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-
-    # Enable IOMMU and fix IOMMU-groups for this particular system.
-    # Bind the vfio drivers to devices that are going to be passed though.
-    # You might need to block whatever drivers they use.
-    blacklistedKernelModules = [ "nouveau" "nvidia" "r8169" ];
-    kernelPatches = [ {
-      name = "add-acs-overrides";
-      patch = ./patches/add-acs-overrides.patch;
-    } ];
 
     initrd.kernelModules = [ "dm_cache" "dm_cache_smq" ];
 
@@ -114,13 +47,6 @@ in
     device = "dulcia:/media";
     fsType = "nfs";
     options = ["x-systemd.automount" "noauto" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=175" "timeo=15"];
-  };
-
-  # TODO: move this to pci-passthrough.nix
-  fileSystems."/dev/hugepages" = {
-    device = "hugetlbfs";
-    fsType = "hugetlbfs";
-    options = ["defaults"];
   };
 
   fileSystems."/home/tmplt/vidya" = {

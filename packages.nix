@@ -83,13 +83,6 @@ in {
     manpages
     gnupg
 
-    # Virtualisation
-    virtmanager
-    qemu
-    OVMF
-    pciutils
-    gnome3.dconf  # so that virt-manages saves remote server
-
     # Extra
     firefox
     audacity
