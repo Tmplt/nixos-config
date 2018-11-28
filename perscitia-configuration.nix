@@ -35,8 +35,9 @@ in
     hostName = "perscitia";
     wireless.enable = true;
     wireless.userControlled.enable = true;
+  };
 
-    wireless.networks = {
+  networking.wireless.networks = {
       "WiiVafan" = {
         psk = secrets."WiiVafan";
       };
@@ -45,14 +46,12 @@ in
         psk = secrets."Normandy SR2";
         priority = 10;
       };
-    };
   };
 
   environment.systemPackages = with pkgs; [
     wpa_supplicant_gui
   ];
 
-  # Select internationalisation properties.
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "sv-latin1";
