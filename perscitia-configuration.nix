@@ -153,7 +153,14 @@ in
 
     acpid.enable = true;
 
-    physlock.enable = true;
+    physlock = {
+      enable = true;
+      allowAnyUser = true;
+
+      # While already encrypted, it is now obvious that the system is entering hiberation without this enabled.
+      # (Framebuffer isn't cleared; the system appears unresponsive for a few seconds.)
+      lockOn.hibernate = true;
+    };
 
     udev.extraRules = ''
       # Allow users to use the AVR avrisp2 programmer
@@ -179,19 +186,6 @@ in
   powerManagement = {
     enable = true;
     powertop.enable = true;
-  };
-
-  # Allow non-root to run physlock.
-  # TODO: Have services.physlock.allowNonRoot been pushed?
-  # Suggested change by infinisil on #nixos
-  security.wrappers.physlock = {
-    source = "${pkgs.physlock}/bin/physlock";
-    user = "root";
-  };
-
-  security.wrappers.hibernate = {
-    source = "${pkgs.hibernate}/bin/hibernate";
-    user = "root";
   };
 
   nix = {
