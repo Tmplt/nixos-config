@@ -17,7 +17,7 @@ VM_NAME=$1
 VM_ACTION=$2
 
 shield_vm() {
-    # cset set -c $TOTAL_CORES -c machine.slice
+    cset set -c $TOTAL_CORES -c machine.slice
 
     # Shield two cores for host and rest for VM(s)
     cset shield --kthread on --cpu $VIRT_CORES
