@@ -4,6 +4,9 @@
 
 { config, pkgs, lib, ... }:
 
+let
+  secrets = (import ./secrets.nix);
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -44,13 +47,19 @@
 
   networking = {
     hostName = "perscitia";
+    wireless.enable = true;
+    wireless.userControlled.enable = true;
 
-    networkmanager = {
-      enable = true;
-      dns = "dnsmasq";
+    wireless.networks = {
+      "WiiVafan" = {
+        psk = secrets.WiiVafan;
+      };
     };
-
   };
+
+  environment.systemPackages = with pkgs; [
+    wpa_supplicant_gui
+  ];
 
   # Select internationalisation properties.
   i18n = {
