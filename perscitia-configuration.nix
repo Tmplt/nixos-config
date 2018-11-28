@@ -52,7 +52,12 @@ in
 
     wireless.networks = {
       "WiiVafan" = {
-        psk = secrets.WiiVafan;
+        psk = secrets."WiiVafan";
+      };
+
+      "Normandy SR2" = {
+        psk = secrets."Normandy SR2";
+        priority = 10;
       };
     };
   };
