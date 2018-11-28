@@ -76,8 +76,6 @@ in
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
 
-    cleanTmpDir = true;
-
     # Enable IOMMU and fix IOMMU-groups for this particular system.
     # Bind the vfio drivers to devices that are going to be passed though.
     # You might need to block whatever drivers they use.
@@ -118,12 +116,6 @@ in
     options = ["x-systemd.automount" "noauto" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=175" "timeo=15"];
   };
 
-  fileSystems."/home/tmplt/Downloads" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-    options = ["rw" "size=2G" "uid=1000" "nodev" "nosuid"];
-  };
-
   # fileSystems."/mnt/volatile/tv-series" = {
   #   device = "192.168.1.77:/mnt/volatile";
   #   fsType = "nfs";
@@ -148,32 +140,15 @@ in
     fsType = "xfs";
   };
 
-
   networking = {
     hostName = "temeraire"; # Define your hostname.
   };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Stockholm";
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    wget vim git
-  ];
 
   # Open ports in the firewall.
   # TODO: what are these for?
   networking.firewall.allowedTCPPorts = [ 6600 ];
   networking.firewall.allowedUDPPorts = [ 6600 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
   hardware = {
     pulseaudio = {
       enable = true;
@@ -194,47 +169,8 @@ in
     opengl.driSupport32Bit = true;
   };
 
-  # Update Intel microcode on boot
-  hardware.cpu.intel.updateMicrocode = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.tmplt = {
-    isNormalUser = true;
-    uid = 1000;
-
-    extraGroups = [
-      "wheel" "dialout" "video" "audio" "input"
-    ];
-
-    createHome = true;
-    home = "/home/tmplt";
-    shell = "/run/current-system/sw/bin/zsh";
-    password = "password";
-  };
-
-  programs = {
-    zsh = {
-      enable = true; # required for command-not-found to work
-      enableCompletion = true;
-    };
-
-    command-not-found.enable = true;
-  };
-
-  systemd.coredump.enable = true;
-  systemd.coredump.extraConfig = "Storage=external";
-
   services = {
-    udisks2.enable = true;
-
     xserver = {
-      enable = true;
-      autorun = true;
-
-      # These make everything so much better
-      autoRepeatDelay = 300;
-      autoRepeatInterval = 35;
-
       videoDrivers = [ "amdgpu" ];
       deviceSection = ''
         Option "TearFree" "true"
@@ -247,8 +183,6 @@ in
         "DVI-D-0"
       ];
     };
-
-    dnsmasq.enable = true;
   };
 
   services.compton = {
@@ -272,19 +206,4 @@ in
         shadow-ignore-shaped = true;
       '';
   };
-
-  services.mysql = {
-    enable = true;
-    package = pkgs.mysql;
-  };
-
-  nix.buildCores = 0; # Uses nproc(1) to query core count
-  nix.gc.automatic = true;
-
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "18.03"; # Did you read the comment?
-
 }

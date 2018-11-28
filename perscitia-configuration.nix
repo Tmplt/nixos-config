@@ -19,20 +19,6 @@ in
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
-  # fileSystems."/home/tmplt/media" = {
-  #   device = "/dev/disk/by-partlabel/media";
-  #   fsType = "xfs";
-  #   options = [ "x-systemd.automount,noauto" ];
-  # };
-
-  fileSystems."/home/tmplt/Downloads" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-    options = ["rw" "size=2G" "uid=tmplt"];
-  };
-
-  boot.cleanTmpDir = true;
-
   boot.initrd.luks.devices = [
     {
       name = "root";
@@ -85,53 +71,15 @@ in
     };
   };
 
-  # Set your time zone.
-  time.timeZone = "Europe/Stockholm";
-
-  users.extraUsers.tmplt = {
-    isNormalUser = true;
-    uid = 1000;
-
-    extraGroups = [
-      "video" "wheel" "disk" "audio" "networkmanager" "systemd-journal" "vboxusers" "dialout"
-    ];
-
-    createHome = true;
-    home = "/home/tmplt";
-    shell = "/run/current-system/sw/bin/zsh";
-    password = "password";
-  };
-
   programs = {
-    zsh = {
-      enableCompletion = true;
-
-      # Required for command-not-found (e.g. source /etc/zshrc) to work.
-      enable = true;
-    };
-
     light.enable = true;
-    command-not-found.enable = true;
     wireshark.enable = true;
   };
 
-  sound.enable = true;
-
-  systemd.coredump.enable = true;
-  systemd.coredump.extraConfig = "Storage=external";
-
   services = {
-    udisks2.enable = true;
-
     xserver = {
-      enable = true;
-      autorun = true;
       layout = "se";
       xkbOptions = "ctrl:swapcaps";
-
-      # These make everything so much better.
-      autoRepeatDelay = 300;
-      autoRepeatInterval = 35;
 
       libinput = {
         enable = true;
@@ -143,12 +91,6 @@ in
       };
 
       multitouch.ignorePalm = true;
-
-      displayManager.lightdm = {
-        enable = true;
-      };
-
-      # desktopManager.plasma5.enable = true;
     };
 
     acpid.enable = true;
@@ -161,11 +103,6 @@ in
       # (Framebuffer isn't cleared; the system appears unresponsive for a few seconds.)
       lockOn.hibernate = true;
     };
-
-    udev.extraRules = ''
-      # Allow users to use the AVR avrisp2 programmer
-      SUBSYSTEM=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", TAG+="uaccess", RUN{builtin}+="uaccess"
-    '';
 
     # See logind.conf(5).
     # To actually shutdown, use poweroff(8)
@@ -187,31 +124,5 @@ in
     enable = true;
     powertop.enable = true;
   };
-
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-
-    buildCores = 4; # How can we use nproc here instead?
-    maxJobs = 2;
-    daemonNiceLevel = 19;
-    daemonIONiceLevel = 7;
-    useSandbox = false;
-
-    extraOptions = ''
-      gc-keep-outputs = true
-      gc-keep-derivations = true
-    '';
-  };
-
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "18.03"; # Did you read the comment?
-
 }
 
