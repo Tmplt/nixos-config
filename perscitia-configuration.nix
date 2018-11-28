@@ -7,8 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./praecursoris-hardware-configuration.nix
-      (import ./packages.nix {inherit config pkgs lib; })
+      ./perscitia-hardware-configuration.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
