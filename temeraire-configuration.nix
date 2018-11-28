@@ -116,18 +116,6 @@ in
     options = ["x-systemd.automount" "noauto" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=175" "timeo=15"];
   };
 
-  # fileSystems."/mnt/volatile/tv-series" = {
-  #   device = "192.168.1.77:/mnt/volatile";
-  #   fsType = "nfs";
-  #   options = ["x-systemd.automount,noauto"];
-  # };
-
-  # fileSystems."/home/tmplt/watch" = {
-  #   device = "192.168.1.77:/mnt/main/apps/rtorrent/watch";
-  #   fsType = "nfs";
-  #   options = ["x-systemd.automount,noauto"];
-  # };
-
   # TODO: move this to pci-passthrough.nix
   fileSystems."/dev/hugepages" = {
     device = "hugetlbfs";
@@ -140,41 +128,31 @@ in
     fsType = "xfs";
   };
 
-  networking = {
-    hostName = "temeraire"; # Define your hostname.
-  };
+  networking.hostName = "temeraire";
 
-  # Open ports in the firewall.
-  # TODO: what are these for?
-  networking.firewall.allowedTCPPorts = [ 6600 ];
-  networking.firewall.allowedUDPPorts = [ 6600 ];
+  hardware.pulseaudio = {
+    enable = true;
+    support32Bit = true;
 
-  hardware = {
-    pulseaudio = {
-      enable = true;
-      support32Bit = true;
+    # Don't mute audio streams when Teamspeak's running.
+    extraConfig = ''
+      unload-module module-role-cork
+    '';
 
-      # Don't mute audio streams when Teamspeak's running.
-      extraConfig = ''
-        unload-module module-role-cork
-      '';
-
-      daemon.config = {
-        flat-volumes = "no";
-        resample-method = "speex-float-5";
-        default-sample-format = "s32le";
-        default-sample-rate = 384000;
-      };
+    daemon.config = {
+      flat-volumes = "no";
+      resample-method = "speex-float-5";
+      default-sample-format = "s32le";
+      default-sample-rate = 384000;
     };
-    opengl.driSupport32Bit = true;
   };
+  hardware.opengl.driSupport32Bit = true;
 
-  services = {
-    xserver = {
-      videoDrivers = [ "amdgpu" ];
-      deviceSection = ''
-        Option "TearFree" "true"
-      '';
+  services.xserver = {
+    videoDrivers = [ "amdgpu" ];
+    deviceSection = ''
+      Option "TearFree" "true"
+    '';
 
       # From left to right, Hammerhead setup
       xrandrHeads = [
@@ -182,7 +160,6 @@ in
         { output = "DisplayPort-2"; primary = true; }
         "DVI-D-0"
       ];
-    };
   };
 
   services.compton = {
