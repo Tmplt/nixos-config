@@ -83,8 +83,9 @@ let
     qutebrowser
   ]) ++ (with rolling; [
     exa
-  ]) ++ (with edge; [
     pbpst
+  ]) ++ (with edge; [
+    # pbpst
   ]);
 
   development = (with stable; [
