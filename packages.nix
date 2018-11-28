@@ -1,12 +1,54 @@
-{ config, pkgs, lib, ... }:
+# This file contains configuration for packages to install.
+# It does not contain configuration for software that is already covered
+# by other NixOS options.
+
+{ config, pkgs, ... }:
 
 let
-  stable = pkgs;
-  rolling = import (fetchTarball https://github.com/nixos/nixpkgs-channels/archive/nixos-unstable.tar.gz) { };
-  edge = import (fetchTarball https://github.com/nixos/nixpkgs/archive/master.tar.gz) { };
+  fetchChannel = { rev, sha256 }: import (fetchTarball {
+    inherit sha256;
+    url = "https://github.com/NixOS/nixpkgs-channels/archive/${rev}.tar.gz";
+  }) { config.allowUnfree = true; };
 
-  base = (with stable; [
-    bc
+  # Channels last updated: 2018-11-28
+  #
+  # Instead of relying on Nix channels and ending up with out-of-sync
+  # situations between machines, the commit for the stable Nix channel
+  # is pinned here.
+  stable = fetchChannel {
+    rev = "a7fd4310c0cc7f50d2e5eb1f6172c31969569930";
+    sha256 = "1nvqrj34irg6bp6n6xp7ls5nmbzrcgkjzxxxv3hxqwfjdgyj218q";
+  };
+
+  # Certain packages from unable are hand-picked into the package set.
+  unstable = fetchChannel {
+    rev = "80738ed9dc0ce48d7796baed5364eef8072c794d";
+    sha256 = "0anmvr6b47gbbyl9v2fn86mfkcwgpbd5lf0yf3drgm8pbv57c1dc";
+  };
+in {
+  # Configure the Nix package manager
+  nixpkgs = {
+    config.allowUnfree = true;
+    # To use the pinned channel, the original package set is thrown away in
+    # the overrides:
+    config.packageOverrides = oldPkgs: stable // {
+      # Store whole unstable channel in case any module need it
+      inherit unstable;
+
+      # Backport Exa from unstable until a fix for the Rust builder is
+      # backported.
+      #
+      # <https://github.com/NixOS/nixpkgs/pull/48020>
+      exa = unstable.exa;
+
+      # Not available in 18.09
+      pbpst = unstable.pbpst;
+    };
+  };
+
+  # ... and declare packages to be installed.
+  environment.systemPackages = with pkgs; [
+    # Base
     binutils
     curl
     file
@@ -14,7 +56,6 @@ let
     htop
     imagemagick
     libnotify
-    lm_sensors
     lxappearance
     maim
     mpc_cli
@@ -22,15 +63,12 @@ let
     mpv
     mumble
     neofetch
-    openssl
     atool
-    parallel
     pass
     pavucontrol
     stow
     tree
     neovim
-    wget
     wmname
     xorg.xev
     xorg.xmodmap
@@ -45,14 +83,14 @@ let
     manpages
     gnupg
 
+    # Virtualisation
     virtmanager
     qemu
     OVMF
     pciutils
-    gnome3.dconf
-  ]);
+    gnome3.dconf  # so that virt-manages saves remote server
 
-  extra = (with stable; [
+    # Extra
     firefox
     audacity
     compton
@@ -75,20 +113,15 @@ let
     ncdu
     arc-theme
     arc-icon-theme
-    haskellPackages.xmobar
     youtube-dl
     thunderbird
     octave
     nfs-utils
     qutebrowser
-  ]) ++ (with rolling; [
     exa
     pbpst
-  ]) ++ (with edge; [
-    # pbpst
-  ]);
 
-  development = (with stable; [
+    # Development
     gitAndTools.gitFull
     git-crypt
     cmake
@@ -105,27 +138,16 @@ let
     # rustfmt
     gdb
     nix-prefetch-git
-  ]);
+  ];
 
-in
-{
-  # config.allowUnfree = true;
-
-  environment.systemPackages =
-    base ++
-    extra ++
-    development ++
-    [];
-
-  nixpkgs.config.allowUnfree = true;
-
+  # ... and install some fonts.
   fonts = {
     enableCoreFonts = true;
     enableFontDir = true;
     enableGhostscriptFonts = true;
     fontconfig.enable = true;
 
-    fonts = (with pkgs; [
+    fonts = with pkgs; [
       liberation_ttf
       libertine
       freefont_ttf
@@ -140,6 +162,6 @@ in
       fira-code
       envypn-font
       gohufont
-    ]);
+    ];
   };
 }

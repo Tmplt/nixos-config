@@ -3,6 +3,6 @@
 {
   imports = [
     ./local-configuration.nix
-    (import ./packages.nix {inherit config pkgs lib; })
+    (import ./packages.nix {inherit config pkgs; })
   ];
 }
