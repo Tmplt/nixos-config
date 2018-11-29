@@ -26,6 +26,4 @@
       };
     };
   };
-
-  network.description = "example network";
 }
