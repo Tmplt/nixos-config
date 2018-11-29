@@ -46,6 +46,23 @@ in
         psk = secrets."Normandy SR2";
         priority = 10;
       };
+
+      "'; DROP TABLE ludd" = {
+        psk = secrets.ludd;
+        priority = 10;
+      };
+
+      "eduroam" = {
+        priority = 5;
+        auth = ''
+          key_mgmt=WPA-EAP
+          eap=PEAP
+          proto=RSN
+          identity="${secrets.eduroam.username}"
+          password="${secrets.eduroam.password}"
+          phase2="auth=MSCHAPV2"
+        '';
+      };
   };
 
   environment.systemPackages = with pkgs; [
