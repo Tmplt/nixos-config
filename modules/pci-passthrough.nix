@@ -65,8 +65,14 @@ in
     };
 
     pciIDs = mkOption {
-      description = "Comma-separated list of PCI IDs to pass-through";
-      type = types.str;
+      description = "List of PCI IDs to pass through";
+      type = types.listOf types.str;
+    };
+
+    periphiralPaths = mkOption {
+      description = "List of paths to hardware periphirals to pass though";
+      type = types.listOf types.path;
+      default = [];
     };
 
     libvirtUsers = mkOption {
@@ -106,7 +112,7 @@ in
       ];
 
       # Bind the vfio drivers to the devices that are going to be passed though.
-      extraModprobeConfig ="options vfio-pci ids=${cfg.pciIDs}";
+      extraModprobeConfig = "options vfio-pci ids=${lib.concatStringsSep "," pciIDs}";
 
       # Blocklist their drivers, telling Linux we don't want to use them on the host.
       blacklistedKernelModules = [
@@ -134,15 +140,15 @@ in
       qemuPackage = qemuPatched;
       onShutdown = "suspend";
 
-      qemuVerbatimConfig = ''
+      qemuVerbatimConfig = let
+        periphirals = toString (map (e: "\"" + toString e + "\",\n") cfg.periphiralPaths);
+      in ''
         user = "${cfg.qemuUser}"
         nvram = [
         "${pkgs.OVMF}/FV/OVMF.fd:${pkgs.OVMF}/FV/OVMF_VARS.fd"
         ]
         cgroup_device_acl = [
-          "/dev/input/by-id/usb-Laview_Technology_Mionix_Naos_7000_STM32-event-mouse",
-          "/dev/input/by-id/usb-04d9_USB_Keyboard-event-kbd",
-          "/dev/input/by-id/usb-04d9_USB_Keyboard-event-if01",
+          ${periphirals}
           "/dev/null", "/dev/full", "/dev/zero",
           "/dev/random", "/dev/urandom",
           "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
@@ -154,16 +160,16 @@ in
 
     # Install qemu hook
     systemd.services.libvirtd.preStart =
-    # XXX: Disgusting hack that allows me to login and kick Pulseaudio alive before
-    # qemu starts looking for it, in case the guest wasn't shutdown before the host was.
-    #
-    # Thread on the issue: <https://discourse.nixos.org/t/resuming-libvirt-guests-after-pulseaudio-units/1048/6>
-    # TODO: make it so guests must be manually started instead?
-    ''
+      # XXX: Disgusting hack that allows me to login and kick Pulseaudio alive before
+      # qemu starts looking for it, in case the guest wasn't shutdown before the host was.
+      #
+      # Thread on the issue: <https://discourse.nixos.org/t/resuming-libvirt-guests-after-pulseaudio-units/1048/6>
+      # TODO: make it so guests must be manually started instead?
+      ''
       ${pkgs.coreutils}/bin/coreutils --coreutils-prog=sleep 10
-    '' +
-    # TODO: calculate hugepage size instead of hard coding it.
-    ''
+      '' +
+      # TODO: calculate hugepage size instead of hard coding it.
+      ''
       # source ${pkgs.stdenv}/setup
 
       mkdir -p /var/lib/libvirt/hooks
