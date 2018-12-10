@@ -43,6 +43,11 @@
       "10de:13c2" "10de:0fbb" # GPU
       "10ec:8186" # NIC
     ];
+    blacklistedKernelModules = [
+      "nouveau" "nvidia" # GPU
+      "r8169" # NIC
+    ];
+
     periphiralPaths = [
       /dev/input/by-id/usb-Laview_Technology_Mionix_Naos_7000_STM32-event-mouse
       /dev/input/by-id/usb-04d9_USB_Keyboard-event-kbd

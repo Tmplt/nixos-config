@@ -75,6 +75,11 @@ in
       default = [];
     };
 
+    blacklistedKernelModules = mkOption {
+      description = "List of blacklisted kernel modules";
+      type = types.listOf types.str;
+    };
+
     libvirtUsers = mkOption {
       description = "Extra users to add to libvirtd (root is already included)";
       type = types.listOf types.str;
@@ -115,10 +120,7 @@ in
       extraModprobeConfig = "options vfio-pci ids=${lib.concatStringsSep "," cfg.pciIDs}";
 
       # Blocklist their drivers, telling Linux we don't want to use them on the host.
-      blacklistedKernelModules = [
-        "nouveau" "nvidia"  # GPU
-        "r8169"  # network card
-      ];
+      blacklistedKernelModules = cfg.blacklistedKernelModules;
     };
 
     environment.systemPackages = with pkgs; [
