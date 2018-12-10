@@ -9,7 +9,7 @@ Feel free to ping me with any questions you might have.
 
 Expressions
 ===
-Everything in this directory, except for `nixops/` are Nix expressions for my hands-on machines;
+Everything in this directory, except for `nixops/`, are Nix expressions for my hands-on machines;
 expressions in `nixops/` are for remote systems managed with nixops(1), as the name implies.
 
 Building Instructions
