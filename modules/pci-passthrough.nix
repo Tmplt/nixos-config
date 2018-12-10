@@ -52,6 +52,7 @@ with lib; let cfg = config.pciPassthrough;
 
   qemuHookFile = ./hooks/qemu;
   hugepagesSizeFile = ./hooks/vm-mem-requirements;
+  vidyaConfig = ./vidya.xml;
 in
 {
   ###### interface
@@ -188,5 +189,16 @@ in
     '';
 
     systemd.services.libvirtd.path = [ qemuHookEnv ];
+
+    # Import VM configuration:
+    # TODO: mustn't this be run before libvirt-guests.service, in case domain isn't defined?
+    systemd.user.services.libvirt-import = {
+      description = "Oneshot importer of libvirt domains";
+      wantedBy = [ "multi-user.target" ];
+
+      serviceConfig.ExecStart = "${pkgs.libvirt}/bin/virsh -c qemu:///system define ${vidyaConfig} --validate";
+
+      restartIfChanged = false;
+    };
   });
 }
