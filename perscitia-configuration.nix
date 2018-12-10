@@ -37,18 +37,20 @@ in
     wireless.userControlled.enable = true;
   };
 
-  networking.wireless.networks = {
+  networking.wireless.networks = let
+    networkSecrets = secrets.networkCredentials;
+  in {
       "WiiVafan" = {
-        psk = secrets."WiiVafan";
+        psk = networkSecrets."WiiVafan";
       };
 
       "Normandy SR2" = {
-        psk = secrets."Normandy SR2";
+        psk = networkSecrets."Normandy SR2";
         priority = 10;
       };
 
       "'; DROP TABLE ludd" = {
-        psk = secrets.ludd;
+        psk = networkSecrets."ludd";
         priority = 10;
       };
 
@@ -58,8 +60,8 @@ in
           key_mgmt=WPA-EAP
           eap=PEAP
           proto=RSN
-          identity="${secrets.eduroam.username}"
-          password="${secrets.eduroam.password}"
+          identity="${networkSecrets."eduroam".username}"
+          password="${networkSecrets."eduroam".password}"
           phase2="auth=MSCHAPV2"
         '';
       };
