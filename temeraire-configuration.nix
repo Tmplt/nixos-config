@@ -10,7 +10,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./temeraire-hardware-configuration.nix
-      modules/pci-passthrough.nix
+      modules/pci-passthrough/pci-passthrough.nix
     ];
 
   boot = {

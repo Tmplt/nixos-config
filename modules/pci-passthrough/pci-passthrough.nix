@@ -52,7 +52,7 @@ with lib; let cfg = config.pciPassthrough;
 
   qemuHookFile = ./hooks/qemu;
   hugepagesSizeFile = ./hooks/vm-mem-requirements;
-  vidyaConfig = ./vidya.xml;
+  vidyaConfig = domains/vidya.xml;
 in
 {
   ###### interface
