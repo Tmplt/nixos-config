@@ -76,9 +76,14 @@
     package = pkgs.mysql;
   };
 
+  # Allow some USB devices to be accessed without root privelages.
   services.udev.extraRules = ''
-    # Allow users to use the AVR avrisp2 programmer
+    # AVR avrisp2 programmer
     SUBSYSTEM=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", TAG+="uaccess", RUN{builtin}+="uaccess"
+
+    # STMicroelectronics ST-LINK/V2.1 rev A/B/C+
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="374b", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3748", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"
   '';
 
   nix.buildCores = 0;
