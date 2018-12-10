@@ -112,7 +112,7 @@ in
       ];
 
       # Bind the vfio drivers to the devices that are going to be passed though.
-      extraModprobeConfig = "options vfio-pci ids=${lib.concatStringsSep "," pciIDs}";
+      extraModprobeConfig = "options vfio-pci ids=${lib.concatStringsSep "," cfg.pciIDs}";
 
       # Blocklist their drivers, telling Linux we don't want to use them on the host.
       blacklistedKernelModules = [
