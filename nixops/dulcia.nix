@@ -5,7 +5,7 @@
     networking.hostName = "dulcia";
 
     imports = [
-        ./hardware-configuration.nix
+        ./dulcia-hardware-configuration.nix
         ./common.nix
       ];
 

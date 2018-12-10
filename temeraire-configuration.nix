@@ -10,7 +10,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./temeraire-hardware-configuration.nix
-      ./pci-passthrough.nix
+      modules/pci-passthrough/pci-passthrough.nix
     ];
 
   boot = {
@@ -38,7 +38,22 @@
 
   pciPassthrough = {
     enable = true;
-    pciIDs = "10de:13c2,10de:0fbb,10ec:8186";
+
+    pciIDs = [
+      "10de:13c2" "10de:0fbb" # GPU
+      "10ec:8186" # NIC
+    ];
+    blacklistedKernelModules = [
+      "nouveau" "nvidia" # GPU
+      "r8169" # NIC
+    ];
+
+    periphiralPaths = [
+      /dev/input/by-id/usb-Laview_Technology_Mionix_Naos_7000_STM32-event-mouse
+      /dev/input/by-id/usb-04d9_USB_Keyboard-event-kbd
+      /dev/input/by-id/usb-04d9_USB_Keyboard-event-if01
+    ];
+
     libvirtUsers = [ "tmplt" ];
     qemuUser = "tmplt";
   };
@@ -76,12 +91,12 @@
       Option "TearFree" "true"
     '';
 
-      # From left to right, Hammerhead setup
-      xrandrHeads = [
-        "HDMI-A-0"
-        { output = "DisplayPort-2"; primary = true; }
-        "DVI-D-0"
-      ];
+    # From left to right, Hammerhead setup
+    xrandrHeads = [
+      "HDMI-A-0"
+      { output = "DisplayPort-2"; primary = true; }
+      "DVI-D-0"
+    ];
   };
 
   services.compton = {
