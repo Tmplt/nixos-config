@@ -3,6 +3,7 @@
 {
   imports = [
     ./local-configuration.nix
+    ./tmplt.nix
     (import ./packages.nix {inherit config pkgs; })
   ];
 
@@ -31,20 +32,6 @@
     device = "tmpfs";
     fsType = "tmpfs";
     options = [ "rw" "size=2G" "uid=tmplt" ];
-  };
-
-  users.users.tmplt = {
-    isNormalUser = true;
-    uid = 1000;
-
-    extraGroups = [
-      "wheel" "dialout" "video" "audio" "input"
-    ];
-
-    shell = "${pkgs.zsh}/bin/zsh";
-
-    # Don't forget to set an actual password with passwd(1).
-    initialPassword = "password";
   };
 
   programs = {
