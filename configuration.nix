@@ -77,18 +77,16 @@
   };
 
   # Allow some USB devices to be accessed without root privelages.
-  # TODO: extract this out into a function
-  services.udev.extraRules = ''
-    # AVR avrisp2 programmer
-    SUBSYSTEM=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", TAG+="uaccess", RUN{builtin}+="uaccess"
-
-    # STMicroelectronics ST-LINK/V2.1 rev A/B/C+
-    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="374b", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"
-    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3748", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"
-
-    # Olimex Ltd. ARM-USB-TINY-H JTAG interface
-    SUBSYSTEM=="usb", ATTR{idVendor}=="15ba", ATTR{idProduct}=="002a", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"
-  '';
+  services.udev.extraRules = with lib; let
+    toUdevRule = vid: pid: ''
+      SUBSYSTEM=="usb", ATTR{idVendor}=="${vid}", ATTR{idProduct}=="${pid}", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"
+    '';
+    setWorldReadable = idPairs:
+      concatStrings (map (x: let l = splitString ":" x; in toUdevRule (head l) (last l)) idPairs);
+  in setWorldReadable [
+    "0483:374b" "0483:3748" # ST-LINK/V2.1 rev A/B/C+
+    "15ba:002a" # ATM-USB-TINY-H JTAG interface
+  ];
 
   nix.buildCores = 0;
   nix.gc.automatic = true;
