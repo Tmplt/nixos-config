@@ -25,6 +25,8 @@ let
     rev = "80738ed9dc0ce48d7796baed5364eef8072c794d";
     sha256 = "0anmvr6b47gbbyl9v2fn86mfkcwgpbd5lf0yf3drgm8pbv57c1dc";
   };
+
+  onTemeraire = config.networking.hostName == "temeraire";
 in {
   # Configure the Nix package manager
   nixpkgs = {
@@ -131,7 +133,41 @@ in {
     # rustfmt
     gdb
     nix-prefetch-git
-  ];
+
+    # From old home-manager configs.
+    # TODO: categorize this list?
+    rofi
+    termite
+    silver-searcher
+    xfontsel
+    xorg.mkfontscale
+    xorg.mkfontdir
+    font-manager
+    bind
+
+    (polybar.override {
+      mpdSupport = onTemeraire;
+    })
+
+    unifont
+    pandoc
+    libreoffice
+    teamspeak_client
+    rofi-pass
+    pass-otp
+    i3lock
+    feh
+    arandr
+    ncmpcpp
+    python36Packages.pygments
+    xdotool
+    xsel
+    p7zip
+    beets
+    direnv
+    calibre
+    sxiv
+  ] ++ (lib.optional onTemeraire steam);
 
   # ... and install some fonts.
   fonts = {
