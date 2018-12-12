@@ -39,7 +39,7 @@ in
 
   networking.wireless.networks = let
     networkSecrets = secrets.networkCredentials;
-  in {
+  in secrets.networkConfigs // {
       "WiiVafan" = {
         psk = networkSecrets."WiiVafan";
       };
