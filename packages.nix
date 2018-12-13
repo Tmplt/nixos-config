@@ -114,7 +114,7 @@ in {
     nfs-utils
     qutebrowser
     exa
-    pbpst
+    # pbpst
 
     # Development
     gitAndTools.gitFull
