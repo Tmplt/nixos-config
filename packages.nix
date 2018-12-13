@@ -10,20 +10,20 @@ let
     url = "https://github.com/NixOS/nixpkgs-channels/archive/${rev}.tar.gz";
   }) { config.allowUnfree = true; };
 
-  # Channels last updated: 2018-11-28
+  # Channels last updated: 2018-12-13
   #
   # Instead of relying on Nix channels and ending up with out-of-sync
   # situations between machines, the commit for the stable Nix channel
   # is pinned here.
   stable = fetchChannel {
-    rev = "a7fd4310c0cc7f50d2e5eb1f6172c31969569930";
-    sha256 = "1nvqrj34irg6bp6n6xp7ls5nmbzrcgkjzxxxv3hxqwfjdgyj218q";
+    rev = "4f3446f29910d21eb0fb942bd03091b089cdad63";
+    sha256 = "0dqjkhhhckp881mns69qxn4dngcykal1gqrpaf9qy2vja4i41ay5";
   };
 
   # Certain packages from unable are hand-picked into the package set.
   unstable = fetchChannel {
-    rev = "80738ed9dc0ce48d7796baed5364eef8072c794d";
-    sha256 = "0anmvr6b47gbbyl9v2fn86mfkcwgpbd5lf0yf3drgm8pbv57c1dc";
+    rev = "ad3e9191d16722ea3eec32f4cd689eea730f39f6";
+    sha256 = "0nrdv87xnhgrispgm88zdbgkfkn9j0q31395sma5jsxiq9wpki5r";
   };
 
   onTemeraire = config.networking.hostName == "temeraire";
