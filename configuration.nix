@@ -63,6 +63,28 @@
     package = pkgs.mysql;
   };
 
+  services.compton = {
+      enable = true;
+
+      shadow = false;
+      shadowOffsets = [ (-2) (-2) ];
+      shadowOpacity = "0.60";
+
+      fade = true;
+      fadeDelta = 20;
+      fadeSteps = [ "0.12" "1.0" ];
+
+      vSync = "none";
+      backend = "glx";
+
+      extraOptions = ''
+        no-dnd-shadow        = true;
+        no-dock-shadow       = true;
+        clear-shadow         = true;
+        shadow-ignore-shaped = true;
+      '';
+  };
+
   # Allow some USB devices to be accessed without root privelages.
   services.udev.extraRules = with lib; let
     toUdevRule = vid: pid: ''

@@ -98,26 +98,4 @@
       "DVI-D-0"
     ];
   };
-
-  services.compton = {
-      enable = true;
-
-      shadow = false;
-      shadowOffsets = [ (-2) (-2) ];
-      shadowOpacity = "0.60";
-
-      fade = true;
-      fadeDelta = 20;
-      fadeSteps = [ "0.12" "1.0" ];
-
-      vSync = "none";
-      backend = "glx";
-
-      extraOptions = ''
-        no-dnd-shadow        = true;
-        no-dock-shadow       = true;
-        clear-shadow         = true;
-        shadow-ignore-shaped = true;
-      '';
-  };
 }

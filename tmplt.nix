@@ -3,6 +3,9 @@
 
 { config, lib, pkgs, ... }:
 
+let
+  onTemeraire = config.networking.hostName == "temeraire";
+in
 {
   imports = [
     "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/master.tar.gz}/nixos"
@@ -26,9 +29,11 @@
     xsession = {
       enable = true;
 
-      windowManager.command = ''
+      windowManager.command = if onTemeraire then ''
         ~/.xlayout
         mpd &
+        ${pkgs.bspwm}/bin/bspwm
+      '' else ''
         ${pkgs.bspwm}/bin/bspwm
       '';
 
@@ -38,6 +43,8 @@
     };
 
     manual.manpages.enable = true;
+
+    home.keyboard.layout = if onTemeraire then "en" else "se";
 
     #
     # Programs
@@ -74,6 +81,11 @@
     # Services
     #
 
+    services.random-background = {
+      enable = !onTemeraire;
+      imageDirectory = "%h/wallpapers";
+    };
+
     services.unclutter.enable = true;
 
     services.gpg-agent = {
@@ -96,7 +108,6 @@
       enable = true;
       tray = false;
     };
-
 
     services.dunst = {
       enable = true;
