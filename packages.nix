@@ -183,6 +183,7 @@ in {
     openssl
     pkgconfig
     qemu
+    clang
   ] ++ (lib.optional onTemeraire steam);
 
   # ... and install some fonts.
