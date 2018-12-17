@@ -167,6 +167,16 @@ in {
     direnv
     calibre
     sxiv
+
+    # Embedded Rust programming
+    gcc-arm-embedded
+    gdb-multitarget
+    openocd
+    rustup
+    cargo
+    openssl
+    pkgconfig
+    qemu
   ] ++ (lib.optional onTemeraire steam);
 
   # ... and install some fonts.
