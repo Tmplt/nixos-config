@@ -26,6 +26,12 @@ let
     sha256 = "0nrdv87xnhgrispgm88zdbgkfkn9j0q31395sma5jsxiq9wpki5r";
   };
 
+  # Certain packages of mine own haven't been merged yet.
+  tmplt = import (fetchTarball {
+    url = "https://github.com/Tmplt/nixpkgs/archive/ce27f2b964ae001bf9e5f1d3b708205804d51356.tar.gz";
+    sha256 = "0bmdmshz5v42bdxmf810p2hcq6qwn82kns4d7v9mlcnyf3j56ndk";
+  }) { config.allowUnfree = true; };
+
   onTemeraire = config.networking.hostName == "temeraire";
 in {
   # Configure the Nix package manager
@@ -44,7 +50,7 @@ in {
       exa = unstable.exa;
 
       # Not available in 18.09
-      pbpst = unstable.pbpst;
+      pbpst = tmplt.pbpst;
     };
   };
 
@@ -114,7 +120,7 @@ in {
     nfs-utils
     qutebrowser
     exa
-    # pbpst
+    pbpst
 
     # Development
     gitAndTools.gitFull
