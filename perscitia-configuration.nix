@@ -44,6 +44,10 @@ in
         psk = networkSecrets."WiiVafan";
       };
 
+      "COMHEM_9cfcd4-5G" = {
+        psk = networkSecrets."COMHEM_9cfcd4-5G";
+      };
+
       "Normandy SR2" = {
         psk = networkSecrets."Normandy SR2";
         priority = 10;
