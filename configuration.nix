@@ -95,6 +95,7 @@
   in setWorldReadable [
     "0483:374b" "0483:3748" # ST-LINK/V2.1 rev A/B/C+
     "15ba:002a" # ATM-USB-TINY-H JTAG interface
+    "1366:1015" # SEGGER (JLink firmware)
   ];
 
   nix.buildCores = 0;
