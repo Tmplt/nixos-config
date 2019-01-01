@@ -26,6 +26,9 @@ in
   };
 
   home-manager.users.tmplt = {
+    home.file.".config/mpv/scripts/youtube-quality.lua".source = ./misc/youtube-quality.lua;
+    home.file.".config/mpv/scripts/youtube-quality.conf".source = ./misc/youtube-quality.conf;
+
     xsession = {
       enable = true;
 
