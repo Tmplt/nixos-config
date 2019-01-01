@@ -135,6 +135,8 @@ in
     '';
   };
 
+  services.openvpn.servers = secrets.openvpnConfigs;
+
   powerManagement = {
     enable = true;
     powertop.enable = true;
