@@ -48,6 +48,10 @@ in
         psk = networkSecrets."COMHEM_9cfcd4-5G";
       };
 
+      "Tele2Gateway59D6" = {
+        psk = networkSecrets."Tele2Gateway59D6";
+      };
+
       "Normandy SR2" = {
         psk = networkSecrets."Normandy SR2";
         priority = 10;
