@@ -140,6 +140,9 @@ in
   powerManagement = {
     enable = true;
     powertop.enable = true;
+
+    # Properly recover VPN connection from hibernation/sleep.
+    resumeCommands = "${pkgs.systemd}/bin/systemctl restart openvpn-*.service";
   };
 }
 
