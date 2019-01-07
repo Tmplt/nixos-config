@@ -130,7 +130,7 @@ in {
     gnumake
     curlFull
     rtags
-    # ghc
+    ghc
     # jdk8
     # rustc
     # rustPlatform.rustcSrc
@@ -185,7 +185,6 @@ in {
     pkgconfig
     qemu
     clang
-
   ];
 
   # ... and install some fonts.
