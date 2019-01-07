@@ -1,6 +1,6 @@
 {
   dulcia = {
-    deployment.targetHost = "192.168.2.77";
+    deployment.targetHost = "johan.dragons.rocks";
     time.timeZone = "Europe/Stockholm";
     networking.hostName = "dulcia";
 
