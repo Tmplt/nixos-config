@@ -173,6 +173,7 @@ in {
     direnv
     calibre
     sxiv
+    steam
 
     # Embedded Rust programming
     gcc-arm-embedded
@@ -184,7 +185,8 @@ in {
     pkgconfig
     qemu
     clang
-  ] ++ (lib.optional onTemeraire steam);
+
+  ];
 
   # ... and install some fonts.
   fonts = {
