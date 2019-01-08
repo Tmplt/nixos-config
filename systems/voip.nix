@@ -6,7 +6,7 @@
 
     imports = [
       <nixpkgs/nixos/modules/virtualisation/nova-config.nix>
-      ./common.nix
+      ../common-server.nix
     ];
 
     nixpkgs.config.allowUnfree = true;

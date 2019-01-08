@@ -4,9 +4,10 @@
     time.timeZone = "Europe/Stockholm";
     networking.hostName = "dulcia";
 
+    # TODO: import headless here
     imports = [
-        ./dulcia-hardware-configuration.nix
-        ./common.nix
+        ../hardware-configurations/dulcia.nix
+        ../common-server.nix
       ];
 
     # Use the GRUB 2 boot loader.

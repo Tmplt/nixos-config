@@ -1,3 +1,7 @@
+# Declare common options for servers.
+
+{ config, lib, pkgs, ... }:
+
 let
   sshKeys = import ./ssh-keys.nix;
 in

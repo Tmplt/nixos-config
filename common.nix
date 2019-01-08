@@ -1,10 +1,14 @@
+# Declare common options for hands-on systems.
+
 { config, lib, pkgs, ... }:
 
+let
+  sshKeys = import ./ssh-keys.nix;
+in
 {
   imports = [
-    ./local-configuration.nix
     ./tmplt.nix
-    (import ./packages.nix {inherit config pkgs; })
+    ./packages.nix
   ];
 
   time.timeZone = "Europe/Stockholm";
@@ -25,6 +29,15 @@
       driSupport32Bit = true;
     };
   };
+
+  # Setup a local SSH server for nixops to work.
+  services.openssh = {
+    enable = true;
+    permitRootLogin = "without-password";
+    passwordAuthentication = false;
+    listenAddresses = [ { addr = "127.0.0.1"; port = 22; } ];
+  };
+  users.users.root.openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
 
   # Make ~/Downloads a tmpfs, so I don't end up using is as a non-volatile 'whatever'-directory
   # XXX: is this stored in RAM?

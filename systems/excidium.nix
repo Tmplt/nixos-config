@@ -6,8 +6,8 @@
 
     imports = [
       <nixpkgs/nixos/modules/virtualisation/nova-config.nix>
-      ./modules/webserver.nix
-      ./common.nix
+      ../modules/webserver.nix
+      ../common-server.nix
     ];
 
     services.syncthing.enable = true;

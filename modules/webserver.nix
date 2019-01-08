@@ -1,3 +1,4 @@
+# TODO: create enable option for this!
 {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
   services.nginx = {
