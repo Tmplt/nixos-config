@@ -86,7 +86,9 @@ in
 
     services.random-background = {
       enable = !onTemeraire;
+      # TODO: package wallpapers?
       imageDirectory = "%h/wallpapers";
+      interval = "3h";
     };
 
     services.unclutter.enable = true;
