@@ -13,6 +13,8 @@ in
 
     imports = [
       ../hardware-configurations/perscitia.nix
+      <nixos-hardware/lenovo/thinkpad/t430>
+      <nixpkgs/nixos/modules/profiles/hardened.nix>
       ../common.nix
     ];
 
