@@ -4,9 +4,9 @@
     time.timeZone = "Europe/Stockholm";
     networking.hostName = "dulcia";
 
-    # TODO: import headless here
     imports = [
         ../hardware-configurations/dulcia.nix
+        <nixpkgs/nixos/modules/profiles/headless.nix>
         ../common-server.nix
       ];
 
