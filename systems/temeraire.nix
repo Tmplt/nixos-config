@@ -88,11 +88,9 @@
         Option "TearFree" "true"
       '';
 
-      # From left to right, Hammerhead setup
       xrandrHeads = [
         "HDMI-A-0"
         { output = "DisplayPort-2"; primary = true; }
-        "DVI-D-0"
       ];
     };
   };
