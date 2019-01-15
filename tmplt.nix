@@ -5,6 +5,7 @@
 
 let
   onTemeraire = config.networking.hostName == "temeraire";
+  secrets = import ./secrets.nix;
 in
 {
   imports = [
@@ -77,6 +78,23 @@ in
         ca = "\\/home\\/tmplt\\/.task\\/keys\\/ca.cert";
         server = "excidium.campus.ltu.se:53589";
         credentials = "personal\\/tmplt\\/f98b48c2-f191-4b36-a93a-dad6aba2c0a7";
+      };
+    };
+
+    programs.ssh = {
+      enable = true;
+      compression = true;
+      serverAliveInterval = 5;
+
+      matchBlocks = secrets.sshHosts // {
+        "*".identityFile = "~/.ssh/id_ecdsa";
+        "github.com".identitiesOnly = true;
+        "dulcia".hostname = "192.168.2.77";
+
+        "kobo" = {
+          hostname = "192.168.2.190";
+          user = "root";
+        };
       };
     };
 
