@@ -17,5 +17,8 @@ in
     passwordAuthentication = false;
   };
 
-  nix.gc.automatic = true;
+  nix.gc = {
+    automatic = true;
+    options = "-d --delete-older-than 30d";
+  };
 }
