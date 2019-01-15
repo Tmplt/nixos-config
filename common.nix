@@ -71,11 +71,6 @@ in
     autoRepeatInterval = 35;
   };
 
-  services.mysql = {
-    enable = true;
-    package = pkgs.mysql;
-  };
-
   services.compton = {
       enable = true;
 
