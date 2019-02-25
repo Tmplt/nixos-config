@@ -2,7 +2,10 @@
   temeraire = { config, pkgs, ... }:
   {
     deployment.targetHost = "localhost";
-    networking.hostName = "temeraire";
+    networking = {
+      hostName = "temeraire";
+      firewall.allowedTCPPorts = [ 8080 ];
+    };
 
     imports = [
       ../hardware-configurations/temeraire.nix
