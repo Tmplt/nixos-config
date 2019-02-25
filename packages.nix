@@ -185,6 +185,10 @@ in {
     pkgconfig
     qemu
     clang
+
+    # Java stuff
+    jetbrains.idea-community
+    jetbrains.jdk
   ];
 
   # ... and install some fonts.
