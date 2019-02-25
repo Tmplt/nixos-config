@@ -10,20 +10,20 @@ let
     url = "https://github.com/NixOS/nixpkgs-channels/archive/${rev}.tar.gz";
   }) { config.allowUnfree = true; };
 
-  # Channels last updated: 2018-12-13
+  # Channels last updated: 2019-02-25
   #
   # Instead of relying on Nix channels and ending up with out-of-sync
   # situations between machines, the commit for the stable Nix channel
   # is pinned here.
   stable = fetchChannel {
-    rev = "4f3446f29910d21eb0fb942bd03091b089cdad63";
-    sha256 = "0dqjkhhhckp881mns69qxn4dngcykal1gqrpaf9qy2vja4i41ay5";
+    rev = "aabc61049c011b40ef15c354d7d84c840d6b6a6d";
+    sha256 = "043npvvr8zxndhq6mfyzriv3b363biy2cnskpngv9fkxmizszrfl";
   };
 
   # Certain packages from unable are hand-picked into the package set.
   unstable = fetchChannel {
-    rev = "ad3e9191d16722ea3eec32f4cd689eea730f39f6";
-    sha256 = "0nrdv87xnhgrispgm88zdbgkfkn9j0q31395sma5jsxiq9wpki5r";
+    rev = "19eedaf867da3155eec62721e0c8a02895aed74b";
+    sha256 = "06k0hmdn8l1wiirfjcym86pn9rdi8xyfh1any6vgb5nbx87al515";
   };
 
   # Certain packages of mine own haven't been merged yet.
@@ -185,6 +185,10 @@ in {
     pkgconfig
     qemu
     clang
+
+    # Java stuff
+    jetbrains.idea-community
+    jetbrains.jdk
   ];
 
   # ... and install some fonts.
