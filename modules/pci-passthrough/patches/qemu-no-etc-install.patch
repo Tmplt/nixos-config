@@ -1,10 +1,11 @@
 --- a/Makefile
 +++ b/Makefile
-@@ -597,7 +597,7 @@
+@@ -785,7 +785,7 @@ endif
  
+ ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
  
 -install: all $(if $(BUILD_DOCS),install-doc) install-datadir install-localstatedir
 +install: all $(if $(BUILD_DOCS),install-doc) install-datadir
  ifneq ($(TOOLS),)
-	$(call install-prog,$(subst qemu-ga,qemu-ga$(EXESUF),$(TOOLS)),$(DESTDIR)$(bindir))
+ 	$(call install-prog,$(subst qemu-ga,qemu-ga$(EXESUF),$(TOOLS)),$(DESTDIR)$(bindir))
  endif

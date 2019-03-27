@@ -3,24 +3,24 @@
 { config, pkgs, lib, ... }:
 
 with lib; let cfg = config.pciPassthrough;
-  qemuPatched = ((pkgs.qemu.overrideAttrs (old: {
-    # TODO: update to qemu 3.0
-    version = "2.12.1";
-    name = "qemu-host-cpu-only-patched-${version}";
+  # qemuPatched = ((pkgs.qemu.overrideAttrs (old: {
+  #   # TODO: update to qemu 3.0
+  #   version = "2.12.1";
+  #   name = "qemu-host-cpu-only-patched-${version}";
 
-    src = pkgs.fetchurl {
-      url = "https://download.qemu.org/qemu-2.12.1.tar.xz";
-      sha256 = "33583800e0006cd00b78226b85be5a27c8e3b156bed2e60e83ecbeb7b9b8364f";
-    };
+  #   src = pkgs.fetchurl {
+  #     url = "https://download.qemu.org/qemu-2.12.1.tar.xz";
+  #     sha256 = "33583800e0006cd00b78226b85be5a27c8e3b156bed2e60e83ecbeb7b9b8364f";
+  #   };
 
-    patches = [
-      # Some yet-to-be-merged audio fixes. Highly recommended.
-      ./patches/qemu-sound-improvements-2.12.0.patch
-      ./patches/qemu-no-etc-install.patch
-    ];
-  })).override {
-    hostCpuOnly = true;
-  });
+  #   patches = [
+  #     # Some yet-to-be-merged audio fixes. Highly recommended.
+  #     ./patches/qemu-sound-improvements-2.12.0.patch
+  #     ./patches/qemu-no-etc-install.patch
+  #   ];
+  # })).override {
+  #   hostCpuOnly = true;
+  # });
 
   cpuset = pkgs.python2Packages.buildPythonApplication rec {
     name = "cpuset-patched-${version}";
@@ -36,6 +36,23 @@ with lib; let cfg = config.pciPassthrough;
 
     doCheck = false;
   };
+
+  qemuPatched = ((pkgs.unstable.qemu.overrideAttrs (old: {
+    version = "4.0.0";
+    name = "qemu-4.0.0";
+
+    src = pkgs.fetchgit {
+      url = "https://github.com/spheenik/qemu";
+      branchName = "4.0-glorious";
+      sha256 = "12bgznn29p8rnjxd4fd8rpclzv9vvd6vp21gv7vjgvphj8s55q9n";
+    };
+
+    patches = [ ./patches/qemu-no-etc-install.patch ];
+    # patches = [];
+
+  })).override {
+    hostCpuOnly = true;
+  });
 
   qemuHookEnv = pkgs.buildEnv {
     name = "qemu-hook-env";
@@ -78,6 +95,7 @@ in
 
     blacklistedKernelModules = mkOption {
       description = "List of blacklisted kernel modules";
+      default = [];
       type = types.listOf types.str;
     };
 
@@ -99,26 +117,35 @@ in
 
     boot = {
       # Fix IOMMU groups for this particular system.
-      kernelPatches = [{
-        name = "add-acs-overrides";
-        patch = ./patches/add-acs-overrides.patch;
-      }];
+      kernelPatches = [
+        {
+          name = "add-acs-overrides";
+          patch = ./patches/add-acs-overrides.patch;
+        }
+        # {
+        #   name = "fix-vega-reset";
+        #   patch = ./patches/fix-vega-reset.patch;
+        # }
+      ];
 
       kernelParams = [
-      "pcie_acs_override=downstream"
-      "${cfg.cpuType}_iommu=on"
+        "pcie_acs_override=downstream"
+        "${cfg.cpuType}_iommu=on"
+        "iommu=pt"
+        "kvm.ignore_msrs=1"
+        "vfio_iommu_type1.allow_unsafe_interrupts=1"
       ];
 
       # Enable required IOMMU modules.
       kernelModules = [
+        "vfio_pci"
         "vfio"
         "vfio_iommu_type1"
-        "vfio_pci"
         "vfio_virqfd"
       ];
 
       # Bind the vfio drivers to the devices that are going to be passed though.
-      extraModprobeConfig = "options vfio-pci ids=${lib.concatStringsSep "," cfg.pciIDs}";
+      extraModprobeConfig = "options vfio-pci ids=${lib.concatStringsSep "," cfg.pciIDs} disable_idle_d3=1";
 
       # Blocklist their drivers, telling Linux we don't want to use them on the host.
       blacklistedKernelModules = cfg.blacklistedKernelModules;
@@ -148,7 +175,7 @@ in
       in ''
         user = "${cfg.qemuUser}"
         nvram = [
-        "${pkgs.OVMF}/FV/OVMF.fd:${pkgs.OVMF}/FV/OVMF_VARS.fd"
+          "${pkgs.unstable.OVMF}/FV/OVMF.fd:${pkgs.unstable.OVMF}/FV/OVMF_VARS.fd"
         ]
         cgroup_device_acl = [
           ${periphirals}
