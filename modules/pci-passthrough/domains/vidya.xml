@@ -137,7 +137,7 @@
     <qemu:arg value='-set'/>
     <qemu:arg value='device.hostdev0.x-vga=on'/>
     <qemu:arg value='-object'/>
-    <qemu:arg value='input-linux,id=mouse1,evdev=/dev/input/by-id/usb-Laview_Technology_Mionix_Naos_7000_STM32-event-mouse'/>
+    <qemu:arg value='input-linux,id=mouse1,evdev=/dev/input/by-id/usb-La-VIEW_CO._QPAD_Gaming_Mouse-event-mouse'/>
     <qemu:arg value='-object'/>
     <qemu:arg value='input-linux,id=kbd2,evdev=/dev/input/by-id/usb-04d9_USB_Keyboard-event-if01'/>
     <qemu:arg value='-object'/>

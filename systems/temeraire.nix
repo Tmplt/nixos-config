@@ -51,7 +51,7 @@
       ];
 
       periphiralPaths = [
-        /dev/input/by-id/usb-Laview_Technology_Mionix_Naos_7000_STM32-event-mouse
+        /dev/input/by-id/usb-La-VIEW_CO._QPAD_Gaming_Mouse-event-mouse
         /dev/input/by-id/usb-04d9_USB_Keyboard-event-kbd
         /dev/input/by-id/usb-04d9_USB_Keyboard-event-if01
       ];
