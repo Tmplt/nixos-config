@@ -22,6 +22,8 @@
   </cputune>
   <os>
     <type arch='x86_64' machine='pc-i440fx-2.11'>hvm</type>
+    <loader readonly='yes' type='pflash'>/run/libvirt/nix-ovmf/OVMF_CODE.fd</loader>
+    <nvram>/var/lib/libvirt/qemu/nvram/vidya-2_VARS.fd</nvram>
     <bootmenu enable='no'/>
   </os>
   <features>
