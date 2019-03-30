@@ -36,18 +36,15 @@
       initrd.extraUtilsCommandsTest = ''
         $out/bin/pdata_tools cache_check -V
       '';
+
+      kernelPackages = pkgs.linuxPackages_latest;
     };
 
     pciPassthrough = {
       enable = true;
 
       pciIDs = [
-        "10de:13c2" "10de:0fbb" # GPU
-        "10ec:8186" # NIC
-      ];
-      blacklistedKernelModules = [
-        "nouveau" "nvidia" # GPU
-        "r8169" # NIC
+        "1002:687f" "1002:aaf8" # Radeon Vega 56
       ];
 
       periphiralPaths = [
@@ -93,7 +90,7 @@
 
       xrandrHeads = [
         "HDMI-A-0"
-        { output = "DisplayPort-2"; primary = true; }
+        { output = "DVI-D-0"; primary = true; }
       ];
     };
   };

@@ -17,7 +17,7 @@ VM_NAME=$1
 VM_ACTION=$2
 
 shield_vm() {
-    cset set -c $TOTAL_CORES -c machine.slice
+    # cset set -c $TOTAL_CORES -c machine.slice
 
     # Shield two cores for host and rest for VM(s)
     cset shield --kthread on --cpu $VIRT_CORES
@@ -26,6 +26,13 @@ shield_vm() {
 unshield_vm() {
     echo $TOTAL_CORES_MASK > /sys/bus/workqueue/devices/writeback/cpumask
     cset shield --reset
+}
+
+reset_vega() {
+    echo "1" > /sys/bus/pci/devices/0000:04:00.0/remove
+    echo "1" > /sys/bus/pci/devices/0000:04:00.1/remove
+    sleep 2
+    echo "1" > /sys/bus/pci/rescan
 }
 
 # For manual invocation
@@ -42,6 +49,8 @@ fi
 VM_HUGEPAGES_NEED=$(( 8589934592 / HUGEPAGES_SIZE ))
 
 if [[ $VM_ACTION == 'prepare' ]]; then
+    reset_vega
+
     echo 3 > /proc/sys/vm/drop_caches
     echo 1 > /proc/sys/vm/compact_memory
 
@@ -52,8 +61,6 @@ if [[ $VM_ACTION == 'prepare' ]]; then
         shield_vm
         # Reduce VM jitter https://www.kernel.org/doc/Documentation/kernel-per-CPU-kthreads.txt
         sysctl vm.stat_interval=120
-
-        sysctl -w kernel.watchdog=0
 
         echo $HOST_CORES_MASK > /sys/bus/workqueue/devices/writeback/cpumask
 
@@ -71,6 +78,7 @@ if [[ $VM_ACTION == 'prepare' ]]; then
 fi
 
 if [[ $VM_ACTION == 'release' ]]; then
+    reset_vega
     VM_HUGEPAGES_TOTAL=$(($HUGEPAGES_ALLOCATED - $VM_HUGEPAGES_NEED))
     VM_HUGEPAGES_TOTAL=$(($VM_HUGEPAGES_TOTAL<0?0:$VM_HUGEPAGES_TOTAL))
     sysctl vm.nr_hugepages=$VM_HUGEPAGES_TOTAL
@@ -78,7 +86,6 @@ if [[ $VM_ACTION == 'release' ]]; then
     if [[ $VM_HUGEPAGES_TOTAL == '0' ]]; then
         # All VMs offline
         sysctl vm.stat_interval=1
-        sysctl -w kernel.watchdog=1
         unshield_vm
         echo always > /sys/kernel/mm/transparent_hugepage/enabled
         echo powersave | tee /sys/devices/systems/cpu/cpu*/cpufreq/scaling_governor
