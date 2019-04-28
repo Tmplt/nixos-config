@@ -155,14 +155,11 @@ in {
     i3lock
     feh
     arandr
-    ncmpcpp
     python36Packages.pygments
     xdotool
     xsel
     p7zip
-    beets
     direnv
-    calibre
     sxiv
     steam
 
@@ -174,13 +171,15 @@ in {
     cargo
     openssl
     pkgconfig
-    qemu
     clang
 
-    # Java stuff
-    jetbrains.idea-community
-    jetbrains.jdk
-  ];
+    haskellPackages.xmobar
+  ] ++ (if onTemeraire then [
+    ncmpcpp
+    beets
+    calibre
+    qemu
+  ] else []);
 
   # ... and install some fonts.
   fonts = {
