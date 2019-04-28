@@ -1,0 +1,17 @@
+t a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index 10684b17d0bd..6ee986b44655 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -3373,6 +3373,12 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_ATHEROS, 0x0033, quirk_no_bus_reset);
+  */
+ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_CAVIUM, 0xa100, quirk_no_bus_reset);
+
++/*
++ * Radeon RX Vega devices break on bus reset. Oi...
++ */
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_ATI, 0x687f, quirk_no_bus_reset);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_ATI, 0xaaf8, quirk_no_bus_reset);
++
+ static void quirk_no_pm_reset(struct pci_dev *dev)
+ {
+        /*
