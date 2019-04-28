@@ -33,16 +33,24 @@ in
     xsession = {
       enable = true;
 
-      windowManager.command = if onTemeraire then ''
-        ~/.xlayout
-        mpd &
-        ${pkgs.bspwm}/bin/bspwm
-      '' else ''
-        ${pkgs.bspwm}/bin/bspwm
-      '';
+      windowManager.xmonad = {
+        enable = onPerscitia;
+        enableContribAndExtras = true;
+        extraPackages = haskellPackages: [
+          haskellPackages.xmobar
+        ];
+      };
+
+      # TODO: make this work
+      # windowManager.command = if onTemeraire then ''
+      #   ~/.xlayout
+      #   mpd &
+      #   ${pkgs.bspwm}/bin/bspwm
+      # '';
 
       initExtra = ''
         ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
+        ${pkgs.wmname}/bin/wmname LG3D
       '';
     };
 
