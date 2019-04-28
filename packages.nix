@@ -10,20 +10,20 @@ let
     url = "https://github.com/NixOS/nixpkgs-channels/archive/${rev}.tar.gz";
   }) { config.allowUnfree = true; };
 
-  # Channels last updated: 2019-02-25
+  # Channels last updated: 2019-04-29 (19.03)
   #
   # Instead of relying on Nix channels and ending up with out-of-sync
   # situations between machines, the commit for the stable Nix channel
   # is pinned here.
   stable = fetchChannel {
-    rev = "aabc61049c011b40ef15c354d7d84c840d6b6a6d";
-    sha256 = "043npvvr8zxndhq6mfyzriv3b363biy2cnskpngv9fkxmizszrfl";
+    rev = "cf3e277dd0bd710af0df667e9364f4bd80c72713";
+    sha256 = "1abyadl3sxf67yi65758hq6hf2j07afgp1fmkk7kd94dadx6r6f4";
   };
 
   # Certain packages from unable are hand-picked into the package set.
   unstable = fetchChannel {
-    rev = "19eedaf867da3155eec62721e0c8a02895aed74b";
-    sha256 = "06k0hmdn8l1wiirfjcym86pn9rdi8xyfh1any6vgb5nbx87al515";
+    rev = "fc48e74127c08ac44f56f3535dc09648ba5ef57d";
+    sha256 = "1fz1a0mi497ay46va2srhbj0z1v1nz3w1ds9rqc98zcvfsm1wncz";
   };
 
   # Certain packages of mine own haven't been merged yet.
@@ -42,15 +42,6 @@ in {
     config.packageOverrides = oldPkgs: stable // {
       # Store whole unstable channel in case any module need it
       inherit unstable;
-
-      # Backport Exa from unstable until a fix for the Rust builder is
-      # backported.
-      #
-      # <https://github.com/NixOS/nixpkgs/pull/48020>
-      exa = unstable.exa;
-
-      # Not available in 18.09
-      pbpst = tmplt.pbpst;
     };
   };
 
