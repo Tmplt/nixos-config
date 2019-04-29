@@ -36,8 +36,6 @@
       initrd.extraUtilsCommandsTest = ''
         $out/bin/pdata_tools cache_check -V
       '';
-
-      kernelPackages = pkgs.linuxPackages_latest;
     };
 
     pciPassthrough = {
