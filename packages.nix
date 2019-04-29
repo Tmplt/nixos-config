@@ -181,7 +181,6 @@ in {
     ncmpcpp
     beets
     calibre
-    qemu
   ] else []);
 
   # ... and install some fonts.
