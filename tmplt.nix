@@ -5,6 +5,7 @@
 
 let
   onTemeraire = config.networking.hostName == "temeraire";
+  onPerscitia = config.networking.hostName == "perscitia";
   secrets = import ./secrets.nix;
 in
 {
@@ -33,20 +34,22 @@ in
     xsession = {
       enable = true;
 
-      windowManager.xmonad = {
-        enable = onPerscitia;
-        enableContribAndExtras = true;
-        extraPackages = haskellPackages: [
-          haskellPackages.xmobar
-        ];
-      };
+      windowManager = (lib.mkIf onTemeraire {
+        command = lib.mkIf onTemeraire ''
+          ~/.xlayout
+          mpd &
+          ${pkgs.bspwm}/bin/bspwm
+        '';
 
-      # TODO: make this work
-      # windowManager.command = if onTemeraire then ''
-      #   ~/.xlayout
-      #   mpd &
-      #   ${pkgs.bspwm}/bin/bspwm
-      # '';
+        xmonad = lib.mkIf onPerscitia {
+          enable = true;
+          enableContribAndExtras = true;
+          extraPackages = haskellPackages: [
+            haskellPackages.xmobar
+          ];
+        };
+
+      });
 
       initExtra = ''
         ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
