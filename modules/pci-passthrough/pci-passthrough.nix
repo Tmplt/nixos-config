@@ -18,7 +18,7 @@ with lib; let cfg = config.pciPassthrough;
     doCheck = false;
   };
 
-  qemuPatched = ((pkgs.unstable.qemu.overrideAttrs (old: {
+  qemuPatched = ((pkgs.qemu.overrideAttrs (old: {
     version = "4.0.0";
     name = "qemu-4.0.0";
 
@@ -155,7 +155,7 @@ in
       in ''
         user = "${cfg.qemuUser}"
         nvram = [
-          "${pkgs.unstable.OVMF}/FV/OVMF.fd:${pkgs.unstable.OVMF}/FV/OVMF_VARS.fd"
+          "${pkgs.OVMF}/FV/OVMF.fd:${pkgs.OVMF}/FV/OVMF_VARS.fd"
         ]
         cgroup_device_acl = [
           ${periphirals}
