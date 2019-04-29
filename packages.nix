@@ -42,6 +42,9 @@ in {
     config.packageOverrides = oldPkgs: stable // {
       # Store whole unstable channel in case any module need it
       inherit unstable;
+
+      # Teamspeak links inproperly with Qt in 19.03
+      teamspeak_client = tmplt.teamspeak_client;
     };
   };
 
