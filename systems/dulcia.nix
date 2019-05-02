@@ -1,6 +1,6 @@
 {
   dulcia = {
-    deployment.targetHost = "johan.dragons.rocks";
+    deployment.targetHost = "dulcia.localdomain";
     time.timeZone = "Europe/Stockholm";
     networking.hostName = "dulcia";
 
@@ -27,9 +27,6 @@
     services.nfs.server.exports = ''
       /export         temeraire(rw,sync,no_subtree_check,fsid=0)
       /export/media   temeraire(rw,sync,no_subtree_check)
-
-      /export         192.168.2.228(sync,no_subtree_check,fsid=0)
-      /export/media   192.168.2.228(sync,no_subtree_check)
     '';
 
     services.zfs.autoScrub.enable = true;
