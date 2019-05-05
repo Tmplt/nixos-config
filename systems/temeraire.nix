@@ -19,23 +19,6 @@
       # Use the systemd-boot EFI boot loader.
       loader.systemd-boot.enable = true;
       loader.efi.canTouchEfiVariables = true;
-
-      initrd.kernelModules = [ "dm_cache" "dm_cache_smq" ];
-
-      # Fix LVM caches working on startup
-      # <https://github.com/NixOS/nixpkgs/issues/15516>
-      initrd.extraUtilsCommands = ''
-        for BIN in ${pkgs.thin-provisioning-tools}/bin/*; do
-          copy_bin_and_libs $BIN
-          SRC="(?<all>/[a-zA-Z0-9/]+/[0-9a-z]{32}-[0-9a-z-.]+(?<exe>/bin/$(basename $BIN)))"
-          REP="\"$out\" . \$+{exe} . \"\\x0\" x (length(\$+{all}) - length(\"$out\" . \$+{exe}))"
-          PRP="s,$SRC,$REP,ge"
-          ${pkgs.perl}/bin/perl -p -i -e "$PRP" $out/bin/lvm
-        done
-      '';
-      initrd.extraUtilsCommandsTest = ''
-        $out/bin/pdata_tools cache_check -V
-      '';
     };
 
     pciPassthrough = {
@@ -59,11 +42,6 @@
       device = "dulcia:/media";
       fsType = "nfs";
       options = ["x-systemd.automount" "noauto" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=175" "timeo=15"];
-    };
-
-    fileSystems."/home/tmplt/vidya" = {
-      device = "/dev/pool/linux-extra";
-      fsType = "xfs";
     };
 
     hardware.pulseaudio = {
