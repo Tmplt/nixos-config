@@ -4,10 +4,10 @@
 # Put this script to /etc/libvirt/hooks/qemu
 
 TOTAL_CORES='0-7'
-TOTAL_CORES_MASK=FF
-HOST_CORES='2-3,6-7'
-HOST_CORES_MASK=CC
-VIRT_CORES='0-1,4-5'
+TOTAL_CORES_MASK=FF  # 0-7, bitmask 0b11111111
+HOST_CORES='0-1,4-5'
+HOST_CORES_MASK=33   # 0-1,4-5, bitmask 0b00110011
+VIRT_CORES='2-6,3-7'
 
 HUGEPAGES_SIZE=$(grep Hugepagesize /proc/meminfo | awk {'print $2'})
 HUGEPAGES_SIZE=$((HUGEPAGES_SIZE * 1024))

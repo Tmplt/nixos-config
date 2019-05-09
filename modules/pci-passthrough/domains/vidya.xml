@@ -1,6 +1,6 @@
 <domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
   <name>vidya</name>
-  <uuid>4402f238-85d4-446a-b295-44a7d89094ff</uuid>
+  <uuid>5dbc4cd4-8016-4364-8413-37fe4b39af12</uuid>
   <memory unit='KiB'>8388608</memory>
   <currentMemory unit='KiB'>8388608</currentMemory>
   <memoryBacking>
@@ -13,12 +13,12 @@
     <iothread id='2'/>
   </iothreadids>
   <cputune>
-    <vcpupin vcpu='0' cpuset='0'/>
-    <vcpupin vcpu='1' cpuset='4'/>
-    <vcpupin vcpu='2' cpuset='1'/>
-    <vcpupin vcpu='3' cpuset='5'/>
-    <iothreadpin iothread='1' cpuset='2'/>
-    <iothreadpin iothread='2' cpuset='6'/>
+    <vcpupin vcpu='0' cpuset='2'/>
+    <vcpupin vcpu='1' cpuset='6'/>
+    <vcpupin vcpu='2' cpuset='3'/>
+    <vcpupin vcpu='3' cpuset='7'/>
+    <emulatorpin cpuset='0-1,4-5'/>
+    <iothreadpin iothread='1' cpuset='0-1,4-5'/>
   </cputune>
   <os>
     <type arch='x86_64' machine='pc-q35-3.1'>hvm</type>
@@ -28,6 +28,11 @@
   <features>
     <acpi/>
     <apic/>
+    <hyperv>
+      <relaxed state='on'/>
+      <vapic state='on'/>
+      <spinlocks state='on' retries='8191'/>
+    </hyperv>
     <vmport state='off'/>
   </features>
   <cpu mode='host-passthrough' check='none'>
@@ -49,14 +54,14 @@
     <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
     <disk type='block' device='disk'>
       <driver name='qemu' type='raw' cache='none' io='threads' iothread='1'/>
-      <source dev='/dev/disk/by-partlabel/vidya'/>
+      <source dev='/dev/sdc'/>
       <target dev='vda' bus='virtio'/>
       <boot order='1'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x10' function='0x0'/>
     </disk>
     <disk type='block' device='disk'>
-      <driver name='qemu' type='raw' cache='none' io='threads' iothread='2'/>
-      <source dev='/dev/pool/vidya'/>
+      <driver name='qemu' type='raw' cache='none' io='threads' iothread='1'/>
+      <source dev='/dev/sda'/>
       <target dev='vdb' bus='virtio'/>
       <boot order='2'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
@@ -110,23 +115,31 @@
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1f' function='0x2'/>
     </controller>
     <interface type='network'>
-      <mac address='52:54:00:3d:06:4d'/>
+      <mac address='52:54:00:fd:a4:11'/>
       <source network='default'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </interface>
+    <input type='mouse' bus='virtio'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x0d' function='0x0'/>
+    </input>
     <input type='mouse' bus='ps2'/>
     <input type='keyboard' bus='ps2'/>
+    <input type='keyboard' bus='usb'>
+      <address type='usb' bus='0' port='2'/>
+    </input>
     <sound model='ich9'>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1b' function='0x0'/>
     </sound>
     <hostdev mode='subsystem' type='pci' managed='yes'>
+      <driver name='vfio'/>
       <source>
         <address domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
       </source>
       <address type='pci' domain='0x0000' bus='0x05' slot='0x00' function='0x0' multifunction='on'/>
     </hostdev>
     <hostdev mode='subsystem' type='pci' managed='yes'>
+      <driver name='vfio'/>
       <source>
         <address domain='0x0000' bus='0x04' slot='0x00' function='0x1'/>
       </source>
@@ -136,6 +149,7 @@
       <source>
         <vendor id='0x045e'/>
         <product id='0x028e'/>
+        <address bus='2' device='6'/>
       </source>
       <address type='usb' bus='0' port='1'/>
     </hostdev>
