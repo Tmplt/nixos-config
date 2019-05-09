@@ -22,7 +22,7 @@
       fsType = "zfs";
     };
 
-  fileSystems."/media/tv-series" =
+  fileSystems."/volatile" =
     { device = "volatile";
       fsType = "zfs";
     };

@@ -23,9 +23,14 @@
       options = [ "bind" ];
     };
 
+    fileSystems."/export/media/tv-series4" = {
+      device = "/volatile/tv-series";
+      options = [ "bind" ];
+    };
+
     services.nfs.server.enable = true;
     services.nfs.server.exports = ''
-      /export         temeraire(rw,sync,no_subtree_check,fsid=0)
+      /export         temeraire(rw,sync,no_subtree_check,fsid=0,crossmnt)
       /export/media   temeraire(rw,sync,no_subtree_check)
     '';
 
