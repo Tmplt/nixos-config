@@ -1,5 +1,5 @@
 let
-  secrets = (import ../secrets.nix);
+  secrets = (import ../secrets);
 in
 {
   perscitia = { config, pkgs, ... }:

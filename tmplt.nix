@@ -6,7 +6,7 @@
 let
   onTemeraire = config.networking.hostName == "temeraire";
   onPerscitia = config.networking.hostName == "perscitia";
-  secrets = import ./secrets.nix;
+  secrets = import ./secrets;
 in
 {
   imports = [

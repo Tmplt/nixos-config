@@ -1,3 +1,1 @@
-secrets.nix filter=git-crypt diff=git-crypt
-secrets/* filter=git-crypt diff=git-crypt
-secrets/task/* filter=git-crypt diff=git-crypt
+secrets/** filter=git-crypt diff=git-crypt
