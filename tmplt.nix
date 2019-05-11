@@ -81,14 +81,14 @@ in
     programs.taskwarrior = {
       enable = true;
 
-      config.taskd = {
+      config.taskd = let prefix = "\\/home\\/tmplt\\/nixops\\/secrets\\/task\\"; in {
         confirmation = false;
         # TODO: make it so this can take regular paths
-        certificate = "\\/home\\/tmplt\\/.task\\/keys\\/public.cert";
-        key = "\\/home\\/tmplt\\/.task\\/keys\\/private.key";
-        ca = "\\/home\\/tmplt\\/.task\\/keys\\/ca.cert";
+        certificate = "${prefix}/public.cert";
+        key = "${prefix}/private.key";
+        ca = "${prefix}/ca.cert";
         server = "excidium.campus.ltu.se:53589";
-        credentials = "personal\\/tmplt\\/f98b48c2-f191-4b36-a93a-dad6aba2c0a7";
+        credentials = "personal\\/tmplt\\/${secrets.taskUID}";
       };
     };
 
