@@ -90,5 +90,24 @@
       xkbVariant = "colemak";
       xkbOptions = "compose:rwin";
     };
+
+    services.mpd = {
+      enable = true;
+      musicDirectory = "/home/tmplt/media/music";
+      user = "tmplt";
+      group = "users";
+      extraConfig = ''
+        restore_paused "no"
+        auto_update "no"
+        follow_outside_symlinks "yes"
+        follow_inside_symlinks "yes"
+        replaygain "auto"
+
+        audio_output {
+          type "pulse"
+          name "Pulseaudio Output"
+        }
+      '';
+    };
   };
 }

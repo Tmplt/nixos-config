@@ -36,7 +36,6 @@ in
 
       windowManager = {
         command = lib.mkIf onTemeraire ''
-          mpd &
           ${pkgs.bspwm}/bin/bspwm
         '';
 
