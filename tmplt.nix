@@ -34,7 +34,7 @@ in
     xsession = {
       enable = true;
 
-      windowManager = (lib.mkIf onTemeraire {
+      windowManager = {
         command = lib.mkIf onTemeraire ''
           mpd &
           ${pkgs.bspwm}/bin/bspwm
@@ -47,8 +47,7 @@ in
             haskellPackages.xmobar
           ];
         };
-
-      });
+      };
 
       initExtra = ''
         ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
