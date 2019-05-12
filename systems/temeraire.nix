@@ -65,8 +65,24 @@
       '';
 
       xrandrHeads = [
-        "HDMI-A-0"
-        { output = "DVI-D-0"; primary = true; }
+        {
+          output = "HDMI-A-0";
+          monitorConfig = ''
+            Option "Position" "0 0"
+            Option "Rotate" "left"
+            Option "PreferredMode" "1920x1080"
+          '';
+        }
+
+        {
+          output = "DVI-D-0";
+          primary = true;
+          monitorConfig = ''
+            Option "Position" "1080 ${toString ((1920 - 1440) / 2)}"
+            Option "Rotate" "normal"
+            Option "PreferredMode" "2560x1440"
+          '';
+        }
       ];
 
       layout = "us";

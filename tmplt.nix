@@ -36,7 +36,6 @@ in
 
       windowManager = (lib.mkIf onTemeraire {
         command = lib.mkIf onTemeraire ''
-          ~/.xlayout
           mpd &
           ${pkgs.bspwm}/bin/bspwm
         '';
