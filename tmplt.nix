@@ -59,8 +59,6 @@ in
 
     manual.manpages.enable = true;
 
-    home.keyboard.layout = if onTemeraire then "en" else "se";
-
     #
     # Programs
     #

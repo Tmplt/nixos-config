@@ -68,6 +68,11 @@
         "HDMI-A-0"
         { output = "DVI-D-0"; primary = true; }
       ];
+
+      layout = "us";
+      xkbModel = "hhk";
+      xkbVariant = "colemak";
+      xkbOptions = "compose:rwin";
     };
   };
 }
