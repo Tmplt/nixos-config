@@ -5,16 +5,13 @@ in
   perscitia = { config, pkgs, ... }:
   {
     deployment.targetHost = "localhost";
-    networking = {
-      hostName = "perscitia";
-      wireless.enable = true;
-      wireless.userControlled.enable = true;
-    };
+    networking.hostName = "perscitia";
 
     imports = [
       ../hardware-configurations/perscitia.nix
       <nixos-hardware/lenovo/thinkpad/t430>
       ../common.nix
+      ../wlan.nix
     ];
 
     # Use the systemd-boot EFI boot loader.
@@ -35,121 +32,69 @@ in
     users.groups.libvirtd.members = [ "root" "tmplt" ];
     virtualisation.libvirtd.enable = false;
 
-    networking.wireless.networks = let
-      networkSecrets = secrets.networkCredentials;
-    in secrets.networkConfigs // {
-        "WiiVafan" = {
-          psk = networkSecrets."WiiVafan";
-        };
-
-        "COMHEM_9cfcd4-5G" = {
-          psk = networkSecrets."COMHEM_9cfcd4-5G";
-        };
-
-        "Tele2Gateway59D6" = {
-          psk = networkSecrets."Tele2Gateway59D6";
-        };
-
-        "Normandy SR2" = {
-          psk = networkSecrets."Normandy SR2";
-          priority = 10;
-        };
-
-        "'; DROP TABLE ludd" = {
-          psk = networkSecrets."ludd";
-          priority = 10;
-        };
-
-        "eduroam" = {
-          priority = 5;
-          auth = ''
-            key_mgmt=WPA-EAP
-            eap=PEAP
-            proto=RSN
-            identity="${networkSecrets."eduroam".username}"
-            password="${networkSecrets."eduroam".password}"
-            phase2="auth=MSCHAPV2"
-          '';
-        };
-    };
-
-    environment.systemPackages = with pkgs; [
-      wpa_supplicant_gui
-    ];
-
-    i18n = {
-      consoleFont = "Lat2-Terminus16";
-      defaultLocale = "en_US.UTF-8";
-    };
-
     hardware.trackpoint = {
       emulateWheel = true;
       enable = true;
     };
 
-    programs = {
-      light.enable = true;
-      wireshark.enable = true;
-    };
+    programs.light.enable = true;
 
-    services = {
-      xserver = {
-        layout = "us";
-        xkbOptions = "ctrl:swapcaps,compose:menu";
+    services.xserver = {
+      layout = "us";
+      xkbOptions = "ctrl:swapcaps,compose:menu";
 
-        libinput = {
-          enable = true;
-          accelProfile = "flat"; # No acceleration
-          disableWhileTyping = true;
-          tapping = false; # Disable tap-to-click behavior.
-          middleEmulation = false; # Don't emulate middle-click by pressing left and right button simultaneously.
-          scrollMethod = "twofinger";
-        };
-
-        multitouch.ignorePalm = true;
-
-        displayManager.sessionCommands = ''
-          ${pkgs.xorg.xsetroot}/bin/xset -cursor_name left_ptr
-          ${pkgs.wmname}/bin/wmname LG3D
-        '';
-
-        desktopManager.xterm.enable = false;
-        windowManager.default = "xmonad";
-        windowManager.xmonad = {
-          enable = true;
-          enableContribAndExtras = true;
-          extraPackages = haskellPackages: [
-            haskellPackages.xmobar
-          ];
-        };
-      };
-
-      acpid.enable = true;
-
-      physlock = {
+      libinput = {
         enable = true;
-        allowAnyUser = true;
-
-        # While already encrypted, it is now obvious that the system is entering hiberation without this enabled.
-        # (Framebuffer isn't cleared; the system appears unresponsive for a few seconds.)
-        lockOn.hibernate = true;
+        accelProfile = "flat"; # No acceleration
+        disableWhileTyping = true;
+        tapping = false; # Disable tap-to-click behavior.
+        middleEmulation = false; # Don't emulate middle-click by pressing left and right button simultaneously.
+        scrollMethod = "twofinger";
       };
 
-      # See logind.conf(5).
-      # To actually shutdown, use poweroff(8)
-      logind.extraConfig = ''
-        HandlePowerKey=hibernate
-        HandleSuspendKey=ignore
-        handleHibernateKey=hibernate
-        HandleLidSwitch=suspend
-        HandleLidSwitchDocked=ignore
+      multitouch.ignorePalm = true;
 
-        PowerKeyIgnoreInhibited=yes
-        SuspendKeyIgnoreInhibited=yes
-        HibernateKeyIgnoreInhibited=yes
-        LidSwitchIgnoreInhibited=yes
+      displayManager.sessionCommands = ''
+        ${pkgs.xorg.xsetroot}/bin/xset -cursor_name left_ptr
+        ${pkgs.wmname}/bin/wmname LG3D
       '';
+
+      desktopManager.xterm.enable = false;
+      windowManager.default = "xmonad";
+      windowManager.xmonad = {
+        enable = true;
+        enableContribAndExtras = true;
+        extraPackages = haskellPackages: [
+          haskellPackages.xmobar
+        ];
+      };
     };
+
+    services.acpid.enable = true;
+
+    services.physlock = {
+      enable = true;
+      allowAnyUser = true;
+
+      # While already encrypted, it is now obvious that the system is entering hiberation without this enabled.
+      # (Framebuffer isn't cleared; the system appears unresponsive for a few seconds.)
+      lockOn.hibernate = true;
+    };
+
+    # See logind.conf(5).
+    # To actually shutdown, use poweroff(8)
+    services.logind.extraConfig = ''
+      HandlePowerKey=hibernate
+      HandleSuspendKey=ignore
+      handleHibernateKey=hibernate
+      HandleLidSwitch=suspend
+      HandleLidSwitchDocked=ignore
+
+      PowerKeyIgnoreInhibited=yes
+      SuspendKeyIgnoreInhibited=yes
+      HibernateKeyIgnoreInhibited=yes
+      LidSwitchIgnoreInhibited=yes
+    '';
 
     services.openvpn.servers = secrets.openvpnConfigs;
 
