@@ -146,19 +146,6 @@ in
       # Properly recover VPN connection from hibernation/sleep.
       resumeCommands = "${pkgs.systemd}/bin/systemctl restart openvpn-*.service";
     };
-
-    nix.buildMachines = [{
-      hostName = "builder";
-      system = "x86_64-linux";
-      maxJobs = 4;
-      speedFactor = 2;
-      supportedFeatures = ["big-parallel" "kvm"];
-    }];
-    nix.distributedBuilds = true;
-    # Builder most likely has a faster Internet connection
-    nix.extraOptions = ''
-      builders-use-substitutes = true
-    '';
   };
 }
 
