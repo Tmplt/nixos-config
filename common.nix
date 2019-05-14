@@ -56,6 +56,11 @@ in
     };
 
     command-not-found.enable = true;
+
+    gnupg.agent = {
+      enable = onPerscitia;
+      enableSSHSupport = true;
+    };
   };
 
   # `coredumpctl gdb` can't find dumps unless they are external.

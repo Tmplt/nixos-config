@@ -108,7 +108,7 @@ in
     services.unclutter.enable = true;
 
     services.gpg-agent = {
-      enable = true;
+      enable = onTemeraire;
 
       defaultCacheTtl = 1800; # 30 min
       defaultCacheTtlSsh = 1800;
