@@ -7,10 +7,12 @@ let
   onTemeraire = config.networking.hostName == "temeraire";
   onPerscitia = config.networking.hostName == "perscitia";
   secrets = import ./secrets;
+  dotfiles = ./dotfiles;
 in
 {
   imports = [
     "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-19.03.tar.gz}/nixos"
+    ./dotfiles.nix
   ];
 
   users.users.tmplt = {
@@ -28,9 +30,6 @@ in
   };
 
   home-manager.users.tmplt = {
-    home.file.".config/mpv/scripts/youtube-quality.lua".source = ./misc/youtube-quality.lua;
-    home.file.".config/mpv/scripts/youtube-quality.conf".source = ./misc/youtube-quality.conf;
-
     xsession = {
       enable = onTemeraire;
 
