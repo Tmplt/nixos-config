@@ -8,8 +8,8 @@ let
 in
 {
   home-manager.users.tmplt.home.file = lib.mkIf onPerscitia {
-    ".config/mpv/scripts/youtube-quality.lua".source = ./misc/youtube-quality.lua;
-    ".config/mpv/scripts/youtube-quality.conf".source = ./misc/youtube-quality.conf;
+    ".config/mpv/scripts/youtube-quality.lua".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.lua";
+    ".config/mpv/scripts/youtube-quality.conf".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.conf";
 
     ".config/nvim".source = "${dotfiles}/vim/.config/nvim";
     ".irssi".source = "${dotfiles}/irssi/.irssi";
