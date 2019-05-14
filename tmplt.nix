@@ -32,21 +32,11 @@ in
     home.file.".config/mpv/scripts/youtube-quality.conf".source = ./misc/youtube-quality.conf;
 
     xsession = {
-      enable = true;
+      enable = onTemeraire;
 
-      windowManager = {
-        command = lib.mkIf onTemeraire ''
-          ${pkgs.bspwm}/bin/bspwm
-        '';
-
-        xmonad = lib.mkIf onPerscitia {
-          enable = true;
-          enableContribAndExtras = true;
-          extraPackages = haskellPackages: [
-            haskellPackages.xmobar
-          ];
-        };
-      };
+      windowManager.command = ''
+        ${pkgs.bspwm}/bin/bspwm
+      '';
 
       initExtra = ''
         ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
@@ -109,7 +99,7 @@ in
     #
 
     services.random-background = {
-      enable = !onTemeraire;
+      enable = onPerscitia;
       # TODO: package wallpapers?
       imageDirectory = "%h/wallpapers";
       interval = "3h";

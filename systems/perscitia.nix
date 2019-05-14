@@ -79,7 +79,6 @@ in
 
     i18n = {
       consoleFont = "Lat2-Terminus16";
-      consoleKeyMap = "sv-latin1";
       defaultLocale = "en_US.UTF-8";
     };
 
@@ -95,8 +94,8 @@ in
 
     services = {
       xserver = {
-        layout = "se";
-        xkbOptions = "ctrl:swapcaps";
+        layout = "us";
+        xkbOptions = "ctrl:swapcaps,compose:menu";
 
         libinput = {
           enable = true;
@@ -108,6 +107,21 @@ in
         };
 
         multitouch.ignorePalm = true;
+
+        displayManager.sessionCommands = ''
+          ${pkgs.xorg.xsetroot}/bin/xset -cursor_name left_ptr
+          ${pkgs.wmname}/bin/wmname LG3D
+        '';
+
+        desktopManager.xterm.enable = false;
+        windowManager.default = "xmonad";
+        windowManager.xmonad = {
+          enable = true;
+          enableContribAndExtras = true;
+          extraPackages = haskellPackages: [
+            haskellPackages.xmobar
+          ];
+        };
       };
 
       acpid.enable = true;
