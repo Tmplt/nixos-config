@@ -8,10 +8,16 @@ let
   onPerscitia = config.networking.hostName == "perscitia";
   secrets = import ./secrets;
   dotfiles = ./dotfiles;
+
+  home-manager = builtins.fetchGit {
+    url = "https://github.com/rycee/home-manager.git";
+    rev = "14a0dce9e809d222a85ad19aa7d3479cc104e475";
+    ref = "release-19.03";
+  };
 in
 {
   imports = [
-    "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-19.03.tar.gz}/nixos"
+    "${home-manager}/nixos"
     ./dotfiles.nix
   ];
 
