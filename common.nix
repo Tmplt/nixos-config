@@ -56,6 +56,11 @@ in
     };
 
     command-not-found.enable = true;
+
+    gnupg.agent = {
+      enable = onPerscitia;
+      enableSSHSupport = true;
+    };
   };
 
   # `coredumpctl gdb` can't find dumps unless they are external.
@@ -109,7 +114,10 @@ in
   ];
 
   nix.buildCores = 0;
-  nix.gc.automatic = true;
+  nix.gc = {
+    automatic = true;
+    options = "-d --delete-older-than 30d";
+  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

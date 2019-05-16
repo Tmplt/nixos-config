@@ -7,10 +7,18 @@ let
   onTemeraire = config.networking.hostName == "temeraire";
   onPerscitia = config.networking.hostName == "perscitia";
   secrets = import ./secrets;
+  dotfiles = ./dotfiles;
+
+  home-manager = builtins.fetchGit {
+    url = "https://github.com/rycee/home-manager.git";
+    rev = "14a0dce9e809d222a85ad19aa7d3479cc104e475";
+    ref = "release-19.03";
+  };
 in
 {
   imports = [
-    "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-19.03.tar.gz}/nixos"
+    "${home-manager}/nixos"
+    ./dotfiles.nix
   ];
 
   users.users.tmplt = {
@@ -28,26 +36,13 @@ in
   };
 
   home-manager.users.tmplt = {
-    home.file.".config/mpv/scripts/youtube-quality.lua".source = ./misc/youtube-quality.lua;
-    home.file.".config/mpv/scripts/youtube-quality.conf".source = ./misc/youtube-quality.conf;
-
     xsession = {
-      enable = true;
+      enable = onTemeraire;
 
-      windowManager = {
-        command = lib.mkIf onTemeraire ''
-          mpd &
-          ${pkgs.bspwm}/bin/bspwm
-        '';
-
-        xmonad = lib.mkIf onPerscitia {
-          enable = true;
-          enableContribAndExtras = true;
-          extraPackages = haskellPackages: [
-            haskellPackages.xmobar
-          ];
-        };
-      };
+      windowManager.command = ''
+        mpd &
+        ${pkgs.bspwm}/bin/bspwm
+      '';
 
       initExtra = ''
         ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
@@ -110,7 +105,7 @@ in
     #
 
     services.random-background = {
-      enable = !onTemeraire;
+      enable = onPerscitia;
       # TODO: package wallpapers?
       imageDirectory = "%h/wallpapers";
       interval = "3h";
@@ -119,7 +114,7 @@ in
     services.unclutter.enable = true;
 
     services.gpg-agent = {
-      enable = true;
+      enable = onTemeraire;
 
       defaultCacheTtl = 1800; # 30 min
       defaultCacheTtlSsh = 1800;
