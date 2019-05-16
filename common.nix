@@ -3,8 +3,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  onTemeraire = config.networking.hostName == "temeraire";
-  onPerscitia = config.networking.hostName == "perscitia";
   sshKeys = import ./ssh-keys.nix;
 in
 {

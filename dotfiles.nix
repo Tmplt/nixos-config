@@ -8,6 +8,7 @@ let
   onTemeraire = config.networking.hostName == "temeraire";
 in
 {
+  # TODO: clean this up with some neat functions
   home-manager.users.tmplt.home.file = if onPerscitia then {
     ".config/mpv/scripts/youtube-quality.lua".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.lua";
     ".config/mpv/scripts/youtube-quality.conf".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.conf";
