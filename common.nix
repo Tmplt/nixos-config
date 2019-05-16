@@ -113,6 +113,9 @@ in
     "1366:1015" # SEGGER (JLink firmware)
   ];
 
+  # Ignore /run/nologin (?), <https://github.com/NixOS/nixpkgs/issues/60900>
+  systemd.services.systemd-user-sessions.enable = false;
+
   nix.buildCores = 0;
   nix.gc = {
     automatic = true;
