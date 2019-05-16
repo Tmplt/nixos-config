@@ -36,20 +36,6 @@ in
   };
 
   home-manager.users.tmplt = {
-    xsession = {
-      enable = onTemeraire;
-
-      windowManager.command = ''
-        mpd &
-        ${pkgs.bspwm}/bin/bspwm
-      '';
-
-      initExtra = ''
-        ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
-        ${pkgs.wmname}/bin/wmname LG3D
-      '';
-    };
-
     manual.manpages.enable = true;
 
     #

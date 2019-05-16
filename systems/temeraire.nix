@@ -89,6 +89,18 @@
       xkbModel = "hhk";
       xkbVariant = "colemak";
       xkbOptions = "compose:rwin";
+
+      displayManager.sessionCommands = ''
+        ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
+        ${pkgs.wmname}/bin/wmname LG3D
+        ${pkgs.mpd}/bin/mpd &disown
+      '';
+
+      desktopManager.xterm.enable = false;
+      windowManager.default = "bspwm";
+      windowManager.bspwm = {
+        enable = true;
+      };
     };
   };
 }

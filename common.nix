@@ -58,7 +58,7 @@ in
     command-not-found.enable = true;
 
     gnupg.agent = {
-      enable = onPerscitia;
+      enable = true;
       enableSSHSupport = true;
     };
   };
