@@ -5,19 +5,50 @@
 let
   dotfiles = ./dotfiles;
   onPerscitia = config.networking.hostName == "perscitia";
+  onTemeraire = config.networking.hostName == "temeraire";
 in
 {
-  home-manager.users.tmplt.home.file = lib.mkIf onPerscitia {
+  home-manager.users.tmplt.home.file = if onPerscitia then {
     ".config/mpv/scripts/youtube-quality.lua".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.lua";
     ".config/mpv/scripts/youtube-quality.conf".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.conf";
 
     ".config/nvim".source = "${dotfiles}/vim/.config/nvim";
-    ".irssi".source = "${dotfiles}/irssi/.irssi";
     ".vimrc".source = "${dotfiles}/vim/.vimrc";
     ".xmobarrc".source = "${dotfiles}/xmonad/.xmobarrc";
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
     ".zimrc".source = "${dotfiles}/zsh/.zimrc";
     ".zsh".source = "${dotfiles}/zsh/.zsh";
     ".zshrc".source = "${dotfiles}/zsh/.zshrc";
-  };
+
+  } else if onTemeraire then {
+
+    # ~/.config
+    ".config/beets".source = "${dotfiles}/beets/.config/beets";
+    ".config/bspwm".source = "${dotfiles}/bspwm/.config/bspwm";
+    ".config/sxhkd/sxhkdrc".source = pkgs.writeText "sxhkdrc" ''
+      ${builtins.readFile "${dotfiles}/sxhkd/.config/sxhkd/sxhkdrc.desktop"}
+      ${builtins.readFile "${dotfiles}/sxhkd/.config/sxhkd/commons"}
+    '';
+    ".config/gtk-3.0".source = "${dotfiles}/termite/.config/gtk-3.0";
+    ".config/mpv".source = "${dotfiles}/mpv/.config/mpv";
+    ".config/ncmpcpp".source = "${dotfiles}/ncmpcpp/.config/ncmpcpp";
+    ".config/nvim".source = "${dotfiles}/vim/.config/nvim";
+    ".config/polybar".source = "${dotfiles}/polybar/.config/polybar";
+    ".config/termite".source = "${dotfiles}/termite/.config/termite";
+    ".config/mpd/mpd.conf".source = "${dotfiles}/mpd/.config/mpd/mpd.conf";
+
+    # ~/
+    ".vim/init.vim".source = "${dotfiles}/vim/.vimrc";
+    ".vimrc".source = "${dotfiles}/vim/.vimrc";
+    ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
+    ".zimrc".source = "${dotfiles}/zsh/.zimrc";
+    ".zsh".source = "${dotfiles}/zsh/.zsh";
+    ".zshrc".source = "${dotfiles}/zsh/.zshrc";
+
+    # ~/bin
+    "bin/fpass".source = "${dotfiles}/bin/bin/fpass";
+    "bin/iommu".source = "${dotfiles}/bin/bin/iommu";
+    "bin/lock".source = "${dotfiles}/bspwm/bin/lock";
+    "bin/tzathura".source = "${dotfiles}/bin/bin/tzathura";
+  } else {};
 }
