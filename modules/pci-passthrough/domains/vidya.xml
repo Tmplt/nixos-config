@@ -134,14 +134,6 @@
       <alias name='ide'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1f' function='0x2'/>
     </controller>
-    <interface type='network'>
-      <mac address='52:54:00:fd:a4:11'/>
-      <source network='default' bridge='virbr0'/>
-      <target dev='vnet0'/>
-      <model type='virtio'/>
-      <alias name='net0'/>
-      <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
-    </interface>
     <input type='mouse' bus='virtio'>
       <alias name='input0'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x0d' function='0x0'/>
@@ -175,6 +167,14 @@
       </source>
       <alias name='hostdev1'/>
       <address type='pci' domain='0x0000' bus='0x06' slot='0x00' function='0x0'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='pci' managed='yes'>
+      <driver name='vfio'/>
+      <source>
+        <address domain='0x0000' bus='0x08' slot='0x00' function='0x0'/>
+      </source>
+      <alias name='hostdev2'/>
+      <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </hostdev>
     <memballoon model='virtio'>
       <alias name='balloon0'/>

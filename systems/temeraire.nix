@@ -26,6 +26,7 @@
 
       pciIDs = [
         "1002:687f" "1002:aaf8" # Radeon Vega 56
+        "10ec:8168" # NIC
       ];
 
       periphiralPaths = [
