@@ -115,10 +115,6 @@ in
   systemd.services.systemd-user-sessions.enable = false;
 
   nix.buildCores = 0;
-  nix.gc = {
-    automatic = true;
-    options = "-d --delete-older-than 30d";
-  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
