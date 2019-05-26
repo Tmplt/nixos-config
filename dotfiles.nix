@@ -15,6 +15,7 @@ in
 
     ".config/nvim".source = "${dotfiles}/vim/.config/nvim";
     ".vimrc".source = "${dotfiles}/vim/.vimrc";
+    ".xmonad/xmonad.hs".source = "${dotfiles}/xmonad/.xmonad/xmonad.hs";
     ".xmobarrc".source = "${dotfiles}/xmonad/.xmobarrc";
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
     ".zimrc".source = "${dotfiles}/zsh/.zimrc";
