@@ -5,7 +5,7 @@
     time.timeZone = "Europe/Stockholm";
 
     imports = [
-      <nixpkgs/nixos/modules/virtualisation/nova-config.nix>
+      ../profiles/openstack-config.nix
       ../common-server.nix
     ];
 

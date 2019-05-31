@@ -5,7 +5,7 @@
     nix.gc.automatic = true;
 
     imports = [
-      <nixpkgs/nixos/modules/virtualisation/nova-config.nix>
+      ../profiles/openstack-config.nix
       ../modules/webserver.nix
       ../common-server.nix
     ];
