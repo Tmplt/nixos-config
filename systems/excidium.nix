@@ -5,7 +5,6 @@ in
   excidium = {
     deployment.targetHost = "excidium.campus.ltu.se";
     networking.hostName = "excidium";
-    nix.gc.automatic = true;
 
     imports = [
       ../profiles/openstack-config.nix
