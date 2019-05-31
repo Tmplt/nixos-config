@@ -1,3 +1,6 @@
+let
+  sshKeys = import ../ssh-keys.nix;
+in
 {
   excidium = {
     deployment.targetHost = "excidium.campus.ltu.se";
@@ -9,6 +12,8 @@
       ../modules/webserver.nix
       ../common-server.nix
     ];
+
+    users.users.tmplt.openssh.authorizedKeys.keys = [ sshKeys.mako sshKeys.tmplt ];
 
     services.syncthing.enable = true;
 
