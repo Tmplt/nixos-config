@@ -93,10 +93,8 @@ in
 
     # Open ports in the firewall.
     networking.firewall.allowedTCPPorts = [
-      2049 # ?
       6600 8000 # MPD and Icecast
     ];
-    networking.firewall.allowedUDPPorts = [ 2049 ];
 
     # This value determines the NixOS release with which your system is to be
     # compatible, in order to avoid breaking some software such as database
