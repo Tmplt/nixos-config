@@ -10,20 +10,20 @@ let
     url = "https://github.com/NixOS/nixpkgs-channels/archive/${rev}.tar.gz";
   }) { config.allowUnfree = true; };
 
-  # Channels last updated: 2019-04-29 (19.03)
+  # Channels last updated: 2019-07-21 (19.03)
   #
   # Instead of relying on Nix channels and ending up with out-of-sync
   # situations between machines, the commit for the stable Nix channel
   # is pinned here.
   stable = fetchChannel {
-    rev = "cf3e277dd0bd710af0df667e9364f4bd80c72713";
-    sha256 = "1abyadl3sxf67yi65758hq6hf2j07afgp1fmkk7kd94dadx6r6f4";
+    rev = "55b8860aa209e987f6f15c523811e4861d97d6af";
+    sha256 = "0ri58704vwv6gnyw33vjirgnvh2f1201vbflk0ydj5ff7vpyy7hf";
   };
 
   # Certain packages from unable are hand-picked into the package set.
   unstable = fetchChannel {
-    rev = "fc48e74127c08ac44f56f3535dc09648ba5ef57d";
-    sha256 = "1fz1a0mi497ay46va2srhbj0z1v1nz3w1ds9rqc98zcvfsm1wncz";
+    rev = "104f8a0e1a17a894b320f86add409d9aebb36fe4";
+    sha256 = "0442zswlvgwl7g3cv2w7hhpm5wfkzq11b7isnspibkb5nfpkasva";
   };
 
   # Certain packages of mine own haven't been merged yet.
