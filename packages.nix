@@ -186,6 +186,10 @@ in {
     clang
 
     haskellPackages.xmobar
+
+    neomutt
+    msmtp
+    offlineimap
   ] ++ (if onTemeraire then [
     ncmpcpp
     beets
