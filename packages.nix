@@ -2,7 +2,7 @@
 # It does not contain configuration for software that is already covered
 # by other NixOS options.
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   fetchChannel = { rev, sha256 }: import (fetchTarball {
@@ -45,6 +45,14 @@ in {
 
       # Teamspeak links inproperly with Qt in 19.03
       teamspeak_client = tmplt.teamspeak_client;
+
+      # v1.8.5 required for OAUTH2
+      msmtp = unstable.msmtp;
+
+      # Fix Alt+u xurls | dmenu | xargs qutebrowser
+      xst = lib.overrideDerivation stable.xst (old: {
+        patches = [ patches/xst.patch ];
+      });
     };
   };
 
@@ -100,7 +108,8 @@ in {
     firejail
     bspwm
     sxhkd
-    st
+    xst
+    xurls
     dmenu
     acpi
     irssi
