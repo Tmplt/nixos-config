@@ -10,7 +10,7 @@
     ];
 
     nixpkgs.config.allowUnfree = true;
-    services.temspeak3.enable = true;
+    services.teamspeak3.enable = true;
     networking.firewall = {
       allowedTCPPorts = [ 30033 10011 ];
       allowedUDPPorts = [ 9987 ];
