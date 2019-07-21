@@ -33,6 +33,7 @@ let
   }) { config.allowUnfree = true; };
 
   onTemeraire = config.networking.hostName == "temeraire";
+  onPerscitia = config.networking.hostName == "perscitia";
 in {
   # Configure the Nix package manager
   nixpkgs = {
@@ -62,14 +63,12 @@ in {
     binutils
     curl
     file
-    gparted
     htop
     imagemagick
     libnotify
     lxappearance
     maim
     mpc_cli
-    mpd
     mpv
     mumble
     neofetch
@@ -94,19 +93,12 @@ in {
     gnupg
 
     # Extra
-    firefox
-    audacity
     compton
     aria
     fzf
-    gimp
-    inkscape
-    wireshark
     texlive.combined.scheme-full
     wine
     winetricks
-    firejail
-    bspwm
     sxhkd
     xst
     xurls
@@ -119,11 +111,9 @@ in {
     arc-icon-theme
     youtube-dl
     thunderbird
-    octave
     nfs-utils
     qutebrowser
     exa
-    pbpst
 
     # Development
     gitAndTools.gitFull
@@ -132,8 +122,6 @@ in {
     python3
     gnumake
     curlFull
-    rtags
-    ghc
     # jdk8
     # rustc
     # rustPlatform.rustcSrc
@@ -145,27 +133,11 @@ in {
 
     # From old home-manager configs.
     # TODO: categorize this list?
-    rofi
-    termite
-    silver-searcher
-    xfontsel
-    xorg.mkfontscale
-    xorg.mkfontdir
     font-manager
-    bind
 
-    (polybar.override {
-      mpdSupport = onTemeraire;
-    })
-
-    unifont
     pandoc
-    libreoffice
     teamspeak_client
-    rofi-pass
     pass-otp
-    i3lock
-    feh
     arandr
     python36Packages.pygments
     xdotool
@@ -191,9 +163,19 @@ in {
     msmtp
     offlineimap
   ] ++ (if onTemeraire then [
+    firefox
     ncmpcpp
     beets
     calibre
+    bspwm
+    mpd
+    (polybar.override {
+      mpdSupport = true;
+    })
+    gimp
+
+  ] else []) ++ (if onPerscitia then [
+    # palemoon
   ] else []);
 
   # ... and install some fonts.
