@@ -38,6 +38,10 @@ in
   home-manager.users.tmplt = {
     manual.manpages.enable = true;
 
+    home.sessionVariables = {
+      BROWSER = if onPerscitia then "qutebrowser" else "firefox";
+    };
+
     #
     # Programs
     #
