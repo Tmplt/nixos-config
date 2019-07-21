@@ -44,9 +44,6 @@ in {
       # Store whole unstable channel in case any module need it
       inherit unstable;
 
-      # Teamspeak links inproperly with Qt in 19.03
-      teamspeak_client = tmplt.teamspeak_client;
-
       # v1.8.5 required for OAUTH2
       msmtp = unstable.msmtp;
 
