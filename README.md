@@ -6,11 +6,11 @@ This repository is published as a convenience for myself, but also as a resource
 
 Feel free to ping me with any questions you might have.
 
-* **temeraire**: multi-head desktop with GPU-passthrough for vidya.
-* **perscitia**: laptop for university studies and work.
-* **voip**: VoIP-server, as the hostname implies.
-* **dulcia**: NAS, pfSense router, and future seed-box. Shares media with **temeraire** over NFS.
-* **excidium**: main server: [taskd](https://taskwarrior.org/), [website](https://dragons.rocks), [syncthing node](https://syncthing.net/) ([sr.ht](https://meta.sr.ht/) server in the future).
+* systems/**temeraire**: multi-head desktop with GPU-passthrough for vidya.
+* systems/**perscitia**: laptop for university studies and work.
+* systems/**voip**: VoIP-server, as the hostname implies.
+* systems/**dulcia**: NAS, pfSense router, and future seed-box. Shares media with **temeraire** over NFS.
+* systems/**excidium**: main server: [taskd](https://taskwarrior.org/), [website](https://dragons.rocks), [syncthing node](https://syncthing.net/) ([sr.ht](https://meta.sr.ht/) server in the future).
 
 All systems with a running X server hosts a simple [bspwm](https://github.com/baskerville/bspwm) or [xmonad](https://xmonad.org/) configuration with one or more status bars.
 
