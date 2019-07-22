@@ -4,6 +4,7 @@
 
 let
   dotfiles = ./dotfiles;
+  secrets = ./secrets;
   onPerscitia = config.networking.hostName == "perscitia";
   onTemeraire = config.networking.hostName == "temeraire";
 in
@@ -22,7 +23,20 @@ in
     ".zsh".source = "${dotfiles}/zsh/.zsh";
     ".zshrc".source = "${dotfiles}/zsh/.zshrc";
 
+    # mutt & friends
+    ".offlineimaprc".source = "${secrets}/mutt/.offlineimaprc";
+    ".offlineimap.py".source = "${secrets}/mutt/.offlineimap.py";
+    ".msmtprc".source = "${secrets}/mutt/.msmtprc";
+    ".muttrc".source = "${secrets}/mutt/.muttrc";
+    ".mutt".source = "${secrets}/mutt/.mutt";
+
   } else if onTemeraire then {
+    # mutt & friends
+    ".offlineimaprc".source = "${secrets}/mutt/.offlineimaprc";
+    ".offlineimap.py".source = "${secrets}/mutt/.offlineimap.py";
+    ".msmtprc".source = "${secrets}/mutt/.msmtprc";
+    ".muttrc".source = "${secrets}/mutt/.muttrc";
+    ".mutt".source = "${secrets}/mutt/.mutt";
 
     # ~/.config
     ".config/beets".source = "${dotfiles}/beets/.config/beets";
