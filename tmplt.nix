@@ -19,6 +19,7 @@ in
   imports = [
     "${home-manager}/nixos"
     ./dotfiles.nix
+    ./editor.nix
   ];
 
   users.users.tmplt = {
@@ -45,6 +46,41 @@ in
     #
     # Programs
     #
+
+    # TODO
+    # programs.zsh = {
+    #   enable = true;
+    #   shellAliases = {
+    #     xsel = "xsel -b";
+    #     e = "nvim";
+    #     pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
+    #     ll = "exa --long --group-directories-first";
+    #     mkdir = "mkdir -p";
+    #     ag = "ag --color --color-line-number '0;35' --color-match '46;30' --color-path '4;36'";
+    #     rock = "ncmpcpp";
+    #     disks = "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
+    #     ren = "ranger";
+    #     wtf = "dmesg | tail -n 50";
+    #     ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
+    #     tzat = "tzathura &>/dev/null";
+    #   };
+
+    #   sessionVariables = {
+    #     EDITOR = "nvim";
+    #     SUDO_EDITOR = "nvim";
+    #     VISUAL = "nvim";
+    #     SYSTEMD_EDITOR = "nvim";
+    #     TERM = "xterm-256color";
+    #     PATH = "$PATH:$HOME/bin:$HOME/.cargo/bin";
+    #   };
+
+    #   initExtra = ''
+    #     setopt interactivecomments
+    #     setopt HIST_EXPIRE_DUPS_FIRST
+    #     setopt nonomatch # forward wildcard if no match
+    #     unsetopt correct # don't guess my misspellings
+    #   '';
+    # };
 
     programs.git = {
       enable = true;

@@ -14,8 +14,6 @@ in
     ".config/mpv/scripts/youtube-quality.lua".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.lua";
     ".config/mpv/scripts/youtube-quality.conf".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.conf";
 
-    ".config/nvim".source = "${dotfiles}/vim/.config/nvim";
-    ".vimrc".source = "${dotfiles}/vim/.vimrc";
     ".xmonad/xmonad.hs".source = "${dotfiles}/xmonad/.xmonad/xmonad.hs";
     ".xmobarrc".source = "${dotfiles}/xmonad/.xmobarrc";
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
@@ -48,14 +46,11 @@ in
     ".config/gtk-3.0".source = "${dotfiles}/termite/.config/gtk-3.0";
     ".config/mpv".source = "${dotfiles}/mpv/.config/mpv";
     ".config/ncmpcpp".source = "${dotfiles}/ncmpcpp/.config/ncmpcpp";
-    ".config/nvim".source = "${dotfiles}/vim/.config/nvim";
     ".config/polybar".source = "${dotfiles}/polybar/.config/polybar";
     ".config/termite".source = "${dotfiles}/termite/.config/termite";
     ".config/mpd/mpd.conf".source = "${dotfiles}/mpd/.config/mpd/mpd.conf";
 
     # ~/
-    ".vim/init.vim".source = "${dotfiles}/vim/.vimrc";
-    ".vimrc".source = "${dotfiles}/vim/.vimrc";
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
     ".zimrc".source = "${dotfiles}/zsh/.zimrc";
     ".zsh".source = "${dotfiles}/zsh/.zsh";
