@@ -11,8 +11,8 @@ let
 
   home-manager = builtins.fetchGit {
     url = "https://github.com/rycee/home-manager.git";
-    rev = "14a0dce9e809d222a85ad19aa7d3479cc104e475";
-    ref = "release-19.03";
+    rev = "056443ccbdbedeed36f403d5cc1017413358c61a";
+    # TODO: check sha256?
   };
 in
 {
@@ -39,48 +39,62 @@ in
   home-manager.users.tmplt = {
     manual.manpages.enable = true;
 
-    home.sessionVariables = {
-      BROWSER = if onPerscitia then "qutebrowser" else "firefox";
-    };
-
-    #
-    # Programs
-    #
-
-    # TODO
-    # programs.zsh = {
-    #   enable = true;
-    #   shellAliases = {
-    #     xsel = "xsel -b";
-    #     e = "nvim";
-    #     pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
-    #     ll = "exa --long --group-directories-first";
-    #     mkdir = "mkdir -p";
-    #     ag = "ag --color --color-line-number '0;35' --color-match '46;30' --color-path '4;36'";
-    #     rock = "ncmpcpp";
-    #     disks = "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
-    #     ren = "ranger";
-    #     wtf = "dmesg | tail -n 50";
-    #     ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
-    #     tzat = "tzathura &>/dev/null";
-    #   };
-
-    #   sessionVariables = {
-    #     EDITOR = "nvim";
-    #     SUDO_EDITOR = "nvim";
-    #     VISUAL = "nvim";
-    #     SYSTEMD_EDITOR = "nvim";
-    #     TERM = "xterm-256color";
-    #     PATH = "$PATH:$HOME/bin:$HOME/.cargo/bin";
-    #   };
-
-    #   initExtra = ''
-    #     setopt interactivecomments
-    #     setopt HIST_EXPIRE_DUPS_FIRST
-    #     setopt nonomatch # forward wildcard if no match
-    #     unsetopt correct # don't guess my misspellings
-    #   '';
+    # XXX: can only be set if X session is managed by HM <https://github.com/rycee/home-manager/issues/307>
+    # home.sessionVariables = {
+    #   BROWSER = if onPerscitia then "qutebrowser" else "firefox";
     # };
+
+    programs.zsh = {
+      enable = true;
+
+      history.expireDuplicatesFirst = true;
+
+      initExtra = ''
+        setopt interactivecomments
+        setopt nonomatch # forward wildcard if no match
+        unsetopt correct # don't guess my misspellings
+
+        # Change default zim location
+        # TODO: nixify
+        export ZIM_HOME=''${ZDOTDIR:-''${HOME}}/.zim
+
+        # Start zim
+        [[ -s ''${ZIM_HOME}/init.zsh ]] && source ''${ZIM_HOME}/init.zsh
+
+        # source direnv
+        eval "$(direnv hook zsh)"
+
+        mkcd() {
+          mkdir -p "$1" && cd "$1"
+        }
+      '';
+
+      shellAliases = {
+        xsel = "xsel -b";
+        cpr = "rsync -ahX --info=progress2";
+        e = "nvim";
+        pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
+        ll = "exa --long --group-directories-first";
+        mkdir = "mkdir -p";
+        ag = "ag --color --color-line-number '0;35' --color-match '46;30' --color-path '4;36'";
+        rock = "ncmpcpp";
+        disks = "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
+        ren = "ranger";
+        wtf = "dmesg | tail -n 50";
+        ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
+        tzat = "tzathura &>/dev/null";
+        virsh = "virsh -c qemu:///system";
+      };
+
+      sessionVariables = {
+        EDITOR = "nvim";
+        SUDO_EDITOR = "nvim";
+        VISUAL = "nvim";
+        SYSTEMD_EDITOR = "nvim";
+        BROWSER = "qutebrowser";
+        # PATH = "$PATH:$HOME/bin:$HOME/.cargo/bin";
+      };
+    };
 
     programs.git = {
       enable = true;

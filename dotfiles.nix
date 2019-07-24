@@ -18,8 +18,6 @@ in
     ".xmobarrc".source = "${dotfiles}/xmonad/.xmobarrc";
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
     ".zimrc".source = "${dotfiles}/zsh/.zimrc";
-    ".zsh".source = "${dotfiles}/zsh/.zsh";
-    ".zshrc".source = "${dotfiles}/zsh/.zshrc";
 
     # mutt & friends
     ".offlineimaprc".source = "${secrets}/mutt/.offlineimaprc";
@@ -53,8 +51,6 @@ in
     # ~/
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
     ".zimrc".source = "${dotfiles}/zsh/.zimrc";
-    ".zsh".source = "${dotfiles}/zsh/.zsh";
-    ".zshrc".source = "${dotfiles}/zsh/.zshrc";
 
     # ~/bin
     "bin/fpass".source = "${dotfiles}/bin/bin/fpass";
