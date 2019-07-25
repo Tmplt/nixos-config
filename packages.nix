@@ -171,8 +171,6 @@ in {
     })
     gimp
 
-  ] else []) ++ (if onPerscitia then [
-    # palemoon
   ] else []);
 
   # ... and install some fonts.
