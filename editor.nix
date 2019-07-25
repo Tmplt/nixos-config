@@ -15,7 +15,7 @@ in
   home-manager.users.tmplt.programs.neovim = {
     enable = true;
     configure = {
-      customRC = builtins.readFile etc/init.vim;
+      customRC = builtins.readFile dotfiles/vim/init.vim;
 
       packages.myVimPackage = with local.pkgs.vimPlugins; {
         start = [
