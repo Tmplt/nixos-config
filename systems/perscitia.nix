@@ -45,8 +45,9 @@
     programs.light.enable = true;
 
     services.xserver = {
-      layout = "us";
-      xkbOptions = "ctrl:swapcaps,compose:menu";
+      layout = "us,us";
+      xkbVariant = ",colemak";
+      xkbOptions = "ctrl:swapcaps,compose:menu,grp:alt_shift_toggle";
 
       libinput = {
         enable = true;
