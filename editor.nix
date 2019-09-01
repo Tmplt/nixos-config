@@ -13,7 +13,7 @@ let
 in
 {
   home-manager.users.tmplt.programs.neovim = {
-    enable = true;
+    enable = false;
     configure = {
       customRC = builtins.readFile dotfiles/vim/init.vim;
 
@@ -28,13 +28,13 @@ in
           fzf-vim
           nerdtree
           nerdtree-git-plugin
-          vimtex
           gitgutter
           vim-colorschemes
           fugitive
           lightline-vim
           ctrlp-vim
           delimitMate
+          vimtex
         ];
       };
     };

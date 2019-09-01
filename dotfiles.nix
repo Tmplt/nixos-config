@@ -26,6 +26,8 @@ in
     ".muttrc".source = "${secrets}/mutt/.muttrc";
     ".mutt".source = "${secrets}/mutt/.mutt";
 
+    ".config/nvim/init.vim".source = "${dotfiles}/vim/init.vim";
+
   } else if onTemeraire then {
     # mutt & friends
     ".offlineimaprc".source = "${secrets}/mutt/.offlineimaprc";
@@ -47,6 +49,8 @@ in
     ".config/polybar".source = "${dotfiles}/polybar/.config/polybar";
     ".config/termite".source = "${dotfiles}/termite/.config/termite";
     ".config/mpd/mpd.conf".source = "${dotfiles}/mpd/.config/mpd/mpd.conf";
+
+    ".config/nvim/init.vim".source = "${dotfiles}/neovim/init.vim";
 
     # ~/
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
