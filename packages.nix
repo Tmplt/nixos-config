@@ -34,6 +34,20 @@ let
 
   onTemeraire = config.networking.hostName == "temeraire";
   onPerscitia = config.networking.hostName == "perscitia";
+
+  mkskel = pkgs.stdenv.mkDerivation rec {
+    name = "mkskel-${version}";
+    version = "1.0.0";
+    src = pkgs.fetchurl {
+      url = "https://git.sr.ht/~zge/${name}/archive/${version}.tar.gz";
+      sha256 = "0z8hq5mymb5r7q5zdikjfr2gb0fihyh48sfs9y4qx68iflhzq4j5";
+    };
+
+    installPhase = ''
+      mkdir -p $out/bin
+      make install DESTDIR=$out
+    '';
+  };
 in {
   # Configure the Nix package manager
   nixpkgs = {
@@ -159,6 +173,7 @@ in {
     neomutt
     msmtp
     offlineimap
+    mkskel
   ] ++ (if onTemeraire then [
     firefox
     ncmpcpp

@@ -93,6 +93,7 @@ in
         SYSTEMD_EDITOR = "nvim";
         BROWSER = "qutebrowser";
         # PATH = "$PATH:$HOME/bin:$HOME/.cargo/bin";
+        SKELPATH = "$HOME/.config/skeletons/";
       };
     };
 
