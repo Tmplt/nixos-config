@@ -11,7 +11,7 @@ let
 
   home-manager = builtins.fetchGit {
     url = "https://github.com/rycee/home-manager.git";
-    rev = "056443ccbdbedeed36f403d5cc1017413358c61a";
+    rev = "bb5c29107e355ce0db61197df03c8b2c67cb1c8f";
     # TODO: check sha256?
   };
 in
@@ -188,6 +188,20 @@ in
     #
     # Services
     #
+
+    xsession = {
+      enable = true;
+      windowManager.xmonad = {
+        enable = true;
+        enableContribAndExtras = true;
+        extraPackages = self: [ self.xmobar ];
+      };
+
+      initExtra = ''
+        ${pkgs.xorg.xsetroot}/bin/xset -cursor_name left_ptr
+        ${pkgs.wmname}/bin/wmname LD3D
+      '';
+    };
 
     services.random-background = {
       enable = onPerscitia;

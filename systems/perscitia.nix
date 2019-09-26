@@ -45,6 +45,7 @@
     programs.light.enable = true;
 
     services.xserver = {
+      enable = true;
       layout = "us,us";
       xkbVariant = ",colemak";
       xkbOptions = "ctrl:swapcaps,compose:menu,grp:sclk_toggle";
@@ -59,21 +60,6 @@
       };
 
       multitouch.ignorePalm = true;
-
-      displayManager.sessionCommands = ''
-        ${pkgs.xorg.xsetroot}/bin/xset -cursor_name left_ptr
-        ${pkgs.wmname}/bin/wmname LG3D
-      '';
-
-      desktopManager.xterm.enable = false;
-      windowManager.default = "xmonad";
-      windowManager.xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
-        extraPackages = haskellPackages: [
-          haskellPackages.xmobar
-        ];
-      };
     };
 
     services.acpid.enable = true;
