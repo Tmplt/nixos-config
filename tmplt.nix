@@ -189,6 +189,12 @@ in
     # Services
     #
 
+    home.keyboard = {
+      layout = "us,us";
+      options = [ "ctrl:swapcaps" "compose:menu" "grp:rctrl_toggle" ];
+      variant = ",colemak";
+    };
+
     xsession = {
       enable = true;
       windowManager.xmonad = {

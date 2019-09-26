@@ -46,9 +46,6 @@
 
     services.xserver = {
       enable = true;
-      layout = "us,us";
-      xkbVariant = ",colemak";
-      xkbOptions = "ctrl:swapcaps,compose:menu,grp:sclk_toggle";
 
       libinput = {
         enable = true;
