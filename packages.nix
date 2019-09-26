@@ -107,7 +107,11 @@ in {
     compton
     aria
     fzf
+
     texlive.combined.scheme-full
+    python3
+    python37Packages.pygments
+
     wine
     winetricks
     sxhkd
