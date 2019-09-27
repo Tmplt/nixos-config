@@ -189,6 +189,17 @@ in
     # Services
     #
 
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+        "x-scheme-handler/https" = [ "qutebrowser.desktop" ];
+        "x-scheme-handler/http" = [ "qutebrowser.desktop" ];
+        "image/png" = [ "sxiv.desktop" ];
+        "image/jpeg" = [ "sxiv.desktop" ];
+      };
+    };
+
     home.keyboard = {
       layout = "us,us";
       options = [ "ctrl:swapcaps" "compose:menu" "grp:rctrl_toggle" ];
