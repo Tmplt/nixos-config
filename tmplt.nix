@@ -39,11 +39,6 @@ in
   home-manager.users.tmplt = {
     manual.manpages.enable = true;
 
-    # XXX: can only be set if X session is managed by HM <https://github.com/rycee/home-manager/issues/307>
-    # home.sessionVariables = {
-    #   BROWSER = if onPerscitia then "qutebrowser" else "firefox";
-    # };
-
     programs.zsh = {
       enable = true;
 
