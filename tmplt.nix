@@ -42,7 +42,10 @@ in
     programs.zsh = {
       enable = true;
 
-      history.expireDuplicatesFirst = true;
+      history = {
+        expireDuplicatesFirst = true;
+        extended = true;
+      };
 
       initExtra = ''
         setopt interactivecomments
@@ -56,13 +59,21 @@ in
         # Start zim
         [[ -s ''${ZIM_HOME}/init.zsh ]] && source ''${ZIM_HOME}/init.zsh
 
-        # source direnv
-        eval "$(direnv hook zsh)"
-
         mkcd() {
           mkdir -p "$1" && cd "$1"
         }
       '';
+
+      plugins = [{
+        name = "z";
+        file = "z.sh";
+        src = pkgs.fetchFromGitHub {
+          owner = "rupa";
+          repo = "z";
+          rev = "e77e9384937bd43eb6ca8f1ba036924f4006df07";
+          sha256 = "0v43ls2cjd4awlp16q4p1zlfjlky53qp8vd3rhdcd61v0jx9yila";
+        };
+      }];
 
       shellAliases = {
         xsel = "xsel -b";
