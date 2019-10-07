@@ -9,10 +9,11 @@ let
   secrets = import ./secrets;
   dotfiles = ./dotfiles;
 
-  home-manager = builtins.fetchGit {
-    url = "https://github.com/rycee/home-manager.git";
+  home-manager = (import <nixpkgs> {}).fetchFromGitHub {
+    owner = "rycee";
+    repo = "home-manager";
     rev = "bb5c29107e355ce0db61197df03c8b2c67cb1c8f";
-    # TODO: check sha256?
+    sha256 = "1b05kvcfmdbshjdc74ilqvfkln46sp6qvzsi0rjarm694462975b";
   };
 in
 {
