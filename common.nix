@@ -47,18 +47,17 @@ in
     options = [ "rw" "size=2G" "uid=tmplt" ];
   };
 
-  programs = {
-    zsh = {
-      enable = true;
-      enableCompletion = true;
-    };
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+  };
 
-    command-not-found.enable = true;
+  programs.command-not-found.enable = true;
 
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
+  # XXX: is this required?
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
   };
 
   # `coredumpctl gdb` can't find dumps unless they are external.
