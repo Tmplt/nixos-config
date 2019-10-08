@@ -65,14 +65,13 @@ in
         }
       '';
 
-      plugins = [{
-        name = "z";
-        file = "z.sh";
+      plugins = [ rec {
+        name = "zsh-z";
         src = pkgs.fetchFromGitHub {
-          owner = "rupa";
-          repo = "z";
-          rev = "e77e9384937bd43eb6ca8f1ba036924f4006df07";
-          sha256 = "0v43ls2cjd4awlp16q4p1zlfjlky53qp8vd3rhdcd61v0jx9yila";
+          owner = "agkozak";
+          repo = name;
+          rev = "41439755cf06f35e8bee8dffe04f728384905077";
+          sha256 = "1dzxbcif9q5m5zx3gvrhrfmkxspzf7b81k837gdb93c4aasgh6x6";
         };
       }];
 

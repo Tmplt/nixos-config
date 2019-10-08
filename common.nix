@@ -50,6 +50,9 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+
+    # `compinit` is called in the user configuration. Don't call it twice.
+    enableGlobalCompInit = false;
   };
 
   programs.command-not-found.enable = true;
