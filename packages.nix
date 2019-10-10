@@ -22,8 +22,8 @@ let
 
   # Certain packages from unable are hand-picked into the package set.
   unstable = fetchChannel {
-    rev = "104f8a0e1a17a894b320f86add409d9aebb36fe4";
-    sha256 = "0442zswlvgwl7g3cv2w7hhpm5wfkzq11b7isnspibkb5nfpkasva";
+    rev = "2436c27541b2f52deea3a4c1691216a02152e729";
+    sha256 = "0p98dwy3rbvdp6np596sfqnwlra11pif3rbdh02pwdyjmdvkmbvd";
   };
 
   # Certain packages of mine own haven't been merged yet.
@@ -60,6 +60,11 @@ in {
 
       # v1.8.5 required for OAUTH2
       msmtp = unstable.msmtp;
+
+      # Let me print figures to pdf
+      octave = unstable.octave.overrideAttrs (old: {
+        buildInputs = old.buildInputs ++ [ unstable.gl2ps ];
+      });
 
       # Fix Alt+u xurls | dmenu | xargs qutebrowser
       xst = lib.overrideDerivation stable.xst (old: {
@@ -178,6 +183,7 @@ in {
     msmtp
     offlineimap
     mkskel
+    octave
   ] ++ (if onTemeraire then [
     firefox
     ncmpcpp
