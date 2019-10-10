@@ -10,20 +10,20 @@ let
     url = "https://github.com/NixOS/nixpkgs-channels/archive/${rev}.tar.gz";
   }) { config.allowUnfree = true; };
 
-  # Channels last updated: 2019-07-21 (19.03)
+  # Channels last updated: 2019-10-10 (19.09)
   #
   # Instead of relying on Nix channels and ending up with out-of-sync
   # situations between machines, the commit for the stable Nix channel
   # is pinned here.
   stable = fetchChannel {
-    rev = "55b8860aa209e987f6f15c523811e4861d97d6af";
-    sha256 = "0ri58704vwv6gnyw33vjirgnvh2f1201vbflk0ydj5ff7vpyy7hf";
+    rev = "9bbad4c6254513fa62684da57886c4f988a92092";
+    sha256 = "00dhkkmar3ynfkx9x0h7hzjpcqvwsfmgz3j0xj80156kbw7zq4bb";
   };
 
   # Certain packages from unable are hand-picked into the package set.
   unstable = fetchChannel {
-    rev = "2436c27541b2f52deea3a4c1691216a02152e729";
-    sha256 = "0p98dwy3rbvdp6np596sfqnwlra11pif3rbdh02pwdyjmdvkmbvd";
+    rev = "bef773ed53f3d535792d7d7ff3ea50a3deeb1cdd";
+    sha256 = "0p98dwy3rbvdp6np596sfqnwlra11pif3rbdd02pwdyjmdvkmbvd";
   };
 
   # Certain packages of mine own haven't been merged yet.
@@ -36,10 +36,11 @@ let
   onPerscitia = config.networking.hostName == "perscitia";
 
   mkskel = pkgs.stdenv.mkDerivation rec {
-    name = "mkskel-${version}";
+    pname = "mkskel";
+    name = "${pname}-${version}";
     version = "1.0.0";
     src = pkgs.fetchurl {
-      url = "https://git.sr.ht/~zge/${name}/archive/${version}.tar.gz";
+      url = "https://git.sr.ht/~zge/${pname}/archive/${version}.tar.gz";
       sha256 = "0z8hq5mymb5r7q5zdikjfr2gb0fihyh48sfs9y4qx68iflhzq4j5";
     };
 
@@ -59,11 +60,11 @@ in {
       inherit unstable;
 
       # v1.8.5 required for OAUTH2
-      msmtp = unstable.msmtp;
+      # msmtp = unstable.msmtp;
 
       # Let me print figures to pdf
-      octave = unstable.octave.overrideAttrs (old: {
-        buildInputs = old.buildInputs ++ [ unstable.gl2ps ];
+      octave = stable.octave.overrideAttrs (old: {
+        buildInputs = old.buildInputs ++ [ stable.gl2ps ];
       });
 
       # Fix Alt+u xurls | dmenu | xargs qutebrowser
@@ -165,7 +166,7 @@ in {
     p7zip
     direnv
     sxiv
-    steam
+    # steam
 
     # Embedded Rust programming
     gcc-arm-embedded
