@@ -57,7 +57,7 @@ in
 
   programs.command-not-found.enable = true;
 
-  # XXX: is this required?
+  # XXX: why is this needed?
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
