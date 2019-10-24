@@ -11,6 +11,7 @@ in
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
   };
+  users.users.root.openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
 
   services.openssh = {
     enable = true;
