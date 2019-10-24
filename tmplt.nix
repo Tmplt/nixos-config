@@ -122,7 +122,7 @@ in
         certificate = "${prefix}/public.cert";
         key = "${prefix}/private.key";
         ca = "${prefix}/ca.cert";
-        server = "excidium.campus.ltu.se:53589";
+        server = "praecursoris.campus.ltu.se:53589";
         credentials = "personal\\/tmplt\\/${secrets.taskUID}";
       };
     };
