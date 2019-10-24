@@ -77,19 +77,16 @@ in
 
       shellAliases = {
         xsel = "xsel -b";
-        cpr = "rsync -ahX --info=progress2";
         e = "nvim";
         pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
         ll = "exa --long --group-directories-first";
         mkdir = "mkdir -p";
-        ag = "ag --color --color-line-number '0;35' --color-match '46;30' --color-path '4;36'";
         rock = "ncmpcpp";
         disks = "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
         ren = "ranger";
         wtf = "dmesg | tail -n 50";
         ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
-        tzat = "tzathura &>/dev/null";
-        virsh = "virsh -c qemu:///system";
+        zathura = "zathura --fork";
       };
 
       sessionVariables = {
