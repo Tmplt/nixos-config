@@ -45,6 +45,32 @@
       };
     };
 
+    networking.firewall.allowedTCPPorts = [ 80 443 ];
+    services.nginx = {
+      enable = true;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+
+      virtualHosts = {
+        "tmplt.dev" = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/".root = (fetchTarball {
+            url = "https://github.com/tmplt/tmplt.dev/archive/master.tar.gz";
+            sha256 = "1y2813rbz267j4j4cdpq8hz65b9jj3vx1ncdw799jlj9sa4wdsvj";
+          });
+        };
+
+        "www.tmplt.dev" = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/".extraConfig = "return 301 $scheme://tmplt.dev$request_uri;";
+        };
+      };
+    };
+
     system.stateVersion = "19.09";
   };
 }
