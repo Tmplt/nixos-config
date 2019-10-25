@@ -29,6 +29,8 @@
     };
     boot.supportedFilesystems = [ "zfs" ];
 
+    services.syncthing.enable = true;
+
     system.stateVersion = "19.09";
   };
 }
