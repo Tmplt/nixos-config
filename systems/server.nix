@@ -31,6 +31,20 @@
 
     services.syncthing.enable = true;
 
+    services.taskserver = {
+      enable = true;
+      fqdn = "${networking.hostName}.campus.ltu.se";
+      listenHost = "::";
+      organisations.personal.users = [ "tmplt" ];
+
+      pki.auto.expiration = {
+        ca = 365;
+        client = 365;
+        crl = 365;
+        server = 365;
+      };
+    };
+
     system.stateVersion = "19.09";
   };
 }
