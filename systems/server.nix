@@ -1,5 +1,5 @@
 {
-  praecursoris = {
+  praecursoris = { pkgs, lib, ... }: rec {
     deployment.targetHost = "praecursoris.campus.ltu.se";
     time.timeZone = "Europe/Stockholm";
 
@@ -45,7 +45,45 @@
       };
     };
 
-    networking.firewall.allowedTCPPorts = [ 80 443 ];
+    nixpkgs.config.packageOverrides = pkgs: {
+      murmur = (import ../nixpkgs-pin.nix).unstable.murmur;
+    };
+    services.murmur = {
+      enable = true;
+      hostName = (lib.head networking.interfaces.enp4s0.ipv4.addresses).address;
+      password = (import ../secrets).murmurPasswd;
+      imgMsgLength = 2 * 1024 * 1024; # 2Mi
+      registerName = "Draknästet";
+      bandwidth = 128000;
+
+      # TODO: PR options for these
+      extraConfig =  ''
+        username=.*
+        channelname=.*
+        rememberchannel=false
+        suggestVersion=1.3.0
+        opusthreshold=0
+      '';
+
+      sslCert = "/var/lib/acme/mumble.dragons.rocks/fullchain.pem";
+      sslKey = "/var/lib/acme/mumble.dragons.rocks/key.pem";
+    };
+    users.users.murmur.group = "murmur";
+    users.groups.murmur = {};
+    security.acme.certs."mumble.dragons.rocks" = {
+      allowKeysForGroup = true;
+      group = "murmur";
+
+      # Tell murmur to reload its SSL settings, if it is running
+      postRun = ''
+        if ${pkgs.systemd}/bin/systemctl is-active murmur.service; then
+          ${pkgs.systemd}/bin/systemctl kill -s SIGUSR1 murmur.service
+        fi
+      '';
+    };
+
+    networking.firewall.allowedTCPPorts = [ 80 443 64738 ];
+    networking.firewall.allowedUDPPorts = [ 64738 ];
     services.nginx = {
       enable = true;
       recommendedGzipSettings = true;
@@ -67,6 +105,11 @@
           forceSSL = true;
           enableACME = true;
           locations."/".extraConfig = "return 301 $scheme://tmplt.dev$request_uri;";
+        };
+
+        "mumble.dragons.rocks" = {
+          enableACME = true;
+          locations."/".extraConfig = "return 301 $scheme://tmplt.dev;";
         };
       };
     };
