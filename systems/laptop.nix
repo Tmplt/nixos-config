@@ -42,6 +42,22 @@
       enable = true;
     };
 
+    nix = {
+      distributedBuilds = true;
+      buildMachines = [{
+        hostName = "praecursoris.campus.ltu.se";
+        sshUser = "builder";
+        sshKey = "/home/tmplt/.ssh/id_builder";
+        system = "x86_64-linux";
+        maxJobs = 4;
+      }];
+
+      # Builder has much faster Internet connection.
+      extraOptions = ''
+        builders-use-substitutes = true
+      '';
+    };
+
     programs.light.enable = true;
 
     services.xserver = {

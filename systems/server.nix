@@ -29,6 +29,15 @@
     };
     boot.supportedFilesystems = [ "zfs" ];
 
+    nix.trustedUsers = [ "root" "@builders" ];
+    users.groups.builders = {};
+    users.users.builder = {
+      isNormalUser = false;
+      group = "builders";
+      shell = "${pkgs.bash}/bin/bash";
+      openssh.authorizedKeys.keys = [ (import ../ssh-keys.nix).builder ];
+    };
+
     services.syncthing.enable = true;
 
     services.taskserver = {
