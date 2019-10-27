@@ -1,3 +1,6 @@
+let
+  sshKeys = import ../ssh-keys.nix;
+in
 {
   praecursoris = { pkgs, lib, ... }: rec {
     deployment.targetHost = "praecursoris.campus.ltu.se";
@@ -34,8 +37,8 @@
     users.users.builder = {
       isNormalUser = false;
       group = "builders";
-      shell = "${pkgs.bash}/bin/bash";
-      openssh.authorizedKeys.keys = [ (import ../ssh-keys.nix).builder ];
+      useDefaultShell = true;
+      openssh.authorizedKeys.keys = [ sshKeys.builder ];
     };
 
     services.syncthing.enable = true;
@@ -91,6 +94,31 @@
       '';
     };
 
+    # TODO: polling is ugly; can we manage this with a git web-hook instead?
+    users.users.homepage = {
+      createHome = true;
+      description = "tmplt.dev website";
+      home = "/home/homepage";
+      useDefaultShell = true;
+      openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
+    };
+    systemd.services.update-homepage = {
+      description = "Init/update tmplt.dev homepage";
+      serviceConfig.User = "homepage";
+      path = with pkgs; [ git ];
+      serviceConfig.Type = "oneshot";
+      # TODO: impl. handling for eventual rebases on pulled branch (`-X theirs`?)
+      script = ''
+        cd ~/
+        if [ ! $(git rev-parse --is-inside-work-tree) ]; then
+          git clone https://github.com/tmplt/tmplt.dev.git .
+        else
+          git pull
+        fi
+      '';
+      startAt = "hourly";
+    };
+
     networking.firewall.allowedTCPPorts = [ 80 443 64738 ];
     networking.firewall.allowedUDPPorts = [ 64738 ];
     services.nginx = {
@@ -104,10 +132,10 @@
         "tmplt.dev" = {
           forceSSL = true;
           enableACME = true;
-          locations."/".root = (fetchTarball {
-            url = "https://github.com/tmplt/tmplt.dev/archive/master.tar.gz";
-            sha256 = "1y2813rbz267j4j4cdpq8hz65b9jj3vx1ncdw799jlj9sa4wdsvj";
-          });
+          default = true;
+          # TODO: deny access to all hidden files instead
+          locations."~ /\.git".extraConfig = "deny all;";
+          locations."/".root = users.users.homepage.home;
         };
 
         "www.tmplt.dev" = {
@@ -118,7 +146,7 @@
 
         "mumble.dragons.rocks" = {
           enableACME = true;
-          locations."/".extraConfig = "return 301 $scheme://tmplt.dev;";
+          globalRedirect = "tmplt.dev";
         };
       };
     };
