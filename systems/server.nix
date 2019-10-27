@@ -117,6 +117,7 @@ in
         fi
       '';
       startAt = "hourly";
+      wantedBy = [ "multi-user.target" ];
     };
 
     systemd.services.init-passwd = {
@@ -129,6 +130,7 @@ in
         mkdir passwd.git && cd passwd.git
         [ ! $(git rev-parse --is-inside-work-tree) ] && git init --bare .
       '';
+      wantedBy = [ "multi-user.target" ];
     };
 
     networking.firewall.allowedTCPPorts = [ 80 443 64738 ];
