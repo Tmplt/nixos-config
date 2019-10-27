@@ -9,7 +9,7 @@ in
   users.users.tmplt = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
-    openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
+    openssh.authorizedKeys.keys = with sshKeys; [ tmplt mako ];
   };
   users.users.root.openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
 

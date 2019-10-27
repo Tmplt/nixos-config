@@ -119,6 +119,18 @@ in
       startAt = "hourly";
     };
 
+    systemd.services.init-passwd = {
+      description = "Init passwd.git repository";
+      serviceConfig.User = "tmplt";
+      serviceConfig.Type = "oneshot";
+      path = with pkgs; [ git ];
+      script = ''
+        cd ~/
+        mkdir passwd.git && cd passwd.git
+        [ ! $(git rev-parse --is-inside-work-tree) ] && git init --bare .
+      '';
+    };
+
     networking.firewall.allowedTCPPorts = [ 80 443 64738 ];
     networking.firewall.allowedUDPPorts = [ 64738 ];
     services.nginx = {
