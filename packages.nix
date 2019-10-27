@@ -5,32 +5,8 @@
 { config, pkgs, lib, ... }:
 
 let
-  fetchChannel = { rev, sha256 }: import (fetchTarball {
-    inherit sha256;
-    url = "https://github.com/NixOS/nixpkgs-channels/archive/${rev}.tar.gz";
-  }) { config.allowUnfree = true; };
-
-  # Channels last updated: 2019-07-21 (19.03)
-  #
-  # Instead of relying on Nix channels and ending up with out-of-sync
-  # situations between machines, the commit for the stable Nix channel
-  # is pinned here.
-  stable = fetchChannel {
-    rev = "55b8860aa209e987f6f15c523811e4861d97d6af";
-    sha256 = "0ri58704vwv6gnyw33vjirgnvh2f1201vbflk0ydj5ff7vpyy7hf";
-  };
-
-  # Certain packages from unable are hand-picked into the package set.
-  unstable = fetchChannel {
-    rev = "2436c27541b2f52deea3a4c1691216a02152e729";
-    sha256 = "0p98dwy3rbvdp6np596sfqnwlra11pif3rbdh02pwdyjmdvkmbvd";
-  };
-
-  # Certain packages of mine own haven't been merged yet.
-  tmplt = import (fetchTarball {
-    url = "https://github.com/Tmplt/nixpkgs/archive/ce27f2b964ae001bf9e5f1d3b708205804d51356.tar.gz";
-    sha256 = "0bmdmshz5v42bdxmf810p2hcq6qwn82kns4d7v9mlcnyf3j56ndk";
-  }) { config.allowUnfree = true; };
+  stable = (import ./nixpkgs-pin.nix).stable;
+  unstable = (import ./nixpkgs-pin.nix).unstable;
 
   onTemeraire = config.networking.hostName == "temeraire";
   onPerscitia = config.networking.hostName == "perscitia";
