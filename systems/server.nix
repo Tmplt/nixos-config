@@ -105,15 +105,15 @@ in
     systemd.services.update-homepage = {
       description = "Init/update tmplt.dev homepage";
       serviceConfig.User = "homepage";
-      path = with pkgs; [ git ];
       serviceConfig.Type = "oneshot";
-      # TODO: impl. handling for eventual rebases on pulled branch (`-X theirs`?)
+      path = with pkgs; [ git ];
       script = ''
         cd ~/
         if [ ! $(git rev-parse --is-inside-work-tree) ]; then
           git clone https://github.com/tmplt/tmplt.dev.git .
         else
-          git pull
+          git fetch origin master
+          git reset --hard origin/master
         fi
       '';
       startAt = "hourly";
