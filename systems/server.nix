@@ -32,6 +32,11 @@ in
     };
     boot.supportedFilesystems = [ "zfs" ];
 
+    services.zfs = {
+      autoScrub = { enable = true; interval = "monthly"; };
+      autoSnapshot.enable = true;
+    };
+
     nix.trustedUsers = [ "root" "@builders" ];
     users.groups.builders = {};
     users.users.builder = {
