@@ -41,7 +41,22 @@ in
       openssh.authorizedKeys.keys = [ sshKeys.builder ];
     };
 
-    services.syncthing.enable = true;
+    services.syncthing = rec {
+      enable = true;
+      openDefaultPorts = true;
+      dataDir = "/var/lib/syncthing";
+      declarative = {
+        devices.perscitia = {
+          id = "FOTRP4A-AQSFA5K-KFTD2FA-S7LXZO5-JJOHVD7-2C2LB5Z-EA4UNUL-MEKGTQJ";
+          introducer = true;
+        };
+
+        folders."${dataDir}/sync" = {
+          devices = [ "perscitia" ];
+          label = "sync";
+        };
+      };
+    };
 
     services.taskserver = {
       enable = true;
