@@ -103,6 +103,20 @@
 
     services.openvpn.servers = secrets.openvpnConfigs;
 
+    systemd.services.fetch-mail = {
+      description = "Periodically fetch email with offlineimap(1)";
+      serviceConfig.Type = "oneshot";
+      serviceConfig.User = "tmplt";
+      requires = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
+      startAt = "*:0/15";
+
+      path = with pkgs; [ offlineimap notmuch ];
+      script = ''
+        offlineimap
+      '';
+    };
+
     powerManagement = {
       enable = true;
       powertop.enable = true;
