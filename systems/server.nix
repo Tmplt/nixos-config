@@ -126,9 +126,11 @@ in
       serviceConfig.Type = "oneshot";
       path = with pkgs; [ git ];
       script = ''
-        cd ~/
-        mkdir -p passwd.git && cd passwd.git
-        [ ! $(git rev-parse --is-inside-work-tree) ] && git init --bare .
+        set -euox pipefail
+        mkdir -p ~/passwd.git && cd ~/passwd.git
+        if [ ! $(git rev-parse --is-inside-work-tree) ]; then
+          git init --bare .
+        fi
       '';
       wantedBy = [ "multi-user.target" ];
     };
