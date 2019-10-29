@@ -144,50 +144,6 @@ in
       };
     };
 
-    programs.autorandr = {
-      enable = onPerscitia;
-      profiles = {
-        "mobile" = {
-          fingerprint = {
-            LVDS-1 = "00ffffffffffff0006af3e210000000021140104901f11780261959c59528f2621505400000001010101010101010101010101010101f82a409a61840c30402a330035ae10000018a51c409a61840c30402a330035ae10000018000000fe0041554f0a202020202020202020000000fe004231343052573032205631200a00d0";
-          };
-          config.LVDS-1 = {
-            enable = true;
-            mode = "1600x900";
-            rate = "60";
-            primary = true;
-          };
-        };
-
-        "docked" = {
-          fingerprint = {
-            LVDS-1 = "00ffffffffffff0006af3e210000000021140104901f11780261959c59528f2621505400000001010101010101010101010101010101f82a409a61840c30402a330035ae10000018a51c409a61840c30402a330035ae10000018000000fe0041554f0a202020202020202020000000fe004231343052573032205631200a00d0";
-            VGA-1 = "00ffffffffffff004c2d390838313130011601030e3420782a01f1a257529f270a5054bfef80714f8100814081809500950fa940b300283c80a070b023403020360006442100001a000000fd00384b1e5111000a202020202020000000fc00534d533234413435300a202020000000ff0048344d433130313433370a202000b2";
-          };
-          config = {
-            LVDS-1 = {
-              enable = true;
-              mode = "1600x900";
-              rate = "60";
-              primary = true;
-              position = "${toString (1920 / 2 - 1600 / 2)}x1200";
-            };
-            VGA-1 = {
-              enable = true;
-              mode = "1920x1200";
-              rate = "60";
-              primary = false;
-            };
-          };
-        };
-      };
-
-      hooks.postswitch = {
-        "restart-xmonad" = "xmonad --restart";
-        "change-background" = "${pkgs.feh}/bin/feh --bg-fill -z ~/wallpapers/";
-      };
-    };
-
     #
     # Services
     #
