@@ -118,6 +118,7 @@ in
       '';
       startAt = "hourly";
       wantedBy = [ "multi-user.target" ];
+      before = [ "nginx.service" ];
     };
 
     systemd.services.init-passwd = {
