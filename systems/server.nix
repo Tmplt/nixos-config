@@ -127,7 +127,7 @@ in
       path = with pkgs; [ git ];
       script = ''
         cd ~/
-        mkdir passwd.git && cd passwd.git
+        mkdir -p passwd.git && cd passwd.git
         [ ! $(git rev-parse --is-inside-work-tree) ] && git init --bare .
       '';
       wantedBy = [ "multi-user.target" ];
