@@ -117,6 +117,10 @@
       '';
     };
 
+    systemd.extraConfig = ''
+      DefaultTimeoutStopSec=30s
+    '';
+
     powerManagement = {
       enable = true;
       powertop.enable = true;
