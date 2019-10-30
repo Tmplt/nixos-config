@@ -1,16 +1,15 @@
 diff --git a/src/config.h b/src/config.h
-index 13835ac..0e7f0ac 100644
+index aaf87bc..fe83ae2 100644
 --- a/src/config.h
 +++ b/src/config.h
-@@ -151,8 +151,9 @@ static Shortcut shortcuts[] = {
+@@ -158,8 +158,8 @@ static Shortcut shortcuts[] = {
  	{ MODKEY|ShiftMask,     XK_C,           clipcopy,       {.i =  0} },
  	{ MODKEY|ShiftMask,     XK_V,           clippaste,      {.i =  0} },
  	{ MODKEY,               XK_Num_Lock,    numlock,        {.i =  0} },
--  { MODKEY,               XK_Control_L,   iso14755,       {.i =  0} },
+-	{ MODKEY,               XK_Control_L,   iso14755,       {.i =  0} },
 -	{ MODKEY,               'u',            externalpipe,   {.v = "xurls | eval dmenu $(dmenu_options) | xargs -r $BROWSER" } },
-+	{ MODKEY,               XK_Control_L,   iso14755,       {.i =  0} },
-+                                                            // TODO: use $BROWSER
-+	{ MODKEY,               'u',            externalpipe,   {.v = "xurls | dmenu | xargs -r qutebrowser"  } },
++ 	{ MODKEY,               XK_Control_L,   iso14755,       {.i =  0} },
++ 	{ MODKEY,               'u',            externalpipe,   {.v = "xurls | dmenu | xargs -r qutebrowser"  } },
  	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
  	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
  };

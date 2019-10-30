@@ -13,9 +13,8 @@ in {
     sha256 = "1d6rmq67kdg5gmk94wx2774qw89nvbhy6g1f2lms3c9ph37hways";
   };
 
-  # XXX: 19.03!
   stable = fetchChannel {
-    rev = "55b8860aa209e987f6f15c523811e4861d97d6af";
-    sha256 = "0ri58704vwv6gnyw33vjirgnvh2f1201vbflk0ydj5ff7vpyy7hf";
+    rev = "c75de8bc12cc7e713206199e5ca30b224e295041";
+    sha256 = "1awipcjfvs354spzj2la1nzmi9rh2ci2mdapzf4kkabf58ilra6x";
   };
 }

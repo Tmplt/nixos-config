@@ -89,15 +89,15 @@ in
       fadeDelta = 20;
       fadeSteps = [ "0.12" "1.0" ];
 
-      vSync = "none";
+      vSync = false;
       backend = "glx";
 
-      extraOptions = ''
-        no-dnd-shadow        = true;
-        no-dock-shadow       = true;
-        clear-shadow         = true;
+      settings = {
+        # XXX: deprecated, see `systemctl --user status compton`.
+        no-dnd-shadow = true;
+        no-dock-shadow = true;
         shadow-ignore-shaped = true;
-      '';
+      };
   };
 
   # Allow some USB devices to be accessed without root privelages.
@@ -114,9 +114,8 @@ in
   ];
 
   # Ignore /run/nologin (?), <https://github.com/NixOS/nixpkgs/issues/60900>
+  # TODO: remove and test fix <https://github.com/NixOS/nixpkgs/pull/64621>
   systemd.services.systemd-user-sessions.enable = false;
-
-  nix.buildCores = 0;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
