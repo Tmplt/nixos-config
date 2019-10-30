@@ -35,9 +35,6 @@ in {
       # Store whole unstable channel in case any module need it
       inherit unstable;
 
-      # v1.8.5 required for OAUTH2
-      msmtp = unstable.msmtp;
-
       # Let me print figures to pdf
       octave = unstable.octave.overrideAttrs (old: {
         buildInputs = old.buildInputs ++ [ unstable.gl2ps ];
@@ -67,11 +64,9 @@ in {
     neofetch
     atool
     pass
+    pass-otp
     pavucontrol
-    stow
-    tree
     neovim
-    wmname
     xorg.xev
     xorg.xmodmap
     xorg.xprop
@@ -86,7 +81,6 @@ in {
     gnupg
 
     # Extra
-    compton
     aria
     fzf
 
@@ -96,13 +90,11 @@ in {
 
     wine
     winetricks
-    sxhkd
     xst
     xurls
     dmenu
     acpi
     irssi
-    hibernate
     ncdu
     arc-theme
     arc-icon-theme
@@ -119,22 +111,11 @@ in {
     python3
     gnumake
     curlFull
-    # jdk8
-    # rustc
-    # rustPlatform.rustcSrc
-    # rustracer
     sqlite
-    # rustfmt
     gdb
     nix-prefetch-git
 
-    # From old home-manager configs.
-    # TODO: categorize this list?
-    font-manager
-
     pandoc
-    teamspeak_client
-    pass-otp
     arandr
     python36Packages.pygments
     xdotool
@@ -153,8 +134,6 @@ in {
     openssl
     pkgconfig
     clang
-
-    haskellPackages.xmobar
 
     neomutt
     msmtp
