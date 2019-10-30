@@ -89,7 +89,7 @@ in
       fadeDelta = 20;
       fadeSteps = [ "0.12" "1.0" ];
 
-      vSync = false;
+      vSync = true;
       backend = "glx";
 
       settings = {
