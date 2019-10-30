@@ -113,10 +113,6 @@ in
     "1366:1015" # SEGGER (JLink firmware)
   ];
 
-  # Ignore /run/nologin (?), <https://github.com/NixOS/nixpkgs/issues/60900>
-  # TODO: remove and test fix <https://github.com/NixOS/nixpkgs/pull/64621>
-  systemd.services.systemd-user-sessions.enable = false;
-
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
