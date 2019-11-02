@@ -40,6 +40,9 @@ in {
         buildInputs = old.buildInputs ++ [ unstable.gl2ps ];
       });
 
+      # I want v1.3.0
+      mumble = unstable.mumble;
+
       # Fix Alt+u xurls | dmenu | xargs qutebrowser
       xst = lib.overrideDerivation stable.xst (old: {
         patches = [ patches/xst.patch ];
@@ -172,7 +175,7 @@ in {
       opensans-ttf
       noto-fonts
       inconsolata
-      font-awesome-ttf
+      font-awesome
       fira-code
       envypn-font
       gohufont
