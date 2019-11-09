@@ -101,8 +101,6 @@
       LidSwitchIgnoreInhibited=yes
     '';
 
-    services.openvpn.servers = secrets.openvpnConfigs;
-
     systemd.services.fetch-mail = {
       description = "Periodically fetch email with offlineimap(1)";
       serviceConfig.Type = "oneshot";
@@ -124,9 +122,6 @@
     powerManagement = {
       enable = true;
       powertop.enable = true;
-
-      # Properly recover VPN connection from hibernation/sleep.
-      resumeCommands = "${pkgs.systemd}/bin/systemctl restart openvpn-*.service";
     };
   };
 }
