@@ -35,7 +35,7 @@
     ];
 
     users.groups.libvirtd.members = [ "root" "tmplt" ];
-    virtualisation.libvirtd.enable = false;
+    virtualisation.libvirtd.enable = true;
 
     hardware.trackpoint = {
       emulateWheel = true;
