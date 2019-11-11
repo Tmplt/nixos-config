@@ -34,10 +34,10 @@ in
         priority = 10;
       };
 
-      "'; DROP TABLE ludd" = {
-        psk = networkSecrets."ludd";
-        priority = 10;
-      };
+      # "'; DROP TABLE ludd" = {
+      #   psk = networkSecrets."ludd";
+      #   priority = 10;
+      # };
 
       "eduroam" = {
         priority = 5;
