@@ -7,7 +7,7 @@ in
     time.timeZone = "Europe/Stockholm";
 
     imports = [
-      ../hardware-configurations/praecursoris.nix
+      ../hardware-configurations/server.nix
       <nixpkgs/nixos/modules/profiles/headless.nix>
       ../common-server.nix
     ];
@@ -52,6 +52,7 @@ in
       dataDir = "/var/lib/syncthing";
       declarative = {
         devices.perscitia = {
+          # XXX: Isn't this a secret?
           id = "FOTRP4A-AQSFA5K-KFTD2FA-S7LXZO5-JJOHVD7-2C2LB5Z-EA4UNUL-MEKGTQJ";
           introducer = true;
         };

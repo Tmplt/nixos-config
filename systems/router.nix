@@ -8,7 +8,7 @@ in
     networking.hostName = "dulcia";
 
     imports = [
-        ../hardware-configurations/dulcia.nix
+        ../hardware-configurations/router.nix
         <nixpkgs/nixos/modules/profiles/headless.nix>
         ../common-server.nix
       ];

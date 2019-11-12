@@ -8,7 +8,7 @@
     };
 
     imports = [
-      ../hardware-configurations/temeraire.nix
+      ../hardware-configurations/desktop.nix
       ../modules/pci-passthrough/pci-passthrough.nix
       ../common.nix
     ];

@@ -13,7 +13,7 @@
     networking.hostName = "perscitia";
 
     imports = [
-      ../hardware-configurations/perscitia.nix
+      ../hardware-configurations/laptop.nix
       "${nixos-hardware}/lenovo/thinkpad/t430"
       ../common.nix
       ../wlan.nix
