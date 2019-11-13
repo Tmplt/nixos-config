@@ -3,7 +3,7 @@ let
 in
 {
   dulcia = {
-    deployment.targetHost = "den.dragons.rocks";
+    deployment.targetHost = "dulcia.localdomain";
     time.timeZone = "Europe/Stockholm";
     networking.hostName = "dulcia";
 
