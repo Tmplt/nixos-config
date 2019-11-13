@@ -143,6 +143,17 @@ in {
     offlineimap
     mkskel
     octave
+
+    # fixups after redeployment
+    nixops
+    xmobar
+    virtmanager
+    ripgrep
+    notmuch
+    tdesktop
+    getmail
+    w3m
+
   ] ++ (if onTemeraire then [
     firefox
     ncmpcpp
