@@ -87,7 +87,7 @@ cat << EOF > /mnt/etc/nixos/configuration.nix
     listenAddresses = [ { addr = "127.0.0.1"; port = 22; } ];
   };
   users.users.root.openssh.authorizedKeys.keys = [
-    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJYN8rD5DIP21cv7CgY3nL7AQ9CG5kWOIZS53zikeqmKZPfs+/Y9Q8udNslVmomSFkEFnKMsm6ye8e3eaBtPov0= tmplt@den-2016-06-26"
+    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBrsSG9or4lj7j/aBwzIYX98m8kHD78ulKxhNnThWkInoK8iDGdrBzBkLdXRDneTxDWpqZEQBUyIAX1ZTkvluNU= tmplt@perscitia-2019-11-13"
   ];
 }
 # Yes, the empy line below is required
