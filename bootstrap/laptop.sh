@@ -68,6 +68,8 @@ cat << EOF > /mnt/etc/nixos/configuration.nix
   environment.systemPackages = with pkgs; [
     git
     nixops
+    gnupg
+    git-crypt
   ];
 
   networking.hostName = "perscitia";
