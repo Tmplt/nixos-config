@@ -1,5 +1,6 @@
 let
   sshKeys = import ../ssh-keys.nix;
+  secrets = import ../secrets;
 in
 {
   praecursoris = { pkgs, lib, ... }: rec {
@@ -52,8 +53,7 @@ in
       dataDir = "/var/lib/syncthing";
       declarative = {
         devices.perscitia = {
-          # XXX: Isn't this a secret?
-          id = "FOTRP4A-AQSFA5K-KFTD2FA-S7LXZO5-JJOHVD7-2C2LB5Z-EA4UNUL-MEKGTQJ";
+          id = secrets.syncthing.laptopID;
           introducer = true;
         };
 
