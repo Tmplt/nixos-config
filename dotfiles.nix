@@ -7,6 +7,13 @@ let
   secrets = ./secrets;
   onPerscitia = config.networking.hostName == "perscitia";
   onTemeraire = config.networking.hostName == "temeraire";
+
+  vim-plug = (import <nixpkgs> {}).pkgs.fetchFromGitHub {
+    owner = "junegunn";
+    repo = "vim-plug";
+    rev = "0.10.0";
+    sha256 = "11x10l75q6k4z67yyk5ll25fqpgb2ma88vplrakw3k41g79xn9d9";
+  };
 in
 {
   # TODO: clean this up with some neat functions
@@ -27,6 +34,7 @@ in
     ".mutt".source = "${secrets}/mutt/.mutt";
 
     ".config/nvim/init.vim".source = "${dotfiles}/vim/init.vim";
+    ".local/share/nvim/site/autoload/plug.vim".source = "${vim-plug}/plug.vim";
 
   } else if onTemeraire then {
     # mutt & friends
