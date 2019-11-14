@@ -189,6 +189,9 @@ in
       };
     };
 
+    users.groups.libvirtd.members = [ "root" "tmplt" ];
+    virtualisation.libvirtd.enable = true;
+
     system.stateVersion = "19.09";
   };
 }
