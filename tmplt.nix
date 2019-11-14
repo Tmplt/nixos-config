@@ -141,6 +141,12 @@ in
           hostname = "192.168.2.190";
           user = "root";
         };
+
+        "builder" = {
+          hostname = "tmplt.dev";
+          user = "builder";
+          identityFile = "~/.ssh/id_builder";
+        };
       };
     };
 
