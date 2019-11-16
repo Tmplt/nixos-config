@@ -14,6 +14,8 @@
     deployment.targetHost = "localhost";
     networking.hostName = "perscitia";
 
+    networking.interfaces.enp0s25.useDHCP = true;
+
     imports = [
       ../hardware-configurations/laptop.nix
       "${nixos-hardware}/lenovo/thinkpad/t430"
