@@ -44,11 +44,17 @@
     nix = {
       distributedBuilds = true;
       buildMachines = [{
-        hostName = "praecursoris.campus.ltu.se";
+        hostName = "tmplt.dev";
         sshUser = "builder";
         sshKey = "/home/tmplt/.ssh/id_builder";
         system = "x86_64-linux";
-        maxJobs = 4;
+        maxJobs = 12;
+        supportedFeatures = [
+          "kvm"
+          "nixos-test"
+          "big-parallel"
+          "benchmark"
+        ];
       }];
 
       # Builder has much faster Internet connection.
