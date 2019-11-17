@@ -102,7 +102,7 @@ in
 
     programs.git = {
       enable = true;
-      userName = "Tmplt";
+      userName = "tmplt";
       userEmail = "tmplt@dragons.rocks";
       signing.key = "0x4C2C6467";
     };
