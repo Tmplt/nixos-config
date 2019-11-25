@@ -189,6 +189,13 @@ in
       };
     };
 
+    services.cron = {
+      enable = true;
+      systemCronJobs = [
+        "* * * * */15 echo $(date +%s) $(${pkgs.curl}/bin/curl -s -o /dev/null -I -w '%{http_code}' https://tenta.ltu.se) >> /home/tmplt/ladok.stats.csv"
+      ];
+    };
+
     users.groups.libvirtd.members = [ "root" "tmplt" ];
     virtualisation.libvirtd.enable = true;
 
