@@ -165,6 +165,11 @@ in
       };
     };
 
+    xdg.userDirs = {
+      enable = true;
+      download = "\$HOME/tmp";
+    };
+
     home.keyboard = {
       layout = "us,us";
       options = [ "ctrl:swapcaps" "compose:menu" "grp:rctrl_toggle" ];

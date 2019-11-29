@@ -40,11 +40,11 @@ in
   users.users.root.openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
 
   # Make ~/Downloads a tmpfs, so I don't end up using is as a non-volatile 'whatever'-directory
-  # XXX: is this stored in RAM?
-  fileSystems."/home/tmplt/Downloads" = {
+  # XXX: find an alternative that does not utilize system memory
+  fileSystems."/home/tmplt/tmp" = {
     device = "tmpfs";
     fsType = "tmpfs";
-    options = [ "rw" "size=2G" "uid=tmplt" ];
+    options = [ "rw" "size=50%" "uid=tmplt" ];
   };
 
   programs.zsh = {
