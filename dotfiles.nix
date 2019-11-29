@@ -30,6 +30,7 @@ in
     ".config/mpv/scripts/youtube-quality.conf".source = "${dotfiles}/mpv/.config/mpv/scripts/youtube-quality.conf";
 
     ".xmonad/xmonad.hs".source = "${dotfiles}/xmonad/.xmonad/xmonad.hs";
+    ".xmonad/unread-mails".source = "${dotfiles}/xmonad/.xmonad/unread-mails";
     ".xmobarrc".source = "${dotfiles}/xmonad/.xmobarrc";
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
 
