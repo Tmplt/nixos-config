@@ -88,7 +88,10 @@
       enable = true;
       allowAnyUser = true;
 
-      # While already encrypted, it is now obvious that the system is entering hiberation without this enabled.
+      lockOn.suspend = true;
+      lockOn.extraTargets = [ "systemd-suspend-then-hibernate.service" ];
+
+      # While already encrypted (so needless, really), it is not obvious that the system is entering hiberation without this enabled.
       # (Framebuffer isn't cleared; the system appears unresponsive for a few seconds.)
       lockOn.hibernate = true;
     };
