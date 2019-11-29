@@ -93,20 +93,22 @@
       lockOn.hibernate = true;
     };
 
-    # See logind.conf(5).
-    # To actually shutdown, use poweroff(8)
-    services.logind.extraConfig = ''
-      HandlePowerKey=hibernate
-      HandleSuspendKey=ignore
-      handleHibernateKey=hibernate
-      HandleLidSwitch=suspend
-      HandleLidSwitchDocked=ignore
+    environment.etc."systemd/sleep.conf".text = "HibernateDelaySec=1h";
+    services.logind = {
+      lidSwitch = "suspend-then-hibernate";
+      lidSwitchDocked = "suspend-then-hibernate";
 
-      PowerKeyIgnoreInhibited=yes
-      SuspendKeyIgnoreInhibited=yes
-      HibernateKeyIgnoreInhibited=yes
-      LidSwitchIgnoreInhibited=yes
-    '';
+      # See logind.conf(5).
+      extraConfig = ''
+        HandleSuspendKey=ignore
+        handleHibernateKey=hibernate
+
+        PowerKeyIgnoreInhibited=yes
+        SuspendKeyIgnoreInhibited=yes
+        HibernateKeyIgnoreInhibited=yes
+        LidSwitchIgnoreInhibited=yes
+      '';
+    };
 
     systemd.services.fetch-mail = {
       description = "Periodically fetch email with offlineimap(1)";
