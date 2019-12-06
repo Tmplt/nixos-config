@@ -63,11 +63,11 @@ zpool create -o ashift=12 -f \
     rpool raidz2 ${sda}-part4 ${sdb}-part4 ${sdc}-part4 ${sdd}-part4
 
 # Create the file systems
-zfs create -o mountpoint=none rpool/root
-zfs create -o mountpoint=none bpool/boot
-zfs create -o mountpoint=legacy bpool/boot/nixos
-zfs create -o mountpoint=legacy rpool/root/nixos
-zfs create -o mountpoint=legacy rpool/home
+zfs create -o mountpoint=none -o com.sun:auto-snapshot=true rpool/root
+zfs create -o mountpoint=none -o com.sun:auto-snapshot=true bpool/boot
+zfs create -o mountpoint=legacy -o com.sun:auto-snapshot=true bpool/boot/nixos
+zfs create -o mountpoint=legacy -o com.sun:auto-snapshot=true rpool/root/nixos
+zfs create -o mountpoint=legacy -o com.sun:auto-snapshot=true rpool/home
 zfs set compression=lz4 rpool # compress the whole pool
 
 # Create and use a swap partition
