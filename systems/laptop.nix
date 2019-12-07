@@ -119,7 +119,7 @@
       serviceConfig.User = "tmplt";
       requires = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
-      startAt = "*:0/15";
+      startAt = "*:0/5";
 
       path = with pkgs; [ offlineimap notmuch ];
       script = ''
