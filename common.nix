@@ -64,6 +64,7 @@ in
   };
 
   # `coredumpctl gdb` can't find dumps unless they are external.
+  # TODO: test if this is still needed.
   systemd.coredump.enable = true;
   systemd.coredump.extraConfig = "Storage=external";
 
