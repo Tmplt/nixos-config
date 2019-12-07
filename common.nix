@@ -100,6 +100,10 @@ in
       };
   };
 
+  # Fix for USB redirection in virt-manager(1).
+  security.wrappers.spice-client-glib-usb-acl-helper.source = "${pkgs.spice_gtk}/bin/spice-client-glib-usb-acl-helper";
+  environment.systemPackages = with pkgs; [ spice_gtk ];
+
   # Allow some USB devices to be accessed without root privelages.
   services.udev.extraRules = with lib; let
     toUdevRule = vid: pid: ''
