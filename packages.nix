@@ -54,110 +54,101 @@ in {
     };
   };
 
-  # ... and declare packages to be installed.
   environment.systemPackages = with pkgs; [
-    # Base
+    acpi
+    aerc
+    arandr
+    arc-icon-theme
+    arc-theme
+    aria
+    atool
     binutils
     curl
+    dmenu
+    exa
     file
+    fzf
+    getmail
+    gnupg
     htop
     imagemagick
+    irssi
     libnotify
     lxappearance
     maim
+    manpages
+    mkskel
     mpc_cli
     mpv
+    msmtp
     mumble
+    ncdu
     neofetch
-    atool
+    neomutt
+    nfs-utils
+    notmuch
+    octave
+    offlineimap
+    p7zip
+    pandoc
     pass
-    pass-otp
+    pass-otp # TODO: investigate why this doesn't work
     pavucontrol
-    neovim
+    qutebrowser
+    ranger
+    steam
+    sxiv
+    tdesktop # Telegram
+    tomb
+    tree
+    unrar
+    unzip
+    usbutils
+    virtmanager
+    w3m
+    wine
+    winetricks
+    xdotool
+    xmobar
     xorg.xev
     xorg.xmodmap
     xorg.xprop
     xorg.xwininfo
-    zathura
-    zsh
-    usbutils
-    unrar
-    unzip
-    patchelf
-    manpages
-    gnupg
-
-    # Extra
-    aria
-    fzf
-
-    texlive.combined.scheme-full
-    python3
-    python37Packages.pygments
-
-    wine
-    winetricks
+    xsel
     xst
     xurls
-    dmenu
-    acpi
-    irssi
-    ncdu
-    arc-theme
-    arc-icon-theme
     youtube-dl
-    thunderbird
-    nfs-utils
-    qutebrowser
-    exa
+    zathura
+
+    # Typesetting
+    python3Packages.pygments
+    texlive.combined.scheme-full # for minted
 
     # Development
+    cmake
+    direnv
+    gdb
     gitAndTools.gitFull
     git-crypt
-    cmake
-    python3
     gnumake
-    curlFull
-    sqlite
-    gdb
+    neovim
+    nixops
     nix-prefetch-git
+    patchelf
+    python3
+    python3
+    ripgrep
+    sqlite
 
-    pandoc
-    arandr
-    python36Packages.pygments
-    xdotool
-    xsel
-    p7zip
-    direnv
-    sxiv
-    steam
-
-    # Embedded Rust programming
+    # (Embedded) Rust programming
+    cargo
+    clang
     gcc-arm-embedded
     gdb-multitarget
     openocd
-    rustup
-    cargo
     openssl
     pkgconfig
-    clang
-
-    neomutt
-    msmtp
-    offlineimap
-    mkskel
-    octave
-
-    # fixups after redeployment
-    nixops
-    xmobar
-    virtmanager
-    ripgrep
-    notmuch
-    tdesktop
-    getmail
-    w3m
-
+    rustup
   ] ++ (if onTemeraire then [
     firefox
     ncmpcpp
@@ -180,20 +171,20 @@ in {
     fontconfig.enable = true;
 
     fonts = with pkgs; [
+      dejavu_fonts
+      envypn-font
+      fira-code
+      font-awesome
+      freefont_ttf
+      gohufont
+      inconsolata
+      iosevka
       liberation_ttf
       libertine
-      freefont_ttf
-      dejavu_fonts
-      iosevka
-      source-code-pro
-      siji
-      opensans-ttf
       noto-fonts
-      inconsolata
-      font-awesome
-      fira-code
-      envypn-font
-      gohufont
+      opensans-ttf
+      siji
+      source-code-pro
     ];
   };
 }
