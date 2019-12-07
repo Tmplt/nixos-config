@@ -193,8 +193,14 @@ in
       wantedBy = [ "multi-user.target" ];
     };
 
-    networking.firewall.allowedTCPPorts = [ 80 443 64738 ];
-    networking.firewall.allowedUDPPorts = [ 64738 ];
+    networking.firewall.allowedTCPPorts = [
+      80 443 # nginx
+      64738  # murmur
+    ];
+    networking.firewall.allowedUDPPorts = [
+      64738 # murmur
+    ];
+
     services.nginx = {
       enable = true;
       recommendedGzipSettings = true;
