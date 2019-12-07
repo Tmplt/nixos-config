@@ -43,7 +43,7 @@ in {
       # I want v1.3.0
       mumble = unstable.mumble;
 
-      # Fix Alt+u xurls | dmenu | xargs qutebrowser
+      # Patch for <M-u> bind to `xurls | dmenu | xargs qutebrowser`
       xst = lib.overrideDerivation stable.xst (old: {
         patches = [ patches/xst.patch ];
       });
