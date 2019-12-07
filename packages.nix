@@ -47,6 +47,10 @@ in {
       xst = lib.overrideDerivation stable.xst (old: {
         patches = [ patches/xst.patch ];
       });
+
+      gdb = stable.gdb.overrideAttrs (old: {
+        configureFlags = old.configureFlags ++ [ "--with-auto-load-safe-path=${stable.stdenv.cc.cc.lib}" ];
+      });
     };
   };
 
