@@ -115,7 +115,12 @@ in {
     xorg.xprop
     xorg.xwininfo
     xsel
+
+    # Unicode crash work-around <https://github.com/gnotclub/xst/issues/70>
+    # TODO: build xst with this font instead
+    symbola
     xst
+
     xurls
     youtube-dl
     zathura
