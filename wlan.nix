@@ -34,7 +34,12 @@ in
         priority = 10;
       };
 
-      # "'; DROP TABLE ludd" = {
+      "#Telia-5A1580" = {
+        psk = networkSecrets."#Telia-5A1580";
+        priority = 10;
+      };
+
+      # ":(){ :|:& };:" = {
       #   psk = networkSecrets."ludd";
       #   priority = 10;
       # };
