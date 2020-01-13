@@ -44,7 +44,7 @@ in
   fileSystems."/home/tmplt/tmp" = {
     device = "tmpfs";
     fsType = "tmpfs";
-    options = [ "rw" "size=50%" "uid=tmplt" ];
+    options = [ "rw" "size=20%" "uid=tmplt" ];
   };
 
   programs.zsh = {
