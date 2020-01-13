@@ -31,6 +31,7 @@ in
 
     ".xmonad/xmonad.hs".source = "${dotfiles}/xmonad/.xmonad/xmonad.hs";
     ".xmonad/unread-mails".source = "${dotfiles}/xmonad/.xmonad/unread-mails";
+    ".xmonad/lp.py".source = "${dotfiles}/xmonad/.xmonad/lp.py";
     ".xmobarrc".source = "${dotfiles}/xmonad/.xmobarrc";
     ".Xresources".source = "${dotfiles}/xfiles/.Xresources";
 
