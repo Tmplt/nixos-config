@@ -69,7 +69,6 @@ in
   systemd.coredump.extraConfig = "Storage=external";
 
   services.udisks2.enable = true;
-  services.dnsmasq.enable = true;
 
   services.xserver = {
     enable = true;
@@ -99,6 +98,19 @@ in
         no-dock-shadow = true;
         shadow-ignore-shaped = true;
       };
+  };
+
+  services.tor = {
+    enable = true;
+    client.enable = true;
+    client.dns.enable = true;
+    controlPort = 9051;
+  };
+
+  # DNS over Tor
+  services.dnsmasq = {
+    enable = true;
+    servers = [ "127.0.0.1#9053" ];
   };
 
   # Fix for USB redirection in virt-manager(1).
