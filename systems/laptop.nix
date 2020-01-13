@@ -121,9 +121,9 @@
       wantedBy = [ "multi-user.target" ];
       startAt = "*:0/5";
 
-      path = with pkgs; [ offlineimap notmuch ];
+      path = with pkgs; [ offlineimap notmuch torsocks ];
       script = ''
-        offlineimap
+        torsocks offlineimap
       '';
     };
 
