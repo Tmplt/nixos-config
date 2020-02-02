@@ -18,7 +18,7 @@
 
     imports = [
       ../hardware-configurations/laptop.nix
-      "${nixos-hardware}/lenovo/thinkpad/t430"
+      "${nixos-hardware}/lenovo/thinkpad/x230"
       ../common.nix
       ../wlan.nix
     ];
