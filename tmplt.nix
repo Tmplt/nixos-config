@@ -7,7 +7,6 @@ let
   onTemeraire = config.networking.hostName == "temeraire";
   onPerscitia = config.networking.hostName == "perscitia";
   secrets = import ./secrets;
-  dotfiles = ./dotfiles;
 
   home-manager = (import <nixpkgs> {}).fetchFromGitHub {
     owner = "rycee";
@@ -15,11 +14,25 @@ let
     rev = "bb5c29107e355ce0db61197df03c8b2c67cb1c8f";
     sha256 = "1b05kvcfmdbshjdc74ilqvfkln46sp6qvzsi0rjarm694462975b";
   };
+
+  vim-plug = (import <nixpkgs> {}).pkgs.fetchFromGitHub {
+    owner = "junegunn";
+    repo = "vim-plug";
+    rev = "0.10.0";
+    sha256 = "11x10l75q6k4z67yyk5ll25fqpgb2ma88vplrakw3k41g79xn9d9";
+  };
+
+  zimfw = (import <nixpkgs> {}).pkgs.fetchFromGitHub {
+    owner = "zimfw";
+    repo = "zimfw";
+    rev = "d19c8dde68b338fcc096bbce683c47ad068b46d3";
+    fetchSubmodules = true;
+    sha256 = "0cry0w6hvxb7m4bkrkgcr029w79j5lqsafml265wfvx0sr53x7va";
+  };
 in
 {
   imports = [
     "${home-manager}/nixos"
-    ./dotfiles.nix
     ./editor.nix
   ];
 
@@ -39,6 +52,11 @@ in
 
   home-manager.users.tmplt = {
     manual.manpages.enable = true;
+
+    home.file = {
+    ".zim".source = "${zimfw}";
+    ".local/share/nvim/site/autoload/plug.vim".source = "${vim-plug}/plug.vim";
+    };
 
     programs.zsh = {
       enable = true;
