@@ -4,8 +4,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  onTemeraire = config.networking.hostName == "temeraire";
-  onPerscitia = config.networking.hostName == "perscitia";
   secrets = import ./secrets;
 
   home-manager = (import <nixpkgs> {}).fetchFromGitHub {
@@ -209,7 +207,7 @@ in
     };
 
     services.random-background = {
-      enable = onPerscitia;
+      enable = true;
       # TODO: package wallpapers?
       imageDirectory = "%h/wallpapers";
       interval = "3h";
@@ -218,7 +216,7 @@ in
     services.unclutter.enable = true;
 
     services.gpg-agent = {
-      enable = onTemeraire;
+      enable = false;
 
       defaultCacheTtl = 1800; # 30 min
       defaultCacheTtlSsh = 1800;

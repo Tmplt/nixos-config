@@ -6,12 +6,11 @@ This repository is published as a convenience for myself, but also as a resource
 
 Feel free to ping me with any questions you might have.
 
-* systems/**desktop**: multi-head desktop with GPU-passthrough for vidya.
 * systems/**laptop**: laptop for university studies and work.
-* systems/**router**: NAS, pfSense router, music streamer, and future seed-box. Shares media with **desktop** over NFS.
+* systems/**router**: (TODO) NAS, network routing, music streamer, and future seed-box. Shares media with **laptop** over NFS.
 * systems/**server**: main server: [taskd](https://taskwarrior.org/), [website](https://tmplt.dev), murmur with Let's Encrypt certificate, etc..
 
-All systems with a running X server hosts a simple [bspwm](https://github.com/baskerville/bspwm) or [xmonad](https://xmonad.org/) configuration with one or more status bars.
+All systems with a running X server hosts a simple [xmonad](https://xmonad.org/) configuration with one or more status bars.
 
 Expressions
 ===
@@ -27,12 +26,12 @@ Building Instructions
 After setting up prerequisites for nixops (SSH server with root):
 
 ```sh
-$ nixops [create|modify] -d [desktop|laptop|router|server] systems/[desktop|laptop|router|server].nix
-$ nixops deploy -d [desktop|laptop|router|server]
+$ nixops [create|modify] -d [laptop|router|server] systems/[laptop|router|server].nix
+$ nixops deploy -d [laptop|router|server]
 ```
 
 or alternatively
 
 ```sh
-$ make [desktop|laptop|router|server]
+$ make [laptop|router|server]
 ```

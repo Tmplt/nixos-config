@@ -8,9 +8,6 @@ let
   stable = (import ./nixpkgs-pin.nix).stable;
   unstable = (import ./nixpkgs-pin.nix).unstable;
 
-  onTemeraire = config.networking.hostName == "temeraire";
-  onPerscitia = config.networking.hostName == "perscitia";
-
   mkskel = pkgs.stdenv.mkDerivation rec {
     pname = "mkskel";
     name = "${pname}-${version}";
@@ -154,19 +151,7 @@ in {
     openssl
     pkgconfig
     rustup
-  ] ++ (if onTemeraire then [
-    firefox
-    ncmpcpp
-    beets
-    calibre
-    bspwm
-    mpd
-    (polybar.override {
-      mpdSupport = true;
-    })
-    gimp
-
-  ] else []);
+  ];
 
   # ... and install some fonts.
   fonts = {
