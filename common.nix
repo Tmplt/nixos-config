@@ -22,6 +22,11 @@ in
     pulseaudio = {
       enable = true;
       support32Bit = true;
+
+      # Don't mute audio streams when VOIP programs are running.
+      extraConfig = ''
+        unload-module module-role-cork
+      '';
     };
 
     opengl = {
