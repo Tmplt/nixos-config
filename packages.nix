@@ -48,6 +48,26 @@ in {
       gdb = stable.gdb.overrideAttrs (old: {
         configureFlags = old.configureFlags ++ [ "--with-auto-load-safe-path=${stable.stdenv.cc.cc.lib}" ];
       });
+
+      openocd = with stable; openocd.overrideAttrs (old: {
+        src = fetchgit {
+          url = "https://repo.or.cz/openocd.git";
+          rev = "09ac9ab135ed35c846bcec4f7d468c3656852f26";
+          sha256 = "1ihp1bhlzi2ziwm09jh6cyn8qa8fnvdvhl2990a67wvj9a27j051";
+          fetchSubmodules = true;
+        };
+
+        postPatch = ''
+          ${gnused}/bin/sed -i "s/\''${libtoolize}/libtoolize/g" ./bootstrap
+          ${gnused}/bin/sed -i '7,14d' ./bootstrap
+        '';
+
+        buildInputs = old.buildInputs ++ [ automake autoconf m4 libtool tcl ];
+
+        preConfigure = ''
+          ./bootstrap nosubmodule
+        '';
+      });
     };
   };
 
