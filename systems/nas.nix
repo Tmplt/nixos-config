@@ -6,46 +6,56 @@ in
     deployment.targetHost = "dulcia.localdomain";
     time.timeZone = "Europe/Stockholm";
     networking.hostName = "dulcia";
+    networking.hostId = "61ceb5ad";
+
+    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+    # Per-interface useDHCP will be mandatory in the future, so this generated config
+    # replicates the default behaviour.
+    networking.useDHCP = false;
+    networking.interfaces.enp10s0f0.useDHCP = true;
+    networking.interfaces.enp10s0f1.useDHCP = true;
+    networking.interfaces.enp4s0.useDHCP = true;
+    networking.interfaces.enp9s0f0.useDHCP = true;
+    networking.interfaces.enp9s0f1.useDHCP = true;
 
     imports = [
-        ../hardware-configurations/router.nix
+        ../hardware-configurations/nas.nix
         <nixpkgs/nixos/modules/profiles/headless.nix>
         ../common-server.nix
       ];
 
     # Use the GRUB 2 boot loader.
-    boot.loader.grub.enable = true;
-    boot.loader.grub.version = 2;
-    boot.loader.grub.device = "/dev/disk/by-id/ata-INTEL_SSDSA2CW080G3_CVPR135202U4080BGN";
+    boot.loader.grub = {
+      enable = true;
+      version = 2;
+      devices = [
+        "/dev/disk/by-id/ata-WDC_WD60EFRX-68L0BN1_WD-WX11D76EPVX7"
+        "/dev/disk/by-id/ata-WDC_WD60EFRX-68L0BN1_WD-WX31D95842XA"
+      ];
+    };
     boot.supportedFilesystems = [ "zfs" ];
 
-    networking.hostId = "ff7870de";
+    # fileSystems."/export/media" = {
+    #   device = "/media";
+    #   options = [ "bind" ];
+    # };
 
-    fileSystems."/export/media" = {
-      device = "/media";
-      options = [ "bind" ];
-    };
+    # fileSystems."/export/media/tv-series4" = {
+    #   device = "/volatile/tv-series";
+    #   options = [ "bind" ];
+    # };
 
-    fileSystems."/export/media/tv-series4" = {
-      device = "/volatile/tv-series";
-      options = [ "bind" ];
-    };
-
-    services.nfs.server.enable = true;
+    services.nfs.server.enable = false;
     services.nfs.server.exports = ''
-      /export         temeraire(rw,sync,no_subtree_check,fsid=0,crossmnt)
-      /export/media   temeraire(rw,sync,no_subtree_check)
+      /export         192.168.0.122(rw,sync,no_subtree_check,fsid=0,crossmnt)
+      /export/media   192.168.0.122(rw,sync,no_subtree_check)
     '';
 
     services.zfs.autoScrub.enable = true;
-    services.zfs.autoSnapshot = {
-      enable = true;
-      frequent = 8; # keep the latest eight 15-minute snapshorts
-      monthly = 1; # keep only one monthly snapshot
-    };
+    services.zfs.autoSnapshot.enable = true;
 
     services.mpd = {
-      enable = true;
+      enable = false;
       user = "tmplt";
       group = "users";
       musicDirectory = "/media/music";
@@ -77,7 +87,7 @@ in
     };
 
     services.icecast = {
-      enable = true;
+      enable = false;
       admin.password = secrets.icecast.adminPassword;
       hostname = "den.dragons.rocks";
       listen.port = 8000;
@@ -88,10 +98,6 @@ in
       '';
     };
 
-    # qemu/kvm
-    users.groups.libvirtd.members = [ "root" "tmplt" ];
-    virtualisation.libvirtd.enable = true;
-
     # Open ports in the firewall.
     networking.firewall.allowedTCPPorts = [
       6600 8000 # MPD and Icecast
@@ -101,6 +107,6 @@ in
     # compatible, in order to avoid breaking some software such as database
     # servers. You should change this only after NixOS release notes say you
     # should.
-    system.stateVersion = "18.03"; # Did you read the comment?
+    system.stateVersion = "19.09"; # Did you read the comment?
   };
 }
