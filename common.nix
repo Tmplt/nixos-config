@@ -105,6 +105,8 @@ in
       };
   };
 
+  services.dictd.enable = true;
+
   services.tor = {
     enable = true;
     client.enable = true;

@@ -103,6 +103,7 @@ in
         wtf = "dmesg | tail -n 50";
         ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
         zathura = "zathura --fork";
+        define = "dict -d english";
       };
 
       sessionVariables = {
