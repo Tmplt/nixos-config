@@ -99,4 +99,4 @@ mount -t zfs rpool/home /mnt/home
 mkdir /mnt/boot
 mount -t zfs bpool/boot/nixos /mnt/boot
 mkdir /mnt/volatile
-mount -t zfs bpool/volatile /mnt/volatile
+mount -t zfs vpool/volatile /mnt/volatile

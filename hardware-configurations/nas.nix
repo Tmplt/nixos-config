@@ -28,6 +28,11 @@
       fsType = "zfs";
     };
 
+  fileSystems."/volatile" =
+    { device = "vpool/volatile";
+      fsType = "zfs";
+    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/d1831e44-72f2-4ffa-b528-97d45aa5c634"; }
     ];
