@@ -35,20 +35,9 @@ in
     };
     boot.supportedFilesystems = [ "zfs" ];
 
-    # fileSystems."/export/media" = {
-    #   device = "/media";
-    #   options = [ "bind" ];
-    # };
-
-    # fileSystems."/export/media/tv-series4" = {
-    #   device = "/volatile/tv-series";
-    #   options = [ "bind" ];
-    # };
-
-    services.nfs.server.enable = false;
+    services.nfs.server.enable = true;
     services.nfs.server.exports = ''
-      /export         192.168.0.122(rw,sync,no_subtree_check,fsid=0,crossmnt)
-      /export/media   192.168.0.122(rw,sync,no_subtree_check)
+      /rpool/media         perscitia.localdomain(rw,crossmnt,no_subtree_check)
     '';
 
     services.zfs.autoScrub.enable = true;
@@ -101,6 +90,7 @@ in
     # Open ports in the firewall.
     networking.firewall.allowedTCPPorts = [
       6600 8000 # MPD and Icecast
+      2049 111 20048 # NFS
     ];
 
     # This value determines the NixOS release with which your system is to be
