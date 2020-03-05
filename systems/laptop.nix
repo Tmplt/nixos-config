@@ -29,6 +29,21 @@
 
     fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
+    fileSystems."/home/tmplt/dulcia" = {
+      device = "dulcia.localdomain:/rpool/media";
+      fsType = "nfs";
+      options = [
+        "_netdev" # we depend on network access
+        "defaults"
+        "noexec"
+        "noauto" # dont mount until accessed
+        "typeo=15" # 1.5s before sending the next NFS request
+        "x-systemd.automount"
+        "x-systemd.mount-timeout=30s"
+        "x-systemd.idle-timeout=30s" # dismount after 30s idle
+      ];
+    };
+
     boot.initrd.luks.devices = [
       {
         name = "root";
