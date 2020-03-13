@@ -150,6 +150,15 @@
       enable = true;
       powertop.enable = true;
     };
+
+    # Shutdown system on low battery level
+    services.udev.extraRules = ''
+      KERNEL=="BAT0" \
+      , SUBSYSTEM=="power_supply" \
+      , ATTR{status}=="Discharging" \
+      , ATTR{capacity}=="[0-5]" \
+      , RUN+="${pkgs.systemd}/bin/systemctl poweroff"
+    '';
   };
 }
 
