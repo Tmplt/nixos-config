@@ -167,6 +167,46 @@ in
       };
     };
 
+    programs.autorandr = let
+      laptopEDID = "00ffffffffffff0030e4d8020000000000160103801c1078ea8855995b558f261d505400000001010101010101010101010101010101601d56d85000183030404700159c1000001b000000000000000000000000000000000000000000fe004c4720446973706c61790a2020000000fe004c503132355748322d534c42330059";
+      dockedEDID = "00ffffffffffff00232f9b040000000028150103a53c2278226fb1a7554c9e250c505400000001010101010101010101010101010101565e00a0a0a029503020350055502100001a000000fc004455414c2d4456490a20202020000000fc000a202020202020202020202020000000fc000a2020202020202020202020200012";
+    in {
+      enable = true;
+      profiles = {
+        "mobile" = {
+          fingerprint.LVDS-1 = laptopEDID;
+          config = {
+            VGA-1.enable = false;
+            HDMI-1.enable = false;
+            DP-1.enable = false;
+            DP-2.enable = false;
+
+            LVDS-1 = {
+              enable = true;
+              mode = "1366x768";
+            };
+          };
+
+        };
+
+        "docked" = {
+          fingerprint.LVDS-1 = laptopEDID;
+          fingerprint.DP-2 = dockedEDID;
+          config = {
+            VGA-1.enable = false;
+            LVDS-1.enable = false;
+            HDMI-1.enable = false;
+            DP-1.enable = false;
+
+            DP-2 = {
+              enable = true;
+              mode = "2560x1440";
+            };
+          };
+        };
+      };
+    };
+
     #
     # Services
     #
