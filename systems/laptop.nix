@@ -151,13 +151,20 @@
       powertop.enable = true;
     };
 
+    services.udev.extraRules =
     # Shutdown system on low battery level
-    services.udev.extraRules = ''
+    ''
       KERNEL=="BAT0" \
       , SUBSYSTEM=="power_supply" \
       , ATTR{status}=="Discharging" \
       , ATTR{capacity}=="[0-5]" \
       , RUN+="${pkgs.systemd}/bin/systemctl poweroff"
+    ''
+    # Automagically change monitor setup
+    + ''
+      SUBSYSTEM=="platform" \
+      , ENV{EVENT}=="*dock" \
+      , RUN+="${pkgs.autorandr}/bin/autorandr --change --batch"
     '';
   };
 }
