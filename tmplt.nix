@@ -229,7 +229,7 @@ in
 
     home.keyboard = {
       layout = "us,us";
-      options = [ "ctrl:swapcaps" "compose:menu" "grp:rctrl_toggle" ];
+      options = [ "ctrl:swapcaps" "compose:prsc" "grp:rctrl_toggle" ];
       variant = ",colemak";
     };
 
