@@ -49,6 +49,8 @@ in {
         configureFlags = old.configureFlags ++ [ "--with-auto-load-safe-path=${stable.stdenv.cc.cc.lib}" ];
       });
 
+      steam = unstable.steam;
+
       openocd = with stable; openocd.overrideAttrs (old: {
         src = fetchgit {
           url = "https://repo.or.cz/openocd.git";
@@ -90,6 +92,7 @@ in {
     htop
     imagemagick
     irssi
+    krita
     libnotify
     lxappearance
     maim
@@ -102,6 +105,7 @@ in {
     ncdu
     neofetch
     neomutt
+    urlscan
     nfs-utils
     notmuch
     octave
