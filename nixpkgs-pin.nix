@@ -9,12 +9,13 @@ let
   }) { config.allowUnfree = true; };
 in {
   unstable = fetchChannel {
-    rev = "4cd2cb43fb3a87f48c1e10bb65aee99d8f24cb9d";
-    sha256 = "1d6rmq67kdg5gmk94wx2774qw89nvbhy6g1f2lms3c9ph37hways";
+    rev = "e89b21504f3e61e535229afa0b121defb52d2a50";
+    sha256 = "0jqcv3rfki3mwda00g66d27k6q2y7ca5mslrnshfpbdm7j8ya0kj";
   };
 
+  # 2020-02-15T12:39:36+01:00
   stable = fetchChannel {
-    rev = "c75de8bc12cc7e713206199e5ca30b224e295041";
-    sha256 = "1awipcjfvs354spzj2la1nzmi9rh2ci2mdapzf4kkabf58ilra6x";
+    rev = "6b47f71542931d4a5d6e18cdccd7d477a3cb0817";
+    sha256 = "1p7l3kchyh8fslz2cajz7krigz2lr0dv11kfck1v7mzwj2iffj7g";
   };
 }
