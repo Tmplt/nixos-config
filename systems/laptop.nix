@@ -37,7 +37,7 @@
         "defaults"
         "noexec"
         "noauto" # dont mount until accessed
-        "typeo=15" # 1.5s before sending the next NFS request
+        "timeo=15" # 1.5s before sending the next NFS request
         "x-systemd.automount"
         "x-systemd.mount-timeout=30s"
         "x-systemd.idle-timeout=30s" # dismount after 30s idle
