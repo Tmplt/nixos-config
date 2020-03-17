@@ -163,7 +163,6 @@ in {
     sqlite
 
     # (Embedded) Rust programming
-    cargo
     clang
     gcc-arm-embedded
     gdb-multitarget
