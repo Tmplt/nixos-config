@@ -44,14 +44,12 @@
       ];
     };
 
-    boot.initrd.luks.devices = [
-      {
-        name = "root";
-        device = "/dev/disk/by-uuid/${uuid}";
-        preLVM = true;
-        allowDiscards = true;
-      }
-    ];
+    boot.initrd.luks.devices.root = {
+      name = "root";
+      device = "/dev/disk/by-uuid/${uuid}";
+      preLVM = true;
+      allowDiscards = true;
+    };
 
     hardware.trackpoint = {
       emulateWheel = true;
@@ -93,8 +91,6 @@
         middleEmulation = false; # Don't emulate middle-click by pressing left and right button simultaneously.
         scrollMethod = "twofinger";
       };
-
-      multitouch.ignorePalm = true;
     };
 
     services.acpid.enable = true;

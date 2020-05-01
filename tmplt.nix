@@ -9,8 +9,8 @@ let
   home-manager = (import <nixpkgs> {}).fetchFromGitHub {
     owner = "rycee";
     repo = "home-manager";
-    rev = "bb5c29107e355ce0db61197df03c8b2c67cb1c8f";
-    sha256 = "1b05kvcfmdbshjdc74ilqvfkln46sp6qvzsi0rjarm694462975b";
+    rev = "a378bccd609c159fa8d421233b9c5eae04f02042";
+    sha256 = "1cfh0aj60qriadvn5xvsp24p1xr06g68m3pfvzwahv2bd2cg261r";
   };
 
   vim-plug = (import <nixpkgs> {}).pkgs.fetchFromGitHub {
@@ -52,8 +52,8 @@ in
     manual.manpages.enable = true;
 
     home.file = {
-    ".zim".source = "${zimfw}";
-    ".local/share/nvim/site/autoload/plug.vim".source = "${vim-plug}/plug.vim";
+      ".zim".source = "${zimfw}";
+      ".local/share/nvim/site/autoload/plug.vim".source = "${vim-plug}/plug.vim";
     };
 
     programs.zsh = {

@@ -32,43 +32,19 @@ in {
       # Store whole unstable channel in case any module need it
       inherit unstable;
 
-      # Let me print figures to pdf
-      octave = unstable.octave.overrideAttrs (old: {
-        buildInputs = old.buildInputs ++ [ unstable.gl2ps ];
+      # Enable printing figures to PDF
+      octave = stable.octave.overrideAttrs (cur: {
+        buildInputs = cur.buildInputs ++ [ stable.gl2ps ];
       });
-
-      # I want v1.3.0
-      mumble = unstable.mumble;
 
       # Patch for <M-u> bind to `xurls | dmenu | xargs qutebrowser`
       xst = lib.overrideDerivation stable.xst (old: {
         patches = [ patches/xst.patch ];
       });
 
+      # improved debugging for C++
       gdb = stable.gdb.overrideAttrs (old: {
         configureFlags = old.configureFlags ++ [ "--with-auto-load-safe-path=${stable.stdenv.cc.cc.lib}" ];
-      });
-
-      steam = unstable.steam;
-
-      openocd = with stable; openocd.overrideAttrs (old: {
-        src = fetchgit {
-          url = "https://repo.or.cz/openocd.git";
-          rev = "09ac9ab135ed35c846bcec4f7d468c3656852f26";
-          sha256 = "1ihp1bhlzi2ziwm09jh6cyn8qa8fnvdvhl2990a67wvj9a27j051";
-          fetchSubmodules = true;
-        };
-
-        postPatch = ''
-          ${gnused}/bin/sed -i "s/\''${libtoolize}/libtoolize/g" ./bootstrap
-          ${gnused}/bin/sed -i '7,14d' ./bootstrap
-        '';
-
-        buildInputs = old.buildInputs ++ [ automake autoconf m4 libtool tcl ];
-
-        preConfigure = ''
-          ./bootstrap nosubmodule
-        '';
       });
     };
   };
@@ -178,12 +154,12 @@ in {
 
   # ... and install some fonts.
   fonts = {
-    enableCoreFonts = true;
     enableFontDir = true;
     enableGhostscriptFonts = true;
     fontconfig.enable = true;
 
     fonts = with pkgs; [
+      corefonts
       dejavu_fonts
       envypn-font
       fira-code
