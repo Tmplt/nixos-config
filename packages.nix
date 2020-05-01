@@ -150,6 +150,8 @@ in {
     openssl
     pkgconfig
     rustup
+
+    arduino
   ];
 
   # ... and install some fonts.
