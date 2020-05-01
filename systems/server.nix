@@ -24,16 +24,6 @@ in
 
       defaultGateway = "130.240.202.1";
       nameservers = [ "130.240.16.8" ];
-
-      defaultMailServer = {
-        authPassFile = "/run/keys/ssmtp-authpass";
-        authUser = "tmplt@dragons.rocks";
-        directDelivery = true;
-        domain = "tmplt.dev";
-        hostName = "smtp.mailbox.org:465";
-        setSendmail = true;
-        useTLS = true;
-      };
     };
 
     boot.loader.grub = {
@@ -43,11 +33,22 @@ in
     };
     boot.supportedFilesystems = [ "zfs" ];
 
+    services.ssmtp = {
+      enable = true;
+      authPassFile = "/run/keys/ssmtp-authpass";
+      authUser = "tmplt@dragons.rocks";
+      domain = "tmplt.dev";
+      hostName = "smtp.mailbox.org:465";
+      setSendmail = true;
+      useTLS = true;
+    };
+
     services.zfs = {
       autoScrub = { enable = true; interval = "monthly"; };
       autoSnapshot.enable = true;
     };
 
+    # TODO: replace with ZFS ZED
     systemd.services.zfs-health-check = {
       description = "Periodically check ZFS pool health status";
       serviceConfig.Type = "oneshot";
@@ -139,8 +140,12 @@ in
     };
     users.users.murmur.group = "murmur";
     users.groups.murmur = {};
+    security.acme = {
+      email = "v@tmplt.dev";
+      acceptTerms = true;
+    };
     security.acme.certs."mumble.dragons.rocks" = {
-      allowKeysForGroup = true;
+      allowKeysForGroup = true; # XXX: what was this for?
       group = "murmur";
 
       # Tell murmur to reload its SSL settings, if it is running
@@ -230,7 +235,6 @@ in
         };
       };
     };
-
 
     users.groups.libvirtd.members = [ "root" "tmplt" ];
     virtualisation.libvirtd.enable = true;
