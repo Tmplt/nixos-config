@@ -131,6 +131,7 @@ in
         username=.*
         channelname=.*
         rememberchannel=false
+        defaultchannel=67
         suggestVersion=1.3.0
         opusthreshold=0
       '';
