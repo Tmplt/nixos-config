@@ -46,6 +46,9 @@ in {
       gdb = stable.gdb.overrideAttrs (old: {
         configureFlags = old.configureFlags ++ [ "--with-auto-load-safe-path=${stable.stdenv.cc.cc.lib}" ];
       });
+
+      # I need v5.0
+      zoom-us = unstable.zoom-us;
     };
   };
 
@@ -152,6 +155,7 @@ in {
     rustup
 
     arduino
+    zoom-us
   ];
 
   # ... and install some fonts.

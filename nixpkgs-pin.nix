@@ -8,9 +8,10 @@ let
     url = "https://github.com/NixOS/nixpkgs-channels/archive/${rev}.tar.gz";
   }) { config.allowUnfree = true; };
 in {
+  # 2020-05-18 (20.03)
   unstable = fetchChannel {
-    rev = "e89b21504f3e61e535229afa0b121defb52d2a50";
-    sha256 = "0jqcv3rfki3mwda00g66d27k6q2y7ca5mslrnshfpbdm7j8ya0kj";
+    rev = "548872be20dcb78cdb1a554dcef51caf1d6055ca";
+    sha256 = "0j44n9rjm5c0j4iw4qwcckh6kjcnp5jy58sb0j6h4rqrlysrrx3f";
   };
 
   # 2020-04-28 (20.03)
