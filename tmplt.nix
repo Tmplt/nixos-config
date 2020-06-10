@@ -244,6 +244,7 @@ in
         extraPackages = self: [ self.xmobar ];
       };
 
+      # XXX: wmname does not work?
       initExtra = ''
         ${pkgs.xorg.xsetroot}/bin/xset -cursor_name left_ptr
         ${pkgs.wmname}/bin/wmname LD3D

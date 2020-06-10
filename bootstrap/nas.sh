@@ -100,3 +100,6 @@ mkdir /mnt/boot
 mount -t zfs bpool/boot/nixos /mnt/boot
 mkdir /mnt/volatile
 mount -t zfs vpool/volatile /mnt/volatile
+
+# TODO: mirror datasets after NAS is properly set up
+# TODO: enable snapshots for rpool/media and children datasets
