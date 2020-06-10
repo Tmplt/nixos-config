@@ -208,6 +208,11 @@ in
           };
         };
       };
+
+      hooks.postswitch = {
+        "change-background" = "${pkgs.systemd}/bin/systemctl --user start random-background";
+        # TODO: change different xmonad modes depending on monitor layout
+      };
     };
 
     #
