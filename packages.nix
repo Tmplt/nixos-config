@@ -154,7 +154,6 @@ in {
     pkgconfig
     rustup
 
-    arduino
     zoom-us
   ];
 
