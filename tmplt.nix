@@ -79,6 +79,10 @@ in
         mkcd() {
           mkdir -p "$1" && cd "$1"
         }
+
+        define() {
+          dict -d english $1 | less --quit-if-one-screen
+        }
       '';
 
       plugins = [ rec {
@@ -103,7 +107,6 @@ in
         wtf = "dmesg | tail -n 50";
         ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
         zathura = "zathura --fork";
-        define = "dict -d english";
       };
 
       sessionVariables = {
