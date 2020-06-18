@@ -14,9 +14,9 @@ in {
     sha256 = "0j44n9rjm5c0j4iw4qwcckh6kjcnp5jy58sb0j6h4rqrlysrrx3f";
   };
 
-  # 2020-04-28 (20.03)
+  # 2020-06-18 (20.03)
   stable = fetchChannel {
-    rev = "3aeaf7498463c0e9406657afaf5cc0266bbb1593";
-    sha256 = "0s185rc2mfjm6n45abwfcbcv6wyb0dfrpyj258wq1q5gyjc0dm9p";
+    rev = "7bb2e7e0f69150b659a444590f0208c42f3de6d5";
+    sha256 = "11qa81rs490l0kv655g5jh3rfz6bc7w5vxgsfax1b51yqpslwfx3";
   };
 }
