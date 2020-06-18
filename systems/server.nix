@@ -33,38 +33,6 @@ in
     };
     boot.supportedFilesystems = [ "zfs" ];
 
-    services.zfs = {
-      autoScrub = { enable = true; interval = "monthly"; };
-      autoSnapshot.enable = true;
-    };
-
-    # TODO: replace with ZFS ZED
-    systemd.services.zfs-health-check = {
-      description = "Periodically check ZFS pool health status";
-      serviceConfig.Type = "oneshot";
-      serviceConfig.User = "root";
-      requires = [ "zfs.target" "zfs-import.target" ];
-      startAt = "minutely";
-
-      script = ''
-        set -euo pipefail
-
-        ec=$(${pkgs.zfs}/bin/zpool status -x | ${pkgs.gnugrep}/bin/grep "all pools are healthy")
-        [[ $? -eq 0 ]] && exit 0
-
-        /run/wrappers/bin/sendmail tmplt@dragons.rocks <<EOF
-        To: tmplt@dragons.rocks
-        From: ZFS health monitor <root@praecursoris.campus.ltu.se>
-        Subject: Alert: ZFS pool status unhealthy
-
-        All pools did not report as healty:
-
-        $ zpool status -v
-        $(${pkgs.zfs}/bin/zpool status -v)
-        EOF
-      '';
-    };
-
     nix.trustedUsers = [ "root" "@builders" ];
     users.groups.builders = {};
     users.users.builder = {

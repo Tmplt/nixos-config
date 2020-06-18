@@ -40,13 +40,6 @@ in
       /rpool/media         perscitia.localdomain(rw,crossmnt,no_subtree_check)
     '';
 
-    services.zfs = {
-      autoScrub.enable = true;
-      autoScrub.interval = "Sun, 02:00";
-
-      autoSnapshot.enable = true;
-    };
-
     services.mpd = {
       enable = false;
       user = "tmplt";

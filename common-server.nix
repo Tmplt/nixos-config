@@ -29,6 +29,13 @@ in
     useTLS = true;
   };
 
+  services.zfs = {
+    autoScrub.enable = true;
+    autoScrub.interval = "Sun, 02:00";
+
+    autoSnapshot.enable = true;
+  };
+
   services.zfs.zed.settings = {
     ZED_EMAIL_ADDR = [ "v@tmplt.dev" ];
     ZED_EMAIL_OPTS = "'@SUBJECT@' @ADDRESS@";
