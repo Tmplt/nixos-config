@@ -4,6 +4,8 @@
 
 let
   sshKeys = import ./ssh-keys.nix;
+  secrets = import ./secrets;
+  automationEmail = "robots@tmplt.dev";
 in
 {
   users.users.tmplt = {
@@ -16,6 +18,15 @@ in
   services.openssh = {
     enable = true;
     passwordAuthentication = false;
+  };
+
+  services.ssmtp = {
+    enable = true;
+    authUser = automationEmail;
+    authPass = secrets.ssmtp.authPass;
+    domain = "tmplt.dev";
+    hostName = "smtp.migadu.com:465";
+    useTLS = true;
   };
 
   nix.gc = {

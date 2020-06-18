@@ -33,16 +33,6 @@ in
     };
     boot.supportedFilesystems = [ "zfs" ];
 
-    services.ssmtp = {
-      enable = true;
-      authPassFile = "/run/keys/ssmtp-authpass";
-      authUser = "tmplt@dragons.rocks";
-      domain = "tmplt.dev";
-      hostName = "smtp.mailbox.org:465";
-      setSendmail = true;
-      useTLS = true;
-    };
-
     services.zfs = {
       autoScrub = { enable = true; interval = "monthly"; };
       autoSnapshot.enable = true;
