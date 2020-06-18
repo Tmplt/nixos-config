@@ -29,6 +29,25 @@ in
     useTLS = true;
   };
 
+  services.zfs.zed.settings = {
+    ZED_EMAIL_ADDR = [ "v@tmplt.dev" ];
+    ZED_EMAIL_OPTS = "'@SUBJECT@' @ADDRESS@";
+    ZED_NOTIFY_VERBOSE = true; # notify me even if pools are healthy
+
+    # Email program is called like: `sval "${ZED_EMAIL_PROG}" ${ZED_EMAIL_OPTS} < email-body`
+    ZED_EMAIL_PROG = toString (pkgs.writeShellScript "zfs-zed-email-wrapper" ''
+      subject=$1
+      address=$2
+      body=$(${pkgs.coreutils}/bin/coreutils --coreutils-prog=cat -)
+
+      ${pkgs.ssmtp}/bin/ssmtp $address <<EOF
+      From: ${automationEmail}
+      Subject: $subject
+      $body
+      EOF
+    '');
+  };
+
   nix.gc = {
     automatic = true;
     options = "-d --delete-older-than 30d";
