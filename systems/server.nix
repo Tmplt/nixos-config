@@ -13,6 +13,13 @@ in
       ../common-server.nix
     ];
 
+    # TODO: limit command set to only allow that of backing up data
+    users.users.root.openssh.authorizedKeys.keys = [ sshKeys.backup ];
+
+    environment.systemPackages = with pkgs; [
+      lz4 # required by zfs-replicate from systems/nas
+    ];
+
     networking = {
       hostName = "praecursoris";
       hostId = "61ceb5ac";

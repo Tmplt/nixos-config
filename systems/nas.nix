@@ -35,6 +35,16 @@ in
     };
     boot.supportedFilesystems = [ "zfs" ];
 
+    services.zfs.autoReplication = {
+      enable = true;
+      username = "root"; # TODO: use a dedicated backup user <https://github.com/openzfs/zfs/issues/7294>
+      host = "tmplt.dev";
+      identityFilePath = /root/.ssh/id_backup;
+      localFilesystem = "rpool/media/music";
+      remoteFilesystem = "rpool/backups";
+      followDelete = true;
+    };
+
     services.nfs.server.enable = true;
     services.nfs.server.exports = ''
       /rpool/media         perscitia.localdomain(rw,crossmnt,no_subtree_check)
