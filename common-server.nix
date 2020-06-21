@@ -40,6 +40,7 @@ in
     ZED_EMAIL_ADDR = [ "v@tmplt.dev" ];
     ZED_EMAIL_OPTS = "'@SUBJECT@' @ADDRESS@";
     ZED_NOTIFY_VERBOSE = true; # notify me even if pools are healthy
+    ZED_SCRUB_AFTER_RESILVER = true;
 
     # Email program is called like: `sval "${ZED_EMAIL_PROG}" ${ZED_EMAIL_OPTS} < email-body`
     ZED_EMAIL_PROG = toString (pkgs.writeShellScript "zfs-zed-email-wrapper" ''
