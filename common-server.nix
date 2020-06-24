@@ -27,6 +27,24 @@ in
     domain = "tmplt.dev";
     hostName = "smtp.migadu.com:465";
     useTLS = true;
+    setSendmail = true;
+  };
+
+  services.smartd = {
+    enable = true;
+
+    # Default settings, but daily short self-tests, ~bi-weekly long self-tests.
+    # TODO: long self-tests should be prio'd here. Are they?
+    defaults.autodetected = "-a -s (L/../(01|16)/./00|S/../.././00)";
+
+    notifications.mail = {
+      enable = true;
+      # sender = automationEmail; # <https://github.com/NixOS/nixpkgs/pull/91432>
+      mailer = "/run/wrappers/bin/sendmail";
+      recipient = "v@tmplt.dev";
+    };
+
+    notifications.test = true;
   };
 
   services.zfs = {
