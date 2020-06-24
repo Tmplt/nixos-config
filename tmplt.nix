@@ -219,6 +219,17 @@ in
     # Services
     #
 
+    services.mpd = {
+      enable = true;
+      musicDirectory = "/home/tmplt/dulcia/music";
+      extraConfig = ''
+        audio_output {
+                type    "pulse"
+                name    "Local pulseaudio output"
+        }
+      '';
+    };
+
     xdg.mimeApps = {
       enable = true;
       defaultApplications = {
