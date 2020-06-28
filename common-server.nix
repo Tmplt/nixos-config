@@ -30,6 +30,9 @@ in
     setSendmail = true;
   };
 
+  disabledModules = [ "services/monitoring/smartd.nix" ];
+  imports = [ ./modules/smartd.nix ];
+
   services.smartd = {
     enable = true;
 
@@ -39,12 +42,10 @@ in
 
     notifications.mail = {
       enable = true;
-      # sender = automationEmail; # <https://github.com/NixOS/nixpkgs/pull/91432>
+      sender = automationEmail; # <https://github.com/NixOS/nixpkgs/pull/91432>
       mailer = "/run/wrappers/bin/sendmail";
       recipient = "v@tmplt.dev";
     };
-
-    notifications.test = true;
   };
 
   services.zfs = {
