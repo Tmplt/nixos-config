@@ -50,7 +50,7 @@ in
 
   services.zfs = {
     autoScrub.enable = true;
-    autoScrub.interval = "Sun, 02:00";
+    autoScrub.interval = "*-*-7,23 00:00";
 
     autoSnapshot.enable = true;
   };
