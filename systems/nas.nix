@@ -1,9 +1,9 @@
 let
-  secrets = (import ../secrets).dulcia;
+  secrets = (import ../secrets);
 in
 {
   dulcia = { pkgs, ... }: {
-    deployment.targetHost = "dulcia.localdomain";
+    deployment.targetHost = "home.tmplt.dev";
     time.timeZone = "Europe/Stockholm";
     networking.hostName = "dulcia";
     networking.hostId = "61ceb5ad";
@@ -61,7 +61,7 @@ in
       group = "users";
       musicDirectory = "/media/music";
       extraConfig = ''
-        password "${secrets.mpdPassword}@read,control,add,admin"
+        password "${secrets.dulcia.mpdPassword}@read,control,add,admin"
         bind_to_address "192.168.0.101"
         port "6600"
         max_output_buffer_size "${toString (8192 * 16)}"
@@ -73,7 +73,7 @@ in
           host "localhost"
           port "8000"
           mount "/mpd.ogg"
-          password "${secrets.icecast.sourcePassword}"
+          password "${secrets.dulcia.icecast.sourcePassword}"
           quality "10.0"
           format "44100:16:1"
           description "find /media/music | xargs mpv --shuffle"
@@ -89,14 +89,27 @@ in
 
     services.icecast = {
       enable = false;
-      admin.password = secrets.icecast.adminPassword;
+      admin.password = secrets.dulcia.icecast.adminPassword;
       hostname = "den.dragons.rocks";
       listen.port = 8000;
       extraConf = ''
         <authentication>
-          <source-password>${secrets.icecast.sourcePassword}</source-password>
+          <source-password>${secrets.dulcia.icecast.sourcePassword}</source-password>
         </authentication>
       '';
+    };
+
+    services.syncthing = {
+      enable = true;
+      openDefaultPorts = true;
+      declarative = {
+        devices.mako.id = secrets.syncthing.phoneID;
+
+        folders."/rpool/phone-mirror/" = {
+          devices = [ "mako" ];
+          label = "media";
+        };
+      };
     };
 
     # Open ports in the firewall.
