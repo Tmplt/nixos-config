@@ -61,14 +61,14 @@ in
     ZED_NOTIFY_VERBOSE = true; # notify me even if pools are healthy
     ZED_SCRUB_AFTER_RESILVER = true;
 
-    # Email program is called like: `sval "${ZED_EMAIL_PROG}" ${ZED_EMAIL_OPTS} < email-body`
+    # Email program is called like: `eval "${ZED_EMAIL_PROG}" ${ZED_EMAIL_OPTS} < email-body`
     ZED_EMAIL_PROG = toString (pkgs.writeShellScript "zfs-zed-email-wrapper" ''
       subject=$1
       address=$2
-      body=$(${pkgs.coreutils}/bin/coreutils --coreutils-prog=cat -)
+      body=$(${pkgs.coreutils}/bin/cat -)
 
       ${pkgs.ssmtp}/bin/ssmtp $address <<EOF
-      From: ${automationEmail}
+      From: zfs-zed on $(${pkgs.inetutils}/bin/hostname) <${automationEmail}>
       Subject: $subject
       $body
       EOF
