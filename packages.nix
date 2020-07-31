@@ -7,21 +7,6 @@
 let
   stable = (import ./nixpkgs-pin.nix).stable;
   unstable = (import ./nixpkgs-pin.nix).unstable;
-
-  mkskel = pkgs.stdenv.mkDerivation rec {
-    pname = "mkskel";
-    name = "${pname}-${version}";
-    version = "1.0.0";
-    src = pkgs.fetchurl {
-      url = "https://git.sr.ht/~zge/${pname}/archive/${version}.tar.gz";
-      sha256 = "0z8hq5mymb5r7q5zdikjfr2gb0fihyh48sfs9y4qx68iflhzq4j5";
-    };
-
-    installPhase = ''
-      mkdir -p $out/bin
-      make install DESTDIR=$out
-    '';
-  };
 in {
   # Configure the Nix package manager
   nixpkgs = {
@@ -103,7 +88,6 @@ in {
     lxappearance
     maim
     manpages
-    mkskel
     mpc_cli
     mpv
     msmtp

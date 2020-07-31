@@ -9,8 +9,8 @@ let
   home-manager = (import <nixpkgs> {}).fetchFromGitHub {
     owner = "rycee";
     repo = "home-manager";
-    rev = "a378bccd609c159fa8d421233b9c5eae04f02042";
-    sha256 = "1cfh0aj60qriadvn5xvsp24p1xr06g68m3pfvzwahv2bd2cg261r";
+    rev = "7f7348b47049e8d25fb5b98db1d6215f8f643f0d";
+    sha256 = "1s8j8h42k354xzwlqizbzxlqvsagx7yrxl20qfxgxmx522ajw63p";
   };
 
   vim-plug = (import <nixpkgs> {}).pkgs.fetchFromGitHub {
