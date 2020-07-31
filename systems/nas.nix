@@ -2,7 +2,7 @@ let
   secrets = (import ../secrets).dulcia;
 in
 {
-  dulcia = {
+  dulcia = { pkgs, ... }: {
     deployment.targetHost = "dulcia.localdomain";
     time.timeZone = "Europe/Stockholm";
     networking.hostName = "dulcia";
@@ -34,6 +34,11 @@ in
       ];
     };
     boot.supportedFilesystems = [ "zfs" ];
+
+    environment.systemPackages = with pkgs; [
+      beets
+      ffmpeg
+    ];
 
     services.zfs.autoReplication = {
       enable = true;
