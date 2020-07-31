@@ -148,6 +148,7 @@ in {
     git-crypt
     gnumake
     neovim
+    emacs
     nixops
     nix-prefetch-git
     patchelf
