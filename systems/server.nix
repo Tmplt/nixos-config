@@ -80,9 +80,6 @@ in
       };
     };
 
-    nixpkgs.config.packageOverrides = pkgs: {
-      murmur = (import ../nixpkgs-pin.nix).unstable.murmur;
-    };
     services.murmur = {
       enable = true;
       hostName = (lib.head networking.interfaces.enp4s0.ipv4.addresses).address;
