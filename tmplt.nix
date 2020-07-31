@@ -97,7 +97,8 @@ in
 
       shellAliases = {
         xsel = "xsel -b";
-        e = "nvim";
+        e = "emacs -nw";
+        mutt = "neomutt";
         pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
         ll = "exa --long --group-directories-first";
         mkdir = "mkdir -p";
@@ -110,10 +111,10 @@ in
       };
 
       sessionVariables = {
-        EDITOR = "nvim";
-        SUDO_EDITOR = "nvim";
-        VISUAL = "nvim";
-        SYSTEMD_EDITOR = "nvim";
+        EDITOR = "emacs -nw";
+        SUDO_EDITOR = "emacs -nw";
+        VISUAL = "emacs -nw";
+        SYSTEMD_EDITOR = "emacs -nw";
         BROWSER = "qutebrowser";
         # PATH = "$PATH:$HOME/bin:$HOME/.cargo/bin";
         SKELPATH = "$HOME/.config/skeletons/";
