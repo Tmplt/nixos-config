@@ -5,8 +5,17 @@
 { config, pkgs, lib, ... }:
 
 let
-  stable = (import ./nixpkgs-pin.nix).stable;
-  unstable = (import ./nixpkgs-pin.nix).unstable;
+  fetchChannel = name: let
+    json = builtins.fromJSON (builtins.readFile (./pkgs-revs + "/${name}.json"));
+  in import (fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs-channels/archive/${json.rev}.tar.gz";
+    sha256 = json.sha256;
+  }) { config.allowUnfree = true; };
+
+  # Instead of relying on Nix channels and ending up with out-of-sync
+  # situations between machines, the commit for stable/unstable is pinned here.
+  stable = fetchChannel "stable";
+  unstable = fetchChannel "unstable";
 in {
   # Configure the Nix package manager
   nixpkgs = {
