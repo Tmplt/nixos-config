@@ -41,9 +41,6 @@ in {
         configureFlags = old.configureFlags ++ [ "--with-auto-load-safe-path=${stable.stdenv.cc.cc.lib}" ];
       });
 
-      # I need v5.0
-      zoom-us = unstable.zoom-us;
-
       # Latest tagged release is from 2017, which lacks some scripts I need.
       openocd = with stable; openocd.overrideAttrs (old: {
         src = fetchgit {
