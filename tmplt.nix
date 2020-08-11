@@ -6,11 +6,12 @@
 let
   secrets = import ./secrets;
 
-  home-manager = (import <nixpkgs> {}).fetchFromGitHub {
+  home-manager = let
+    json = builtins.fromJSON (builtins.readFile ./pkgs-revs/home-manager.json);
+  in (import <nixpkgs> {}).pkgs.fetchFromGitHub {
+    inherit (json) rev sha256;
     owner = "rycee";
     repo = "home-manager";
-    rev = "7f7348b47049e8d25fb5b98db1d6215f8f643f0d";
-    sha256 = "1s8j8h42k354xzwlqizbzxlqvsagx7yrxl20qfxgxmx522ajw63p";
   };
 
   vim-plug = (import <nixpkgs> {}).pkgs.fetchFromGitHub {
