@@ -199,12 +199,17 @@ in
           fingerprint.DP-2 = dockedEDID;
           config = {
             VGA-1.enable = false;
-            LVDS-1.enable = false;
             HDMI-1.enable = false;
             DP-1.enable = false;
 
+            LVDS-1 = {
+              enable = true;
+              mode = "1366x768";
+            };
+
             DP-2 = {
               enable = true;
+              position = "1367x0";
               mode = "2560x1440";
             };
           };
