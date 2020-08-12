@@ -255,7 +255,7 @@ in
 
     home.keyboard = {
       layout = "us,us";
-      options = [ "ctrl:swapcaps" "compose:prsc" "grp:rctrl_toggle" ];
+      options = [ "caps:ctrl_modifier" "compose:prsc" "grp:rctrl_toggle" ];
       variant = ",colemak";
     };
 
