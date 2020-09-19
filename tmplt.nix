@@ -256,7 +256,7 @@ in
     home.keyboard = {
       layout = "us,us";
       options = [ "caps:ctrl_modifier" "compose:prsc" "grp:rctrl_toggle" ];
-      variant = ",colemak";
+      variant = "colemak,";
     };
 
     xsession = {

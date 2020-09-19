@@ -91,7 +91,11 @@
         middleEmulation = false; # Don't emulate middle-click by pressing left and right button simultaneously.
         scrollMethod = "twofinger";
       };
+
+      xkbVariant = "colemak";
     };
+
+    console.useXkbConfig = true;
 
     services.acpid.enable = true;
 
