@@ -12,7 +12,12 @@
     deployment.targetHost = "localhost";
     networking.hostName = "perscitia";
 
-    networking.interfaces.enp0s25.useDHCP = true;
+    networking = {
+      interfaces = {
+        enp0s25.useDHCP = true;
+        wlp3s0.useDHCP = true;
+      };
+    };
 
     imports = [
       ../hardware-configurations/laptop.nix
