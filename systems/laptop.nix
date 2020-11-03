@@ -169,7 +169,6 @@
     ''
     # Automagically change monitor setup
     + ''
-      SUBSYSTEM=="platform", ENV{EVENT}=="*dock", RUN+="${pkgs.autorandr}/bin/autorandr --change --batch"
       SUBSYSTEM=="platform", ENV{EVENT}=="undock", RUN+="${undockScript}"
       SUBSYSTEM=="platform", ENV{EVENT}=="dock", RUN+="${dockScript}"
     '';
