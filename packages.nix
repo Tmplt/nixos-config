@@ -178,6 +178,7 @@ in {
   # ... and install some fonts.
   fonts = {
     enableFontDir = true;
+    enableDefaultFonts = true;
     enableGhostscriptFonts = true;
     fontconfig.enable = true;
 
