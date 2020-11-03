@@ -67,14 +67,9 @@
         hostName = "tmplt.dev";
         sshUser = "builder";
         sshKey = "/home/tmplt/.ssh/id_builder";
-        system = "x86_64-linux";
+        systems = [ "x86_64-linux" "aarch64-linux" ];
         maxJobs = 12;
-        supportedFeatures = [
-          "kvm"
-          "nixos-test"
-          "big-parallel"
-          "benchmark"
-        ];
+        supportedFeatures = [ "big-parallel" ]; # build Linux
       }];
 
       # Builder has much faster Internet connection.
