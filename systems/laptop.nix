@@ -80,36 +80,24 @@
 
     programs.light.enable = true;
 
-    services.xserver = {
+    programs.sway = {
       enable = true;
+      extraPackages = with pkgs; [
+        xwayland
+        xorg.xrdb
+        waybar
+        swaylock
+        swayidle
 
-      libinput = {
-        enable = true;
-        accelProfile = "flat"; # No acceleration
-        disableWhileTyping = true;
-        tapping = false; # Disable tap-to-click behavior.
-        middleEmulation = false; # Don't emulate middle-click by pressing left and right button simultaneously.
-        scrollMethod = "twofinger";
-      };
-
-      xkbVariant = "colemak";
+        mako
+        kanshi
+      ];
     };
 
+    services.xserver.xbkVariant = "colemak";
     console.useXkbConfig = true;
 
     services.acpid.enable = true;
-
-    services.physlock = {
-      enable = true;
-      allowAnyUser = true;
-
-      lockOn.suspend = true;
-      lockOn.extraTargets = [ "systemd-suspend-then-hibernate.service" ];
-
-      # While already encrypted (so needless, really), it is not obvious that the system is entering hiberation without this enabled.
-      # (Framebuffer isn't cleared; the system appears unresponsive for a few seconds.)
-      lockOn.hibernate = true;
-    };
 
     environment.etc."systemd/sleep.conf".text = "HibernateDelaySec=1h";
     services.logind = {

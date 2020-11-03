@@ -176,7 +176,7 @@ in
       laptopEDID = "00ffffffffffff0030e4d8020000000000160103801c1078ea8855995b558f261d505400000001010101010101010101010101010101601d56d85000183030404700159c1000001b000000000000000000000000000000000000000000fe004c4720446973706c61790a2020000000fe004c503132355748322d534c42330059";
       dockedEDID = "00ffffffffffff00232f9b040000000028150103a53c2278226fb1a7554c9e250c505400000001010101010101010101010101010101565e00a0a0a029503020350055502100001a000000fc004455414c2d4456490a20202020000000fc000a202020202020202020202020000000fc000a2020202020202020202020200012";
     in {
-      enable = true;
+      enable = false;           # TODO: port to sway
       profiles = {
         "mobile" = {
           fingerprint.LVDS-1 = laptopEDID;
@@ -259,29 +259,12 @@ in
       variant = "colemak,";
     };
 
-    xsession = {
-      enable = true;
-      windowManager.xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
-        extraPackages = self: [ self.xmobar ];
-      };
-
-      # XXX: wmname does not work?
-      initExtra = ''
-        ${pkgs.xorg.xsetroot}/bin/xset -cursor_name left_ptr
-        ${pkgs.wmname}/bin/wmname LD3D
-      '';
-    };
-
     services.random-background = {
-      enable = true;
+      enable = false;           # TODO: port to sway
       # TODO: package wallpapers?
       imageDirectory = "%h/wallpapers";
       interval = "3h";
     };
-
-    services.unclutter.enable = true;
 
     services.gpg-agent = {
       enable = false;
@@ -294,7 +277,7 @@ in
     };
 
     services.redshift = {
-      enable = true;
+      enable = false;           # TODO: change to gammastep
       latitude = "65.5841500";
       longitude = "22.1546500";
     };
@@ -305,7 +288,7 @@ in
     };
 
     services.dunst = {
-      enable = true;
+      enable = false;           # TODO: change to mako
 
       settings.global = {
         follow = "mouse";

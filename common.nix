@@ -30,6 +30,7 @@ in
     };
 
     opengl = {
+      enable = true;            # required by sway
       driSupport = true;
       driSupport32Bit = true;
     };
@@ -74,36 +75,6 @@ in
   systemd.coredump.extraConfig = "Storage=external";
 
   services.udisks2.enable = true;
-
-  services.xserver = {
-    enable = true;
-    autorun = true;
-
-    autoRepeatDelay = 300;
-    autoRepeatInterval = 35;
-  };
-
-  services.compton = {
-      enable = true;
-
-      shadow = false;
-      shadowOffsets = [ (-2) (-2) ];
-      shadowOpacity = "0.60";
-
-      fade = true;
-      fadeDelta = 20;
-      fadeSteps = [ "0.12" "1.0" ];
-
-      vSync = true;
-      backend = "glx";
-
-      settings = {
-        # XXX: deprecated, see `systemctl --user status compton`.
-        no-dnd-shadow = true;
-        no-dock-shadow = true;
-        shadow-ignore-shaped = true;
-      };
-  };
 
   services.dictd.enable = true;
 
