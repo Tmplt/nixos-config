@@ -99,7 +99,7 @@
       ];
     };
 
-    services.xserver.xbkVariant = "colemak";
+    services.xserver.xkbVariant = "colemak";
     console.useXkbConfig = true;
 
     services.acpid.enable = true;
