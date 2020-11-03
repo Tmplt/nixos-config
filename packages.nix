@@ -67,10 +67,16 @@ in {
           "--disable-internal-libjaylink"
         ];
       });
+
+      gammastep = unstable.gammastep;
+      foot = unstable.foot;
     };
   };
 
   environment.systemPackages = with pkgs; [
+    gammastep
+    foot
+
     acpi
     aerc
     arandr
