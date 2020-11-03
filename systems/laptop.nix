@@ -7,8 +7,6 @@
       sha256 = "1l9h3knw1rz2kl03cv9736i0j79lrfmsq1j2f56pflb00rbzj956";
       url = "https://github.com/NixOS/nixos-hardware/archive/34f24f248033d6418da82f12b3872d5f5401a310.tar.gz";
     };
-
-    uuid = lib.removeSuffix "\n" (builtins.readFile ../hardware-configurations/laptop-luks.uuid);
   in
   {
     deployment.targetHost = "localhost";
@@ -53,7 +51,7 @@
 
     boot.initrd.luks.devices.root = {
       name = "root";
-      device = "/dev/disk/by-uuid/${uuid}";
+      device = "/dev/disk/by-uuid/${lib.removeSuffix "\n" (builtins.readFile ../hardware-configurations/laptop-luks.uuid)}";
       preLVM = true;
       allowDiscards = true;
     };

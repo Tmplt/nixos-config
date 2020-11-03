@@ -8,7 +8,7 @@ let
   fetchChannel = name: let
     json = builtins.fromJSON (builtins.readFile (./pkgs-revs + "/${name}.json"));
   in import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs-channels/archive/${json.rev}.tar.gz";
+    url = "${lib.removeSuffix ".git" json.url}/archive/${json.rev}.tar.gz";
     sha256 = json.sha256;
   }) { config.allowUnfree = true; };
 

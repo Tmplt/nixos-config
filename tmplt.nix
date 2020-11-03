@@ -117,8 +117,6 @@ in
         VISUAL = "emacs -nw";
         SYSTEMD_EDITOR = "emacs -nw";
         BROWSER = "qutebrowser";
-        # PATH = "$PATH:$HOME/bin:$HOME/.cargo/bin";
-        SKELPATH = "$HOME/.config/skeletons/";
       };
     };
 

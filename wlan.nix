@@ -39,11 +39,6 @@ in
         priority = 10;
       };
 
-      # ":(){ :|:& };:" = {
-      #   psk = networkSecrets."ludd";
-      #   priority = 10;
-      # };
-
       "eduroam" = {
         priority = 5;
         auth = ''
