@@ -33,14 +33,21 @@
       device = "dulcia.localdomain:/rpool/media";
       fsType = "nfs";
       options = [
-        "_netdev" # we depend on network access
-        "defaults"
+        "defaults" # XXX: is this causing us issues?
         "noexec"
-        "noauto" # dont mount until accessed
-        "timeo=15" # 1.5s before sending the next NFS request
+        "noauto"
+        "nofail"
+
+        # Don't retry NFS requests indefinitely.
+        # XXX: can cause data corruption, but its responsiveness I'm after.
+        "soft"
+
+        "timeo=1" # 0.1s before sending the next NFS request
+        "retry=0"
+        "retrans=10"
+
         "x-systemd.automount"
-        "x-systemd.mount-timeout=30s"
-        "x-systemd.idle-timeout=30s" # dismount after 30s idle
+        "x-systemd.mount-timeout=1s"
       ];
     };
 
