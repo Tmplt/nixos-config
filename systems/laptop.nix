@@ -145,7 +145,21 @@
     };
 
     services.udev.extraRules =
-    # Shutdown system on low battery level
+      # TODO: systemd-mount --umount --lazy?
+      # TODO: kill all processes accessing files under mount?
+      # /proc/*/fd | grep dulcia ...
+      # Perhaps it would be easier to do in Python? Then we can do things like timeout before SIGKILL, etc.
+      let undockScript = pkgs.writeShellScript "undock-script" ''
+        ${pkgs.inetutils}/bin/logger -t DOCKING "Detected condition: undocked"
+        ${pkgs.inetutils}/bin/logger -t DOCKING "TODO: kill pulseaudio, or rescan to find DAC again."
+        ${pkgs.inetutils}/bin/logger -t DOCKING "TODO: SIGTERM all procs using files under /home/tmplt/dulcia, timeout to SIGKILL"
+        ${pkgs.inetutils}/bin/logger -t DOCKING "TODO: systemd-mount --umount /home/tmplt/dulcia"
+      ''; in
+      let dockScript = pkgs.writeShellScript "dock-script" ''
+        ${pkgs.inetutils}/bin/logger -t DOCKING "Detected condition: docked"
+        ${pkgs.inetutils}/bin/logger -t DOCKING "TODO: systemctl start home-tmplt-dulcia.mount"
+      ''; in
+    # Shutdown system on low battery level to prevents fs corruption
     ''
       KERNEL=="BAT0" \
       , SUBSYSTEM=="power_supply" \
@@ -155,9 +169,9 @@
     ''
     # Automagically change monitor setup
     + ''
-      SUBSYSTEM=="platform" \
-      , ENV{EVENT}=="*dock" \
-      , RUN+="${pkgs.autorandr}/bin/autorandr --change --batch"
+      SUBSYSTEM=="platform", ENV{EVENT}=="*dock", RUN+="${pkgs.autorandr}/bin/autorandr --change --batch"
+      SUBSYSTEM=="platform", ENV{EVENT}=="undock", RUN+="${undockScript}"
+      SUBSYSTEM=="platform", ENV{EVENT}=="dock", RUN+="${dockScript}"
     '';
   };
 }
