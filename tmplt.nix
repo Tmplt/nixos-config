@@ -98,7 +98,7 @@ in
 
       shellAliases = {
         xsel = "xsel -b";
-        e = "emacs -nw";
+        e = "emacsclient -t";
         mutt = "neomutt";
         pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
         ll = "exa --long --group-directories-first";
@@ -112,10 +112,9 @@ in
       };
 
       sessionVariables = {
-        EDITOR = "emacs -nw";
-        SUDO_EDITOR = "emacs -nw";
-        VISUAL = "emacs -nw";
-        SYSTEMD_EDITOR = "emacs -nw";
+        ALTERNATE_EDITOR = "";  # start emacs server on connect if not already running
+        EDITOR = "emacsclient -t";
+        VISUAL = "emacsclient -c -a emacs";
         BROWSER = "qutebrowser";
       };
     };
