@@ -53,6 +53,7 @@ in
     services.nfs.server.enable = true;
     services.nfs.server.exports = ''
       /rpool/media         perscitia.localdomain(rw,crossmnt,no_subtree_check)
+      /rpool/media         192.168.1.194(ro,crossmnt,no_subtree_check)
     '';
 
     services.mpd = {
