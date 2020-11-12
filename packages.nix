@@ -204,6 +204,7 @@ in {
       opensans-ttf
       siji
       source-code-pro
+      go-font
     ];
   };
 }
