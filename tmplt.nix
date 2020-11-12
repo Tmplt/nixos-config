@@ -133,20 +133,6 @@ in
       enableBashIntegration = true;
     };
 
-    programs.taskwarrior = {
-      enable = true;
-
-      config.taskd = let prefix = "\\/home\\/tmplt\\/nixops\\/secrets\\/task\\"; in {
-        confirmation = false;
-        # TODO: make it so this can take regular paths
-        certificate = "${prefix}/public.cert";
-        key = "${prefix}/private.key";
-        ca = "${prefix}/ca.cert";
-        server = "praecursoris.campus.ltu.se:53589";
-        credentials = "personal\\/tmplt\\/${secrets.taskUID}";
-      };
-    };
-
     programs.ssh = {
       enable = true;
       compression = true;

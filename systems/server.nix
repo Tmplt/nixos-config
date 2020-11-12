@@ -66,20 +66,6 @@ in
       };
     };
 
-    services.taskserver = {
-      enable = true;
-      fqdn = "${networking.hostName}.campus.ltu.se";
-      listenHost = "::";
-      organisations.personal.users = [ "tmplt" ];
-
-      pki.auto.expiration = {
-        ca = 365;
-        client = 365;
-        crl = 365;
-        server = 365;
-      };
-    };
-
     services.murmur = {
       enable = true;
       hostName = (lib.head networking.interfaces.enp4s0.ipv4.addresses).address;
