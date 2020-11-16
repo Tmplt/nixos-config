@@ -101,7 +101,7 @@ in
         e = "emacsclient -t";
         mutt = "neomutt";
         pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
-        ll = "exa --long --group-directories-first";
+        ll = "ls -lah";
         mkdir = "mkdir -p";
         rock = "ncmpcpp";
         disks = "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
