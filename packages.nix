@@ -104,6 +104,7 @@ in {
     wine
     winetricks
     xdotool
+    xdg_utils
     xorg.xev
     xorg.xmodmap
     xorg.xprop
@@ -133,6 +134,9 @@ in {
     python3
     ripgrep
     sqlite
+
+    # Email
+    mu
 
     # (Embedded) Rust programming
     clang
