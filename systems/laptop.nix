@@ -121,20 +121,6 @@
       '';
     };
 
-    systemd.services.fetch-mail = {
-      description = "Periodically fetch email with offlineimap(1)";
-      serviceConfig.Type = "simple";
-      serviceConfig.User = "tmplt";
-      requires = [ "network-online.target" ];
-      wantedBy = [ "multi-user.target" ];
-      startAt = "*:0/5";
-
-      path = with pkgs; [ offlineimap notmuch torsocks ];
-      script = ''
-        torsocks offlineimap
-      '';
-    };
-
     systemd.extraConfig = ''
       DefaultTimeoutStopSec=30s
     '';

@@ -209,6 +209,21 @@ in
     # Services
     #
 
+    systemd.user.services.offlineimap = {
+      Unit = {
+        Description = "Offlineimap Service";
+        Documentation = "man:offlineimap(1)";
+      };
+
+      Service = {
+        ExecStart = "${pkgs.bash}/bin/bash -c \'PATH=${pkgs.mu}/bin:$PATH ${pkgs.offlineimap}/bin/offlineimap -u basic\'";
+        Restart = "on-failure";
+        RestartSec = 60;
+      };
+
+      Install.WantedBy = [ "default.target" ];
+    };
+
     services.mpd = {
       enable = true;
       musicDirectory = "/home/tmplt/dulcia/music";
