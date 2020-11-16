@@ -235,20 +235,22 @@ in
       '';
     };
 
-    xdg.mimeApps = {
-      enable = true;
-      defaultApplications = {
-        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
-        "x-scheme-handler/https" = [ "qutebrowser.desktop" ];
-        "x-scheme-handler/http" = [ "qutebrowser.desktop" ];
-        "image/png" = [ "sxiv.desktop" ];
-        "image/jpeg" = [ "sxiv.desktop" ];
+    xdg = {
+      userDirs = {
+        enable = true;
+        download = "\$HOME/tmp";
       };
-    };
 
-    xdg.userDirs = {
-      enable = true;
-      download = "\$HOME/tmp";
+      mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+          "x-scheme-handler/https" = [ "qutebrowser.desktop" ];
+          "x-scheme-handler/http" = [ "qutebrowser.desktop" ];
+          "image/png" = [ "sxiv.desktop" ];
+          "image/jpeg" = [ "sxiv.desktop" ];
+        };
+      };
     };
 
     home.keyboard = {
