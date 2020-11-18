@@ -120,8 +120,7 @@ in
     programs.git = {
       enable = true;
       userName = "tmplt";
-      userEmail = "tmplt@dragons.rocks";
-      signing.key = "0x4C2C6467";
+      userEmail = "v@tmplt.dev";
     };
 
     programs.direnv = {
