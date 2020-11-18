@@ -100,7 +100,7 @@ in
         xsel = "xsel -b";
         e = "emacsclient -t";
         pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
-        ll = "ls -lah";
+        ll = "ls -lh";
         mkdir = "mkdir -p";
         rock = "ncmpcpp";
         disks = "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
