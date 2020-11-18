@@ -104,7 +104,6 @@ in
         mkdir = "mkdir -p";
         rock = "ncmpcpp";
         disks = "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
-        ren = "ranger";
         wtf = "dmesg | tail -n 50";
         ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
         zathura = "zathura --fork";
