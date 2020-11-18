@@ -99,7 +99,6 @@ in
       shellAliases = {
         xsel = "xsel -b";
         e = "emacsclient -t";
-        mutt = "neomutt";
         pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
         ll = "ls -lah";
         mkdir = "mkdir -p";

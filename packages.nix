@@ -81,8 +81,6 @@ in {
     mumble
     ncdu
     neofetch
-    neomutt
-    urlscan
     nfs-utils
     octave
     offlineimap
