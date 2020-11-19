@@ -213,11 +213,28 @@
 
 (use-package elfeed
   :config
+  (add-hook 'elfeed-new-entry-hook
+            (elfeed-make-tagger :feed-url "youtube\\.com"
+                                :add '(video youtube)))
+  (defun youtube-xml (cid) (format "https://www.youtube.com/feeds/videos.xml?channel_id=%s" cid))
   (setq elfeed-feeds
-        '("https://planet.emacslife.com/atom.xml"
-          "https://www.oglaf.com/feeds/rss/"))
-  :bind
-  ("C-x w" . 'elfeed))
+        `(("https://planet.emacslife.com/atom.xml" emacs)
+          ;; TODO paid LWN articles (contains "[$]") become free after a few weeks. Delay their display until they are free.
+          ;;      In case delay isn't static (or if it is subject to change) we can grep for the date by curling the link.
+          ("https://lwn.net/headlines/rss" linux)
+          ("https://drewdevault.com/blog/index.xml" blog)))
+  :bind (("C-x w" . 'elfeed)
+         :map elfeed-search-mode-map
+         ;; TODO understand this lambda
+         ("C-c o" . (lambda (&optional use-generic-p) ; open in mpv
+                      (interactive "P")
+                      (let ((entries (elfeed-search-selected)))
+                        (cl-loop for entry in entries
+                                 do (elfeed-untag entry 'unread)
+                                 when (elfeed-entry-link entry)
+                                 do (async-shell-command (format "mpv '%s'" it))) ; TODO kill buffer afterwards
+                        (mapc #'elfeed-search-update-entry entries)
+                        (unless (use-region-p) (forward-line)))))))
 
 ;; TODO: inline this as a (let) in (use-package)
 (defun my/switch-to-or-create-dashboard ()
@@ -277,7 +294,7 @@
 (use-package mpdel
   :bind (("C-x u" . 'mpdel-core-map)    ; TODO replace this with some 'mpdel-status that behaves like 'magit-status
          :map mpdel-core-map
-         ("q" . (lambda ()              ; Quit MPDel buffers recursively
+         ("q" . (lambda ()              ; MPDel stacks buffers when changing views/modes; quit them recursively
                   (interactive)
                   (while (string-match-p "mpdel-.*-mode" (symbol-name major-mode))
                     (quit-window))))
