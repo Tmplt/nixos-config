@@ -203,12 +203,13 @@
   (setq mu4e-view-show-addresses t)
   ;; Don't keep message buffers around
   (setq message-kill-buffer-on-exit t)
-  ;; Use as MUA
+  ;; Use as emacs-global MUA; compose-mail thus uses mu4e
   (setq mail-user-agent 'mu4e-user-agent)
   ;; Don't ask to quit
   (setq mu4e-confirm-quit nil)
   :bind
-  ("C-x m" . 'mu4e))
+  ("C-x m" . 'mu4e)
+  ("C-x C-m" . 'compose-mail))          ; TODO quit mu4e completely when done?
 
 (use-package elfeed
   :config
