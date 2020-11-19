@@ -113,15 +113,18 @@
   (setq org-log-done t)
   (setq org-agenda-files (list "~/org/work.org"
                                "~/org/school.org"
-                               "~/org/home.org"))
+                               "~/org/home.org"
+                               "~/org/notes.org"))
   (setq org-agenda-start-on-weekday 1)
   (setq org-list-allow-alphabetical t)
   (setq org-deadline-warning-days 5)
   (setq org-duration-format 'h:mm)
-  ;; TODO use custom latex template/preamble
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  ;; TODO use custom latex template/preamble ... for what?
   :bind
   ("C-c l" . 'org-store-link)
-  ("C-c a" . 'org-agenda))
+  ("C-c a" . 'org-agenda)
+  ("C-c c" . 'org-capture))
 
 ;; Disable latex-mode mathmode super- and sub-scripts
 (setq tex-fontify-script nil)
