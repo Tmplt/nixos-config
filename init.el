@@ -277,7 +277,11 @@
 (use-package mpdel
   :bind (("C-x u" . 'mpdel-core-map)    ; TODO replace this with some 'mpdel-status that behaves like 'magit-status
          :map mpdel-core-map
-         ;; TODO bind q to quitting all nested buffers
+         ("q" . (lambda ()              ; Quit MPDel buffers recursively
+                  (interactive)
+                  (while (string-match-p "mpdel-.*-mode" (symbol-name major-mode))
+                    (quit-window))))
+         ;; TODO get rid of the "Ready!" message
          ("z" . (lambda ()              ; Toggle random
                   (interactive)
                   (if libmpdel--random
