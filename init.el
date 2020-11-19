@@ -28,6 +28,8 @@
 ;; Auto-revert buffer when file changes on disk
 (global-auto-revert-mode t)
 
+(setq view-read-only t)
+
 (show-paren-mode t)
 
 (setq gc-cons-threshold 20000000)       ; GC after 20M
