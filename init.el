@@ -253,7 +253,7 @@
              :ensure t
              :diminish dashboard-mode
              :bind
-             ("C-x C-r" . 'my/switch-to-or-create-dashboard)
+             ;; ("C-x C-r" . 'my/switch-to-or-create-dashboard)
              :config
              (setq initial-buffer-choice 'my/switch-to-or-create-dashboard)
              (setq dashboard-set-init-info nil) ; emacs is run as client/server
@@ -311,6 +311,13 @@
                     (libmpdel-playback-set-random))
                   (message "mpd: random: %s" (if (not libmpdel--random) ; I have no idea why I must negate here. Behaves as expected in 'eval-expression
                                                  "on" "off"))))))
+(use-package helm
+  :config
+  (helm-mode 1)
+  :bind
+  ("M-x" . 'helm-M-x)
+  ("C-x C-f" . 'helm-find-files)
+  ("C-x C-r" . 'helm-recentf))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
