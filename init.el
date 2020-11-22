@@ -57,7 +57,7 @@
 (setq c-default-style "linux")
 
 ;; load a decent colour theme; press F12 to switch between light/dark
-(load-theme 'modus-operandi t)
+(load-theme 'modus-vivendi t)
 (defun themes-toggle ()
   (interactive)
   (if (eq (car custom-enabled-themes) 'modus-operandi)
