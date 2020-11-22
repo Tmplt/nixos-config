@@ -37,9 +37,14 @@
 ;; Display line numbers
 ;; TODO: make this into a dolist
 (when (version<= "26.0.50" emacs-version)
+  ;; Line numbers
   (add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode t)))
   (add-hook 'conf-mode-hook (lambda () (display-line-numbers-mode t)))
-  (add-hook 'text-mode-hook (lambda () (display-line-numbers-mode t))))
+  (add-hook 'text-mode-hook (lambda () (display-line-numbers-mode t)))
+  ;; Highlight current line
+  (add-hook 'prog-mode-hook #'hl-line-mode)
+  (add-hook 'conf-mode-hook #'hl-line-mode)
+  (add-hook 'text-mode-hook #'hl-line-mode))
 
 ;; Remove unecessary GUI elements
 (scroll-bar-mode -1)
