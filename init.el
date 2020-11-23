@@ -304,7 +304,7 @@
 (use-package mpdel
   :bind (("C-x u" . 'mpdel-core-map)    ; TODO replace this with some 'mpdel-status that behaves like 'magit-status
          :map mpdel-core-map
-         ("q" . (lambda ()              ; MPDel stacks buffers when changing views/modes; quit them recursively
+         ("Q" . (lambda ()              ; Mpdel Stacks buffers when changing views/modes; quit them recursively
                   (interactive)
                   (while (string-match-p "mpdel-.*-mode" (symbol-name major-mode))
                     (quit-window))))
