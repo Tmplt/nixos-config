@@ -126,6 +126,8 @@
   (setq org-duration-format 'h:mm)
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   ;; TODO use custom latex template/preamble ... for what?
+  :hook
+  (org-agenda-mode . hl-line-mode)
   :bind
   ("C-c l" . 'org-store-link)
   ("C-c a" . 'org-agenda)
