@@ -217,6 +217,22 @@
   (setq mail-user-agent 'mu4e-user-agent)
   ;; Don't ask to quit
   (setq mu4e-confirm-quit nil)
+  ;; View mail in browser
+  (defun ed/mu4e-msgv-action-view-in-browser (msg)
+    "View the body of the message in a web browser."
+    (interactive)
+    (let ((html (mu4e-msg-field (mu4e-message-at-point t) :body-html))
+          (tmpfile (format "%s/%d.html" temporary-file-directory (random))))
+      (unless html (error "No html part for this message"))
+      (with-temp-file tmpfile
+        (insert
+         "<html>"
+         "<head><meta http-equiv=\"content-type\""
+         "content=\"text/html;charset=UTF-8\">"
+         html))
+      (browse-url (concat "file://" tmpfile))))
+  (add-to-list 'mu4e-view-actions
+             '("View in browser" . ed/mu4e-msgv-action-view-in-browser) t)
   :bind
   ("C-x m" . 'mu4e)
   ("C-x C-m" . 'compose-mail))          ; TODO quit mu4e completely when done?
