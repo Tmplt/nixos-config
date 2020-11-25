@@ -23,7 +23,7 @@ in
   services.ssmtp = {
     enable = true;
     authUser = automationEmail;
-    authPass = secrets.ssmtp.authPass;
+    authPassFile = "/run/keys/ssmtp-authpass";
     domain = "tmplt.dev";
     hostName = "smtp.migadu.com:465";
     useTLS = true;

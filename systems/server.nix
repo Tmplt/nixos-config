@@ -94,7 +94,6 @@ in
       acceptTerms = true;
     };
     security.acme.certs."mumble.dragons.rocks" = {
-      allowKeysForGroup = true; # XXX: what was this for?
       group = "murmur";
 
       # Tell murmur to reload its SSL settings, if it is running
