@@ -44,7 +44,9 @@
   ;; Highlight current line
   (add-hook 'prog-mode-hook #'hl-line-mode)
   (add-hook 'conf-mode-hook #'hl-line-mode)
-  (add-hook 'text-mode-hook #'hl-line-mode))
+  (add-hook 'text-mode-hook #'hl-line-mode)
+  ;; Auto-fill mode
+  (add-hook 'text-mode-hook #'auto-fill-mode))
 
 ;; Remove unecessary GUI elements
 (scroll-bar-mode -1)
