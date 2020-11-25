@@ -63,6 +63,11 @@ in
           devices = [ "perscitia" ];
           label = "sync";
         };
+
+        folders."${dataDir}/org" = {
+          devices = [ "perscitia" ];
+          label = "org";
+        };
       };
     };
 
