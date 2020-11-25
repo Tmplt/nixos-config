@@ -240,8 +240,6 @@
   ;; Use ISO 8601 date formatting
   (setq mu4e-date-format-long "%F")
   (setq mu4e-compose-format-flowed t)
-  :hook
-  (message-mode . auto-fill-mode)       ; automatically wrap paragraphs
   :bind
   ("C-x m" . 'mu4e)
   ("C-x C-m" . 'compose-mail))          ; TODO quit mu4e completely when done?
