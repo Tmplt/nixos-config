@@ -32,7 +32,7 @@
 
     fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
-    fileSystems."/home/tmplt/dulcia" = {
+    fileSystems."/mnt/dulcia" = {
       device = "dulcia.localdomain:/rpool/media";
       fsType = "nfs";
       options = [
