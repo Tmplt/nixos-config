@@ -127,7 +127,16 @@
   (setq org-deadline-warning-days 5)
   (setq org-duration-format 'h:mm)
   (setq org-default-notes-file (concat org-directory "/notes.org"))
-  ;; TODO use custom latex template/preamble ... for what?
+  ;; TODO use custom latex template/preamble ... for what? Thesis export?
+  (setq org-capture-templates
+        '(("t" "Task" entry (file+headline "~/org/notes.org" "Tasks")
+           "* TODO %?\n  %u")
+          ("f" "Fleeting thought" entry (file+headline "~/org/thoughts.org" "Thoughts")
+           "* %?\n  %U")
+          ("d" "Dream" entry (file "~/org/dreams.org")
+           "* %u\n  %?")
+          ("j" "Journal entry" entry (file "~/org/journal.org")
+           "* %?\n  %U")))
   :hook
   (org-agenda-mode . hl-line-mode)
   :bind
