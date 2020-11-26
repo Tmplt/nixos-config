@@ -349,13 +349,24 @@
                   (message "mpd: random: %s" (if (not libmpdel--random) ; I have no idea why I must negate here. Behaves as expected in 'eval-expression
                                                  "on" "off"))))))
 (use-package helm
-  :config
+  :diminish helm-mode
+  :init
   (helm-mode 1)
   :bind
   ("M-x" . 'helm-M-x)
   ("C-x C-f" . 'helm-find-files)
   ("C-x C-r" . 'helm-recentf))
 
+(use-package diminish
+  :ensure t
+  :init
+  (diminish 'auto-fill-function))       ; auto-fill-mode
+
+(use-package which-key
+  :ensure t
+  :diminish which-key-mode
+  :init
+  (which-key-mode))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
