@@ -223,7 +223,7 @@ in
 
     services.mpd = {
       enable = true;
-      musicDirectory = "/home/tmplt/dulcia/music";
+      musicDirectory = "/mnt/dulcia/music";
       extraConfig = ''
         audio_output {
                 type    "pulse"
