@@ -30,7 +30,10 @@
 
 (setq view-read-only t)
 
+;; Insert closing pair after point ant highlight matching pairs
 (show-paren-mode t)
+(electric-pair-mode t)
+(electric-quote-mode t)
 
 (setq gc-cons-threshold 20000000)       ; GC after 20M
 
