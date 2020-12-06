@@ -150,9 +150,10 @@
   (org-agenda-mode . hl-line-mode)
   (org-capture-before-finalize . my/add-property-with-date-captured)
   :bind
-  ("C-c l" . 'org-store-link)
+  ("C-c C-l" . 'org-store-link)
+  ("C-c l" . 'org-insert-link)
   ("C-c a" . 'org-agenda)
-  ("C-c c" . 'org-capture))
+  ("C-c c" . 'org-capture))             ; add a template for daily org-roam notes
 
 ;; Disable latex-mode mathmode super- and sub-scripts
 (setq tex-fontify-script nil)
