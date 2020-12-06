@@ -92,14 +92,12 @@ in
       sslCert = "/var/lib/acme/mumble.dragons.rocks/fullchain.pem";
       sslKey = "/var/lib/acme/mumble.dragons.rocks/key.pem";
     };
-    users.users.murmur.group = "murmur";
-    users.groups.murmur = {};
     security.acme = {
       email = "v@tmplt.dev";
       acceptTerms = true;
     };
     security.acme.certs."mumble.dragons.rocks" = {
-      group = "murmur";
+      group = "mumble-dragons-rocks";
 
       # Tell murmur to reload its SSL settings, if it is running
       postRun = ''
@@ -108,22 +106,17 @@ in
         fi
       '';
     };
+    users.groups."mumble-dragons-rocks".members = [ "murmur" "nginx" ];
 
     # TODO: polling is ugly; can we manage this with a git web-hook instead?
-    users.users.homepage = {
-      createHome = true;
-      description = "tmplt.dev website";
-      home = "/home/homepage";
-      useDefaultShell = true;
-      openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
-    };
     systemd.services.update-homepage = {
       description = "Init/update tmplt.dev homepage";
-      serviceConfig.User = "homepage";
+      serviceConfig.User = "nginx";
       serviceConfig.Type = "oneshot";
       path = with pkgs; [ git ];
       script = ''
-        cd ~/
+        mkdir -p /var/lib/www/tmplt.dev
+        cd /var/lib/www/tmplt.dev
         if [ ! $(git rev-parse --is-inside-work-tree) ]; then
           git clone https://github.com/tmplt/tmplt.dev.git .
         else
@@ -173,7 +166,7 @@ in
           default = true;
           # TODO: deny access to all hidden files instead
           locations."~ /\.git".extraConfig = "deny all;";
-          locations."/".root = users.users.homepage.home;
+          locations."/".root = "/var/lib/www/tmplt.dev";
         };
 
         "www.tmplt.dev" = {
@@ -183,6 +176,7 @@ in
         };
 
         "mumble.dragons.rocks" = {
+          forceSSL = true;
           enableACME = true;
           globalRedirect = "tmplt.dev";
         };
