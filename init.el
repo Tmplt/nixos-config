@@ -155,6 +155,17 @@
   ("C-c a" . 'org-agenda)
   ("C-c c" . 'org-capture))             ; add a template for daily org-roam notes
 
+(use-package org-roam
+  :diminish org-roam-mode
+  :hook
+  (after-init . org-roam-mode)
+  :config
+  (setq org-roam-directory "~/org/roam")
+  :bind (("C-c n l" . org-roam)
+         ("C-c n i" . org-roam-insert)
+         ("C-c n f" . org-roam-find-file)
+         ("C-c n j" . org-roam-jump-to-index)))
+
 ;; Disable latex-mode mathmode super- and sub-scripts
 (setq tex-fontify-script nil)
 (setq font-latex-fontify-script nil)
