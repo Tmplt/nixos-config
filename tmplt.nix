@@ -111,7 +111,7 @@ in
 
       sessionVariables = {
         ALTERNATE_EDITOR = "";  # start emacs server on connect if not already running
-        EDITOR = "emacsclient -t";
+        EDITOR = "emacsclient";
         VISUAL = "emacsclient -c -a emacs";
         BROWSER = "qutebrowser";
       };
