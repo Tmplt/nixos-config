@@ -118,30 +118,37 @@
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 ;; Configure org-mode
+(defun my/add-property-with-date-captured ()
+  (interactive)
+  (org-set-property "DATE_CAPTURED" (format-time-string "[%FT%T%z]")))
+
 (use-package org
   :config
   (setq org-log-done t)
   (setq org-agenda-files (list "~/org/work.org"
                                "~/org/school.org"
                                "~/org/home.org"
-                               "~/org/notes.org"))
+                               "~/org/tasks.org"))
   (setq org-agenda-start-on-weekday 1)
   (setq org-list-allow-alphabetical t)
   (setq org-deadline-warning-days 5)
   (setq org-duration-format 'h:mm)
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-default-notes-file (concat org-directory "/notes.org")) ; used as a fallback for templates that do not specify file
   ;; TODO use custom latex template/preamble ... for what? Thesis export?
   (setq org-capture-templates
-        '(("t" "Task" entry (file+headline "~/org/notes.org" "Tasks")
-           "* TODO %?\n  %u")
-          ("f" "Fleeting thought" entry (file+headline "~/org/thoughts.org" "Thoughts")
-           "* %?\n  %U")
+        '(("t" "Task" entry (file+headline "~/org/tasks.org" "Tasks")
+           "* TODO %?\n  %a")
+          ("f" "Fleeting thought" item (file+headline "~/org/thoughts.org" "Thoughts")
+           "- %? %U")
           ("d" "Dream" entry (file "~/org/dreams.org")
-           "* %u\n  %?")
+           "* %^{Summary}\n%?")
           ("j" "Journal entry" entry (file "~/org/journal.org")
-           "* %?\n  %U")))
+           "* %^{Summary}\n%?")
+          ("i" "Idea" entry (file+headline "~/org/ideas.org" "Ideas")
+           "* %^{Summary}\n%?\n  %a")))
   :hook
   (org-agenda-mode . hl-line-mode)
+  (org-capture-before-finalize . my/add-property-with-date-captured)
   :bind
   ("C-c l" . 'org-store-link)
   ("C-c a" . 'org-agenda)
