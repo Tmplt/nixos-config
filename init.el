@@ -268,9 +268,14 @@
       (browse-url (concat "file://" tmpfile))))
   (add-to-list 'mu4e-view-actions
                '("View in browser" . ed/mu4e-msgv-action-view-in-browser) t)
-  ;; Use ISO 8601 date formatting
-  (setq mu4e-date-format-long "%F")
   (setq mu4e-compose-format-flowed t)
+  ;; Configure date formats
+  (setq mu4e-date-format-long "%F"
+        mu4e-headers-time-format "%R"
+        mu4e-headers-date-format "%d/%m/%+4Y"
+        mu4e-view-date-format "%a %d %b %Y %R %Z"
+        message-citation-line-format "On %a %d %b %Y at %R %Z, %f wrote:"
+        message-citation-line-function 'message-insert-formatted-citation-line)
   :bind
   ("C-x m" . 'mu4e)
   ("C-x C-m" . 'compose-mail))          ; TODO quit mu4e completely when done?
