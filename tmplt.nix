@@ -121,6 +121,7 @@ in
       enable = true;
       userName = "tmplt";
       userEmail = "v@tmplt.dev";
+      package = pkgs.gitAndTools.gitFull;
     };
 
     programs.direnv = {
