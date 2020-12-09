@@ -403,6 +403,10 @@
   :diminish which-key-mode
   :init
   (which-key-mode))
+
+(use-package swiper
+  :bind ("C-s" . 'swiper))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
