@@ -273,7 +273,6 @@
       (browse-url (concat "file://" tmpfile))))
   (add-to-list 'mu4e-view-actions
                '("View in browser" . ed/mu4e-msgv-action-view-in-browser) t)
-  (setq mu4e-compose-format-flowed t)
   ;; Configure date formats
   (setq mu4e-date-format-long "%F"
         mu4e-headers-time-format "%R"
@@ -281,6 +280,11 @@
         mu4e-view-date-format "%a %d %b %Y %R %Z"
         message-citation-line-format "On %a %d %b %Y at %R %Z, %f wrote:"
         message-citation-line-function 'message-insert-formatted-citation-line)
+  ;; Apply recommendations as per useplaintext.email
+  (setq-default fill-column 72)
+  (setq mu4e-compose-format-flowed t
+        fill-flowed-encode-column fill-column
+        message-cite-reply-position 'below)
   :bind
   ("C-x m" . 'mu4e)
   ("C-x C-m" . 'compose-mail))          ; TODO quit mu4e completely when done?
