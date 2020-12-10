@@ -278,7 +278,7 @@
         mu4e-headers-time-format "%R"
         mu4e-headers-date-format "%d/%m/%+4Y"
         mu4e-view-date-format "%a %d %b %Y %R %Z"
-        message-citation-line-format "On %a %d %b %Y at %R %Z, %f wrote:"
+        message-citation-line-format "%f wrote:"
         message-citation-line-function 'message-insert-formatted-citation-line)
   ;; Apply recommendations as per useplaintext.email
   (setq-default fill-column 72)
