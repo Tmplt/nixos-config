@@ -314,19 +314,9 @@
                         (mapc #'elfeed-search-update-entry entries)
                         (unless (use-region-p) (forward-line)))))))
 
-;; TODO: inline this as a (let) in (use-package)
-(defun my/switch-to-or-create-dashboard ()
-  (interactive)
-  (let ((buffer "*dashboard*"))
-    (unless (get-buffer buffer)
-      (generate-new-buffer buffer)
-      (dashboard-refresh-buffer))
-    (switch-to-buffer buffer)))
 (use-package dashboard
              :ensure t
              :diminish dashboard-mode
-             :bind
-             ;; ("C-x C-r" . 'my/switch-to-or-create-dashboard)
              :config
              (setq initial-buffer-choice 'my/switch-to-or-create-dashboard)
              (setq dashboard-set-init-info nil) ; emacs is run as client/server
