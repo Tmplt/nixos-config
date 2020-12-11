@@ -345,7 +345,7 @@
 
 (use-package magit
   :bind
-  ("C-x g" . 'magit-status))
+  ("C-c g" . 'magit-file-dispatch))
 
 ;; highlight the following strings
 ;;;; TODO: add the following keywords for Org mode:
