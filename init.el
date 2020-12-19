@@ -3,7 +3,7 @@
   (add-to-list 'package-archives
                '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list
-   'load-path "/nix/store/m954ldfzg8h6nkwj4hfb2fpdrwjsdbs6-mu-1.4.13/share/emacs/site-lisp")
+   'load-path "/etc/nix/pins/mu/share/emacs/site-lisp")
   (package-initialize))
 
 ;;;; Vanilla Emacs options

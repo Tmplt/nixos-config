@@ -61,6 +61,11 @@ in
     enableGlobalCompInit = false;
   };
 
+  environment.etc = {
+    "nix/pins/cacert".source = pkgs.cacert;
+    "nix/pins/mu".source = pkgs.mu;
+  };
+
   programs.command-not-found.enable = true;
 
   # XXX: why is this needed?
