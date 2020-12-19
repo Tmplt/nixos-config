@@ -119,7 +119,7 @@ in
 
     programs.git = {
       enable = true;
-      userName = "tmplt";
+      userName = "Viktor Sonesten";
       userEmail = "v@tmplt.dev";
       package = pkgs.gitAndTools.gitFull;
     };
