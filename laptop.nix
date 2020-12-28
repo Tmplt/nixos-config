@@ -186,6 +186,10 @@
             EDITOR = "emacsclient";
             VISUAL = "emacsclient -c -a emacs";
             BROWSER = "qutebrowser";
+
+            # Fix telegram-desktop SEGV
+            QT_QPA_PLATFORM = "wayland";
+            XCURSOR_SIZE = "24";
           };
         };
 
