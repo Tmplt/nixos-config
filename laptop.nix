@@ -4,12 +4,6 @@
       secrets = import ./secrets;
 
       # TODO deprecate
-      vim-plug = (import <nixpkgs> { }).pkgs.fetchFromGitHub {
-        owner = "junegunn";
-        repo = "vim-plug";
-        rev = "0.10.0";
-        sha256 = "11x10l75q6k4z67yyk5ll25fqpgb2ma88vplrakw3k41g79xn9d9";
-      };
       zimfw = (import <nixpkgs> { }).pkgs.fetchFromGitHub {
         owner = "zimfw";
         repo = "zimfw";
@@ -133,8 +127,6 @@
 
         home.file = {
           ".zim".source = "${zimfw}";
-          ".local/share/nvim/site/autoload/plug.vim".source =
-            "${vim-plug}/plug.vim";
         };
 
         programs.zsh = {
