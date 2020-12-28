@@ -19,53 +19,66 @@
     };
   in
   {
-    deployment.targetHost = "localhost";
-    networking.hostName = "perscitia";
-
-    time.timeZone = "Europe/Stockholm";
-    sound.enable = true;
-    boot.cleanTmpDir = true;
-
-    hardware = {
-      pulseaudio = {
-        enable = true;
-        support32Bit = true;
-
-        # Don't mute audio streams when VOIP programs are running.
-        extraConfig = ''
-          unload-module module-role-cork
-        '';
-      };
-
-      opengl = {
-        enable = true;            # required by sway
-        driSupport = true;
-        driSupport32Bit = true;
-      };
-    };
-
-    networking = {
-      interfaces = {
-        enp0s25.useDHCP = true;
-        wlp3s0.useDHCP = true;
-      };
-
-      firewall.allowedUDPPorts = [ 7667 ]; # lcm
-    };
-
     imports = [
       <nixos-hardware/lenovo/thinkpad/x220>
       <home-manager/nixos>
-      ./editor.nix
       ./hardware-configurations/laptop.nix
       ./wlan.nix
-      ./email.nix
       ./packages.nix
+      ./adhoc.nix
     ];
+
+    # Basic options
+
+    fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
+    # Configure unlock for the encrypted root (/) partition.
+    boot.initrd.luks.devices.root = {
+      name = "root";
+      device = "/dev/disk/by-uuid/${lib.removeSuffix "\n" (builtins.readFile ./hardware-configurations/laptop-luks.uuid)}";
+      preLVM = true;
+      allowDiscards = true;
+    };
+    boot.loader.systemd-boot.enable = true;
+
+    hardware = {
+      pulseaudio.enable = true;
+      # Don't mute audio streams when VOIP programs are running.
+      pulseaudio.extraConfig = ''
+        unload-module module-role-cork
+      '';
+
+      trackpoint.enable = true;
+      trackpoint.emulateWheel = false;
+    };
+
+    deployment.targetHost = "localhost"; # for compatibility with nixops
+
+    networking.hostName = "perscitia";
+    networking.useDHCP = true;
+    time.timeZone = "Europe/Stockholm";
+    sound.enable = true;
+
+    # User options
+
+    users.extraUsers.tmplt = {
+      description = "Viktor Sonsten";
+      isNormalUser = true;
+      uid = 1000;               # for NFS permissions
+
+      extraGroups = [
+        "wheel" "dialout" "video" "audio" "input"
+      ];
+
+      shell = "${pkgs.zsh}/bin/zsh";
+
+      # Don't forget to set an actual password with passwd(1).
+      initialPassword = "password";
+    };
 
     # Make the default download directory a tmpfs, so I don't end up
     # using it as a non-volatile dir for whatever.
     #
+    # TODO derive path from above attribute
     fileSystems."/home/tmplt/tmp" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -78,99 +91,6 @@
 
       # `compinit` is called in the user configuration. Don't call it twice.
       enableGlobalCompInit = false;
-    };
-
-    environment.etc = {
-      "nix/pins/cacert".source = pkgs.cacert;
-      "nix/pins/mu".source = pkgs.mu;
-    };
-
-    systemd.coredump.enable = true;
-    services.udisks2.enable = true;
-    services.dictd.enable = true;
-    services.dnsmasq.enable = true;
-
-    # Fix for USB redirection in virt-manager(1).
-    security.wrappers.spice-client-glib-usb-acl-helper.source = "${pkgs.spice_gtk}/bin/spice-client-glib-usb-acl-helper";
-    environment.systemPackages = with pkgs; [ spice_gtk ];
-
-    # Allow some USB devices to be accessed without root privelages.
-    services.udev.extraRules = with lib; let
-      toUdevRule = vid: pid: ''
-      SUBSYSTEM=="usb", ATTR{idVendor}=="${vid}", ATTR{idProduct}=="${pid}", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"
-    '';
-      setWorldReadable = idPairs:
-        concatStrings (map (x: let l = splitString ":" x; in toUdevRule (head l) (last l)) idPairs);
-    in (setWorldReadable [
-      "0483:374b" "0483:3748" "0483:3752" # ST-LINK/V2.1 rev A/B/C+
-      "15ba:002a" # ATM-USB-TINY-H JTAG interface
-      "1366:1015" # SEGGER (JLink firmware)
-      "0403:6014" # FT232H
-    ]) +
-    # Shutdown system on low battery level to prevents fs corruption
-    ''
-      KERNEL=="BAT0" \
-      , SUBSYSTEM=="power_supply" \
-      , ATTR{status}=="Discharging" \
-      , ATTR{capacity}=="[0-5]" \
-      , RUN+="${pkgs.systemd}/bin/systemctl poweroff"
-    '';
-
-    # Use the systemd-boot EFI boot loader.
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
-
-    fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
-
-    fileSystems."/mnt/dulcia" = {
-      device = "dulcia.localdomain:/rpool/media";
-      fsType = "nfs";
-      options = [
-        "defaults" # XXX: is this causing us issues?
-        "noexec"
-        "noauto"
-        "nofail"
-
-        # Don't retry NFS requests indefinitely.
-        # XXX: can cause data corruption, but its responsiveness I'm after.
-        "soft"
-
-        "timeo=1" # 0.1s before sending the next NFS request
-        "retry=0"
-        "retrans=10"
-
-        "x-systemd.automount"
-        "x-systemd.mount-timeout=1s"
-      ];
-    };
-
-    boot.initrd.luks.devices.root = {
-      name = "root";
-      device = "/dev/disk/by-uuid/${lib.removeSuffix "\n" (builtins.readFile ./hardware-configurations/laptop-luks.uuid)}";
-      preLVM = true;
-      allowDiscards = true;
-    };
-
-    hardware.trackpoint = {
-      emulateWheel = true;
-      enable = true;
-    };
-
-    nix = {
-      distributedBuilds = true;
-      buildMachines = [{
-        hostName = "tmplt.dev";
-        sshUser = "builder";
-        sshKey = "/home/tmplt/.ssh/id_builder";
-        systems = [ "x86_64-linux" "aarch64-linux" ];
-        maxJobs = 12;
-        supportedFeatures = [ "big-parallel" ]; # build Linux
-      }];
-
-      # Builder has much faster Internet connection.
-      extraOptions = ''
-        builders-use-substitutes = true
-      '';
     };
 
     programs.light.enable = true;
@@ -197,47 +117,15 @@
     services.xserver.xkbVariant = "colemak";
     console.useXkbConfig = true;
 
-    services.acpid.enable = true;
-
-    environment.etc."systemd/sleep.conf".text = "HibernateDelaySec=1h";
-    services.logind = {
-      lidSwitch = "suspend-then-hibernate";
-      lidSwitchDocked = "suspend-then-hibernate";
-
-      # See logind.conf(5).
-      extraConfig = ''
-        HandleSuspendKey=ignore
-        handleHibernateKey=hibernate
-
-        PowerKeyIgnoreInhibited=yes
-        SuspendKeyIgnoreInhibited=yes
-        HibernateKeyIgnoreInhibited=yes
-        LidSwitchIgnoreInhibited=yes
-      '';
+    # Convenience symlinks for emacs, offlineimap
+    environment.etc = {
+      "nix/pins/cacert".source = pkgs.cacert;
+      "nix/pins/mu".source = pkgs.mu;
     };
 
-    systemd.extraConfig = ''
-      DefaultTimeoutStopSec=30s
-    '';
-
-    powerManagement = {
-      enable = true;
-      powertop.enable = true;
-    };
-
-    users.users.tmplt = {
-      isNormalUser = true;
-      uid = 1000;
-
-      extraGroups = [
-        "wheel" "dialout" "video" "audio" "input"
-      ];
-
-      shell = "${pkgs.zsh}/bin/zsh";
-
-      # Don't forget to set an actual password with passwd(1).
-      initialPassword = "password";
-    };
+    # Fix for USB redirection in virt-manager(1).
+    security.wrappers.spice-client-glib-usb-acl-helper.source = "${pkgs.spice_gtk}/bin/spice-client-glib-usb-acl-helper";
+    environment.systemPackages = with pkgs; [ spice_gtk ];
 
     home-manager.users.tmplt = {
       manual.manpages.enable = true;
@@ -292,9 +180,7 @@
           pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
           ll = "ls -lh";
           mkdir = "mkdir -p";
-          rock = "ncmpcpp";
           disks = "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
-          wtf = "dmesg | tail -n 50";
           ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
           zathura = "zathura --fork";
         };
@@ -332,7 +218,6 @@
         matchBlocks = secrets.sshHosts // {
           "*".identityFile = "~/.ssh/id_ecdsa";
           "github.com".identitiesOnly = true;
-          "dulcia".hostname = "192.168.2.77";
 
           "kobo" = {
             hostname = "192.168.2.190";
@@ -356,60 +241,7 @@
         };
       };
 
-      programs.autorandr = let
-        laptopEDID = "00ffffffffffff0030e4d8020000000000160103801c1078ea8855995b558f261d505400000001010101010101010101010101010101601d56d85000183030404700159c1000001b000000000000000000000000000000000000000000fe004c4720446973706c61790a2020000000fe004c503132355748322d534c42330059";
-        dockedEDID = "00ffffffffffff00232f9b040000000028150103a53c2278226fb1a7554c9e250c505400000001010101010101010101010101010101565e00a0a0a029503020350055502100001a000000fc004455414c2d4456490a20202020000000fc000a202020202020202020202020000000fc000a2020202020202020202020200012";
-      in {
-        enable = false;           # TODO: port to sway
-        profiles = {
-          "mobile" = {
-            fingerprint.LVDS-1 = laptopEDID;
-            config = {
-              VGA-1.enable = false;
-              HDMI-1.enable = false;
-              DP-1.enable = false;
-              DP-2.enable = false;
-
-              LVDS-1 = {
-                enable = true;
-                mode = "1366x768";
-              };
-            };
-
-          };
-
-          "docked" = {
-            fingerprint.LVDS-1 = laptopEDID;
-            fingerprint.DP-2 = dockedEDID;
-            config = {
-              VGA-1.enable = false;
-              HDMI-1.enable = false;
-              DP-1.enable = false;
-
-              LVDS-1 = {
-                enable = true;
-                mode = "1366x768";
-              };
-
-              DP-2 = {
-                enable = true;
-                position = "1367x0";
-                mode = "2560x1440";
-              };
-            };
-          };
-        };
-
-        hooks.postswitch = {
-          "change-background" = "${pkgs.systemd}/bin/systemctl --user start random-background";
-          # TODO: change different xmonad modes depending on monitor layout
-        };
-      };
-
-      #
-      # Services
-      #
-
+      # Automatically fetch email every 5m.
       systemd.user.services.offlineimap = {
         Unit = {
           Description = "Offlineimap Service";
@@ -460,13 +292,6 @@
         variant = "colemak,";
       };
 
-      services.random-background = {
-        enable = false;           # TODO: port to sway
-        # TODO: package wallpapers?
-        imageDirectory = "%h/wallpapers";
-        interval = "3h";
-      };
-
       services.gpg-agent = {
         enable = true;
 
@@ -477,77 +302,111 @@
         enableScDaemon = false;
       };
 
-      services.redshift = {
-        enable = false;           # TODO: change to gammastep
-        latitude = "65.5841500";
-        longitude = "22.1546500";
-      };
-
       services.syncthing = {
         enable = true;
         tray = false;
       };
-
-      services.dunst = {
-        enable = false;           # TODO: change to mako
-
-        settings.global = {
-          follow = "mouse";
-          indicate_hidden = true;
-          transparency = 0;
-          notification_height = 0;
-          seperator_height = 2;
-          padding = 8;
-          horizontal_padding = 8;
-          frame_width = 3;
-          seperator_color = "auto";
-          font = "Monospace 8";
-          line_height = 0;
-          markup = "full";
-          format = "<b>%s</b>\n%b";
-          alignment = "left";
-          show_age_threshold = 60;
-          word_wrap = true;
-          ignore_newline = false;
-          stack_duplicates = true;
-          hide_duplicate_count = false;
-          show_indicators = true;
-          icon_position = true;
-          sticky_history = true;
-          history_length = 20;
-          title = "Dunst";
-          class = "Dunst";
-          startup_notification = false;
-        };
-
-        settings.shortcuts = {
-          close = "ctrl+space";
-          close_all = "ctrl+shift+space";
-          history = "ctrl+grave";
-          context = "ctrl+shift+period";
-        };
-
-        settings.urgency_low = {
-          background = "#222222";
-          foreground = "#888888";
-          timeout = 10;
-        };
-
-        settings.urgency_normal = {
-          background = "#285577";
-          foreground = "#ffffff";
-          timeout = 10;
-        };
-
-        settings.urgency_critical = {
-          background = "#900000";
-          foreground = "#ffffff";
-          frame_color = "#ff0000";
-          timeout = 0; # Never
-        };
-      };
     };
-  };
 
-  system.stateVersion = "18.03";
+
+  # System services
+
+  systemd.coredump.enable = true;
+  services.udisks2.enable = true;
+  services.dictd.enable = true;
+  services.dnsmasq.enable = true;
+  services.acpid.enable = true;
+
+    # Misc. options
+
+    # Allow certain USB interfaces to be accessed without root privelages.
+    services.udev.extraRules = with lib; let
+      toUdevRule = vid: pid: ''
+      SUBSYSTEM=="usb", ATTR{idVendor}=="${vid}", ATTR{idProduct}=="${pid}", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"
+    '';
+      setWorldReadable = idPairs:
+        concatStrings (map (x: let l = splitString ":" x; in toUdevRule (head l) (last l)) idPairs);
+    in (setWorldReadable [
+      "0483:374b" "0483:3748" "0483:3752" # ST-LINK/V2.1 rev A/B/C+
+      "15ba:002a" # ATM-USB-TINY-H JTAG interface
+      "1366:1015" # SEGGER (JLink firmware)
+      "0403:6014" # FT232H
+    ]) +
+    # Shutdown system on low battery level to prevents fs corruption
+    ''
+      KERNEL=="BAT0" \
+      , SUBSYSTEM=="power_supply" \
+      , ATTR{status}=="Discharging" \
+      , ATTR{capacity}=="[0-5]" \
+      , RUN+="${pkgs.systemd}/bin/systemctl poweroff"
+    '';
+
+    fileSystems."/mnt/dulcia" = {
+      device = "dulcia.localdomain:/rpool/media";
+      fsType = "nfs";
+      options = [
+        "defaults" # XXX: is this causing us issues?
+        "noexec"
+        "noauto"
+        "nofail"
+
+        # Don't retry NFS requests indefinitely.
+        # XXX: can cause data corruption, but its responsiveness I'm after.
+        "soft"
+
+        "timeo=1" # 0.1s before sending the next NFS request
+        "retry=0"
+        "retrans=10"
+
+        "x-systemd.automount"
+        "x-systemd.mount-timeout=1s"
+      ];
+    };
+
+    nix = {
+      distributedBuilds = true;
+      buildMachines = [{
+        hostName = "tmplt.dev";
+        sshUser = "builder";
+        sshKey = "/home/tmplt/.ssh/id_builder";
+        systems = [ "x86_64-linux" "aarch64-linux" ];
+        maxJobs = 12;
+        supportedFeatures = [ "big-parallel" ]; # build Linux
+      }];
+
+      # Builder has much faster Internet connection.
+      extraOptions = ''
+        builders-use-substitutes = true
+      '';
+    };
+
+    # Hibernate after the lid has been closed for 1h.
+    environment.etc."systemd/sleep.conf".text = "HibernateDelaySec=1h";
+    services.logind = {
+      lidSwitch = "suspend-then-hibernate";
+      lidSwitchDocked = "suspend-then-hibernate";
+
+      # See logind.conf(5).
+      extraConfig = ''
+        HandleSuspendKey=ignore
+        handleHibernateKey=hibernate
+
+        PowerKeyIgnoreInhibited=yes
+        SuspendKeyIgnoreInhibited=yes
+        HibernateKeyIgnoreInhibited=yes
+        LidSwitchIgnoreInhibited=yes
+      '';
+    };
+
+    powerManagement = {
+      enable = true;
+      powertop.enable = true;
+    };
+
+    systemd.extraConfig = ''
+      DefaultTimeoutStopSec=30s
+    '';
+
+    system.stateVersion = "18.03";
+  };
 }

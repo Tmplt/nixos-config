@@ -107,6 +107,7 @@ in {
     xorg.xprop
     xorg.xwininfo
     xsel
+    xdg_utils
 
     xurls
     youtube-dl
