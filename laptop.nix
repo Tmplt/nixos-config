@@ -3,21 +3,6 @@
   let
     secrets = import ./secrets;
 
-    # TODO use a channel instead
-    nixos-hardware = fetchTarball {
-      sha256 = "07mp73a5gyppv0cd08l1wdr8m5phfmbphsn6v7w7x54fa8p2ci6y";
-      url = "https://github.com/NixOS/nixos-hardware/archive/40ade7c0349d31e9f9722c7331de3c473f65dce0.tar.gz";
-    };
-
-    # TODO use channel instead
-    home-manager = let
-      json = builtins.fromJSON (builtins.readFile ./pkgs-revs/home-manager.json);
-    in (import <nixpkgs> {}).pkgs.fetchFromGitHub {
-      inherit (json) rev sha256;
-      owner = "rycee";
-      repo = "home-manager";
-    };
-
     # TODO deprecate
     vim-plug = (import <nixpkgs> {}).pkgs.fetchFromGitHub {
       owner = "junegunn";
@@ -42,9 +27,6 @@
     boot.cleanTmpDir = true;
 
     hardware = {
-      # Update Intel microcode on boot (both systems use Intel)
-      cpu.intel.updateMicrocode = true;
-
       pulseaudio = {
         enable = true;
         support32Bit = true;
@@ -72,7 +54,8 @@
     };
 
     imports = [
-      "${home-manager}/nixos"
+      <nixos-hardware/lenovo/thinkpad/x220>
+      <home-manager/nixos>
       ./editor.nix
       ./hardware-configurations/laptop.nix
       ./wlan.nix
