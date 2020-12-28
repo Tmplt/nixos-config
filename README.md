@@ -1,6 +1,8 @@
 NixOS configuration
 ===
 
+(Note: this documentation is likely to be out of sync with the repo content.)
+
 My NixOS configurations for all my systems - sans mobile phone, for now - managed via nixops(1).
 This repository is published as a convenience for myself, but also as a resource for people interested in Nix(OS).
 
