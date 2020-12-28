@@ -124,6 +124,10 @@ in
       package = pkgs.gitAndTools.gitFull;
     };
 
+    programs.emacs = {
+      enable = true;
+    };
+
     programs.direnv = {
       enable = true;
       enableZshIntegration = true;
@@ -265,7 +269,7 @@ in
     };
 
     services.gpg-agent = {
-      enable = false;
+      enable = true;
 
       defaultCacheTtl = 1800; # 30 min
       defaultCacheTtlSsh = 1800;

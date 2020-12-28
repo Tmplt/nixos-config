@@ -102,7 +102,6 @@ in {
     wine
     winetricks
     xdotool
-    xdg_utils
     xorg.xev
     xorg.xmodmap
     xorg.xprop
@@ -121,20 +120,15 @@ in {
     cmake
     direnv
     gdb
-    gitAndTools.gitFull
     git-crypt
     gnumake
     neovim
-    emacs
     nixops
     nix-prefetch-git
     patchelf
     python3
     ripgrep
     sqlite
-
-    # Email
-    mu
 
     # (Embedded) Rust programming
     clang
@@ -147,6 +141,8 @@ in {
 
     zoom-us
     #nyxt
+
+    ntfs3g
   ];
 
   # ... and install some fonts.

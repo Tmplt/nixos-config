@@ -68,23 +68,14 @@ in
 
   programs.command-not-found.enable = true;
 
-  # XXX: why is this needed?
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-  # `coredumpctl gdb` can't find dumps unless they are external.
-  # TODO: test if this is still needed.
   systemd.coredump.enable = true;
-  systemd.coredump.extraConfig = "Storage=external";
 
   services.udisks2.enable = true;
 
   services.dictd.enable = true;
 
   services.tor = {
-    enable = true;
+    enable = false;
     client.enable = true;
     client.dns.enable = true;
     controlPort = 9051;
@@ -93,7 +84,6 @@ in
   # DNS over Tor
   services.dnsmasq = {
     enable = true;
-    servers = [ "127.0.0.1#9053" ];
   };
 
   # Fix for USB redirection in virt-manager(1).

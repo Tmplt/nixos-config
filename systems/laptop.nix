@@ -21,7 +21,6 @@
 
     imports = [
       ../hardware-configurations/laptop.nix
-      "${nixos-hardware}/lenovo/thinkpad/x230"
       ../common.nix
       ../wlan.nix
     ];
@@ -99,6 +98,11 @@
       ];
     };
 
+    services.xserver = {
+      enable = false;
+      windowManager.stumpwm.enable = true;
+    };
+
     services.xserver.xkbVariant = "colemak";
     console.useXkbConfig = true;
 
@@ -160,4 +164,3 @@
     '';
   };
 }
-
