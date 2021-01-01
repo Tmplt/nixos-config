@@ -206,6 +206,7 @@
   (setq org-deadline-warning-days 5)
   (setq org-duration-format 'h:mm)
   (setq org-default-notes-file (concat org-directory "/notes.org")) ; used as a fallback for templates that do not specify file
+  (setq org-src-fontify-natively t)
   ;; TODO use custom latex template/preamble ... for what? Thesis export?
   (setq org-capture-templates
         '(("t" "Task" entry (file+headline "~/org/tasks.org" "Tasks")
