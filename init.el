@@ -121,7 +121,7 @@
   ;; Auto-fill mode
   (add-hook 'text-mode-hook #'auto-fill-mode))
 
-;; Remove unecessary GUI elements
+;; Disable unecessary GUI elements
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -264,6 +264,8 @@
 
 ;; configure emai
 ;; TODO send mail via postfix instead <http://pragmaticemacs.com/emacs/using-postfix-instead-of-smtpmail-to-send-email-in-mu4e/>
+;; <https://etienne.depar.is/emacs.d/mu4e.html>
+;; change From field on signature switch <https://github.com/djcb/mu/issues/776>
 (use-package org-mu4e)
 (use-package org-mime)
 (use-package mu4e
@@ -372,7 +374,9 @@
         message-cite-reply-position 'below)
   :bind
   ("C-x m" . 'mu4e)
-  ("C-x C-m" . 'compose-mail))          ; TODO quit mu4e completely when done?
+  ;; TODO quit mu4e when done?
+  ;; NOTE context query is overridden by mu update status
+  ("C-x C-m" . 'compose-mail))
 
 (use-package elfeed
   :config
