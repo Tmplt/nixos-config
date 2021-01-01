@@ -239,6 +239,12 @@
 
 (add-hook 'org-mode-hook #'my/org-mode-font-lock) ; TODO move into the use-package above
 
+(use-package org-crypt                  ; TODO set this up properly with a GPG key
+  :config
+  ;; (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance '("crypt") ; TODO encrypt :secret: entries
+        org-crypt-key nil))             ; use symmetric encryption
+
 (use-package org-roam
   :diminish org-roam-mode
   :hook
