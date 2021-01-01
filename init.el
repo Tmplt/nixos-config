@@ -434,12 +434,15 @@
 ;; CANCELLED: I don't need to do this any more
 ;; SOMEDAY: I'd like to do this someday in the waaaay off future
 (use-package hl-todo
-  :hook (prog-mode . hl-todo-mode)
+  :hook
+  (prog-mode . hl-todo-mode)
+  (text-mode . hl-todo-mode)
   :config
   (setq hl-todo-keyword-faces
-        '(("TODO"   . warning)
+        '(("TODO"   . warning)          ; default face is red
           ("FIXME"  . error)
-          ("NOTE"   . success))))
+          ("NOTE"   . success)
+          ("XXX"    . error))))
 
 (use-package slime
   :config
