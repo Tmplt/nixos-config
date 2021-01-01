@@ -385,6 +385,8 @@
           ;; TODO paid LWN articles (contains "[$]") become free after a few weeks. Delay their display until they are free.
           ;;      In case delay isn't static (or if it is subject to change) we can grep for the date by curling the link.
           ("https://lwn.net/headlines/rss" linux)
+          ("https://interrupt.memfault.com/blog/feed.xml" embedded)
+          ("https://embeddedartistry.com/feed/" embedded)
           ("https://drewdevault.com/blog/index.xml" blog)))
   :bind (("C-x w" . 'elfeed)
          :map elfeed-search-mode-map
