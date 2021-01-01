@@ -405,8 +405,6 @@
              :ensure t
              :diminish dashboard-mode
              :config
-             (setq initial-buffer-choice 'my/switch-to-or-create-dashboard)
-             (setq dashboard-set-init-info nil) ; emacs is run as client/server
              (dashboard-setup-startup-hook))
 
 (use-package rust-mode)
