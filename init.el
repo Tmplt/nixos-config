@@ -483,6 +483,11 @@
   :init
   (which-key-mode))
 
+(use-package avy
+  :bind
+  ("C-;" . 'avy-goto-char-timer)
+  ("C-'" . 'avy-goto-line))
+
 (use-package swiper
   :bind ("C-s" . 'swiper))
 
