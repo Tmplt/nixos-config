@@ -70,6 +70,9 @@
         '("a" "r" "s" "t" "d" "h" "n"))
   :bind
   ([remap other-window] . switch-window))
+
+(use-package eldoc
+  :diminish eldoc-mode)
 (setq gc-cons-threshold 20000000)       ; GC after 20M
 
 ;; Display line numbers
