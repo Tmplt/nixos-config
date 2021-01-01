@@ -127,6 +127,8 @@
 (menu-bar-mode -1)
 (tooltip-mode -1)
 
+(setq backward-delete-char-untabify-method 'nil)
+
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
