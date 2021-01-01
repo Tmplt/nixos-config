@@ -73,6 +73,38 @@
 
 (use-package eldoc
   :diminish eldoc-mode)
+
+;; eshell
+(setq eshell-prompt-regexp "^[^αλ\n]*[αλ] ")
+(setq eshell-prompt-function
+      (lambda nil
+        (concat
+         (if (string= (eshell/pwd) (getenv "HOME"))
+             (propertize "~" 'face `(:foreground "#99CCFF"))
+           (replace-regexp-in-string
+            (getenv "HOME")
+            (propertize "~" 'face `(:foreground "#99CCFF"))
+            (propertize (eshell/pwd) 'face `(:foreground "#99CCFF"))))
+         (if (= (user-uid) 0)
+             (propertize " α " 'face `(:foreground "#FF6666"))
+         (propertize " λ " 'face `(:foreground "#A6E22E"))))))
+(setq eshell-highlight-prompt nil)
+
+(defalias 'open 'find-file-other-window)
+(defalias 'clean 'eshell/clear-scrollback)
+
+(defun eshell-other-window ()
+  "Create or visit an eshell buffer."
+  (interactive)
+  (if (not (get-buffer "*eshell*"))
+      (progn
+        (split-window-sensibly (selected-window))
+        (other-window 1)
+        (eshell))
+    (switch-to-buffer-other-window "*eshell*")))
+
+(global-set-key (kbd "<s-C-return>") 'eshell-other-window)
+
 (setq gc-cons-threshold 20000000)       ; GC after 20M
 
 ;; Display line numbers
