@@ -219,14 +219,25 @@
            "* %^{Summary}\n%?")
           ("i" "Idea" entry (file+headline "~/org/ideas.org" "Ideas")
            "* %^{Summary}\n%?\n  %a")))
+  (defface org-green
+    '((t :foreground "green4"))
+    "Face for green text in org mode")
+  (defun my/org-mode-font-lock ()
+    (font-lock-add-keywords
+     nil
+     '((">\\(.*\\)" 0 'org-green t))))
   :hook
   (org-agenda-mode . hl-line-mode)
   (org-capture-before-finalize . my/add-property-with-date-captured)
+  ;; (org-mode . #'my/org-mode-font-lock)
   :bind
   ("C-c C-l" . 'org-store-link)
   ("C-c l" . 'org-insert-link)
   ("C-c a" . 'org-agenda)
   ("C-c c" . 'org-capture))             ; add a template for daily org-roam notes
+
+
+(add-hook 'org-mode-hook #'my/org-mode-font-lock) ; TODO move into the use-package above
 
 (use-package org-roam
   :diminish org-roam-mode
