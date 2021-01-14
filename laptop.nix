@@ -310,7 +310,6 @@
       systemd.coredump.enable = true;
       services.udisks2.enable = true;
       services.dictd.enable = true;
-      services.dnsmasq.enable = true;
       services.acpid.enable = true;
 
       # Misc. options
