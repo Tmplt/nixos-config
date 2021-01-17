@@ -40,3 +40,41 @@ set-sink-volume @DEFAULT_SINK@ -2%")
 (define-key stumpwm:*top-map*
   (stumpwm:kbd "XF86MonBrightnessDown")
   "exec light -U 5")
+
+;; Configure mode-line
+(setf *mode-line-screen-position* :top
+      *mode-line-frame-position* :top
+      *mode-line-timeout* 2)           ; update at least every 2 seconds
+
+
+(defun show-battery-charge ()
+  (let ((raw-battery (run-shell-command "acpi | cut -d, -f2" t)))
+    (substitute #\Space #\Newline raw-battery)))
+
+(defun show-battery-state ()
+  (let ((raw-battery (run-shell-command "acpi | cut -d: -f2 | cut -d, -f1" t)))
+    (substitute #\Space #\Newline raw-battery)))
+
+(defun show-hostname ()
+  (let ((host-name (run-shell-command "hostname" t)))
+    (substitute #\Space #\Newline host-name)))
+
+(defun show-unread-emails ()
+  (let ((unread-mail (run-shell-command "mu find flag:unread | wc -l" t)))
+    (substitute #\Space #\Newline unread-mail)))
+
+(defun show-date ()
+  (let ((raw-date (run-shell-command "date '+%a %d %b %R'" t)))
+    (substitute #\Space #\Newline raw-date)))
+
+
+(setf *screen-mode-line-format*
+      (list
+       '(:eval (show-hostname))
+       "| Battery:"
+       '(:eval (show-battery-charge))
+       '(:eval (show-battery-state))
+       "| "  '(:eval (show-date))
+       "| Mails: " '(:eval (show-unread-emails))
+       "| %g"))
+(toggle-mode-line (current-screen) (current-head))
