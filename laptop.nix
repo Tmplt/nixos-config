@@ -310,6 +310,11 @@
           enable = true;
           tray = false;
         };
+
+        services.picom = {
+          enable = true;
+          vSync = true;
+        };
       };
 
       # System services
