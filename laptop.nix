@@ -210,6 +210,7 @@
           enable = true;
           extraPackages = epkgs: [ epkgs.pdf-tools epkgs.org-pdftools ]; # non-trivial
         };
+        services.emacs.enable = true;
 
         programs.direnv = {
           enable = true;
