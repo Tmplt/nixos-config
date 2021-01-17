@@ -104,11 +104,15 @@
       };
 
       services.xserver = {
-        enable = false;
+        enable = true;
+        xkbVariant = "colemak";
+        xkbOptions = "ctrl:nocaps,compose:menu,compose:rwin";
+        autoRepeatDelay = 300;
+        autoRepeatInterval = 35;
+        autorun = true;
+
         windowManager.stumpwm.enable = true;
       };
-
-      services.xserver.xkbVariant = "colemak";
       console.useXkbConfig = true;
 
       # Convenience symlinks for emacs, offlineimap
