@@ -45,6 +45,8 @@
 
         trackpoint.enable = true;
         trackpoint.emulateWheel = false;
+
+        bluetooth.enable = true;
       };
 
       deployment.targetHost = "localhost"; # for compatibility with nixops
