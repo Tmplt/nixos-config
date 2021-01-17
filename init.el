@@ -495,6 +495,16 @@
 (use-package swiper
   :bind ("C-s" . 'swiper))
 
+(use-package pdf-tools
+  :config
+  (setq-default pdf-view-display-size 'fit-width)
+  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+  :init
+  (pdf-tools-install))
+
+(use-package org-pdftools
+  :hook (org-mode . org-pdftools-setup-link))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

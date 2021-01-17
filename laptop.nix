@@ -200,7 +200,10 @@
           package = pkgs.gitAndTools.gitFull;
         };
 
-        programs.emacs = { enable = true; };
+        programs.emacs = {
+          enable = true;
+          extraPackages = epkgs: [ epkgs.pdf-tools epkgs.org-pdftools ]; # non-trivial
+        };
 
         programs.direnv = {
           enable = true;
