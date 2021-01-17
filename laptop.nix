@@ -63,7 +63,7 @@
         isNormalUser = true;
         uid = 1000; # for NFS permissions
 
-        extraGroups = [ "wheel" "dialout" "video" "audio" "input" ];
+        extraGroups = [ "wheel" "dialout" "video" "audio" "input" "libvirtd" ];
 
         shell = "${pkgs.zsh}/bin/zsh";
 
@@ -325,6 +325,7 @@
       services.udisks2.enable = true;
       services.dictd.enable = true;
       services.acpid.enable = true;
+      virtualisation.libvirtd.enable = true;
 
       # Misc. options
 
