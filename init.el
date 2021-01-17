@@ -4,7 +4,9 @@
                '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list
    'load-path "/etc/nix/pins/mu/share/emacs/site-lisp")
-  (package-initialize))
+  (package-initialize)
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t))
 
 ;;;; Vanilla Emacs options
 
@@ -240,6 +242,7 @@
 (add-hook 'org-mode-hook #'my/org-mode-font-lock) ; TODO move into the use-package above
 
 (use-package org-crypt                  ; TODO set this up properly with a GPG key
+  :ensure nil
   :config
   ;; (org-crypt-use-before-save-magic)
   (setq org-tags-exclude-from-inheritance '("crypt") ; TODO encrypt :secret: entries
@@ -266,9 +269,11 @@
 ;; TODO send mail via postfix instead <http://pragmaticemacs.com/emacs/using-postfix-instead-of-smtpmail-to-send-email-in-mu4e/>
 ;; <https://etienne.depar.is/emacs.d/mu4e.html>
 ;; change From field on signature switch <https://github.com/djcb/mu/issues/776>
-(use-package org-mu4e)
+(use-package org-mu4e
+  :ensure nil)
 (use-package org-mime)
 (use-package mu4e
+  :ensure nil
   :config
   (setq send-mail-function 'smtpmail-send-it
         message-send-mail-function 'message-send-mail-with-sendmail
@@ -406,7 +411,6 @@
                         (unless (use-region-p) (forward-line)))))))
 
 (use-package dashboard
-             :ensure t
              :diminish dashboard-mode
              :config
              (dashboard-setup-startup-hook))
@@ -477,12 +481,10 @@
   ("C-x C-r" . 'helm-recentf))
 
 (use-package diminish
-  :ensure t
   :init
   (diminish 'auto-fill-function))       ; auto-fill-mode
 
 (use-package which-key
-  :ensure t
   :diminish which-key-mode
   :init
   (which-key-mode))
