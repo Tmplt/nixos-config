@@ -41,12 +41,14 @@ set-sink-volume @DEFAULT_SINK@ -2%")
 (define-key stumpwm:*top-map*
   (stumpwm:kbd "XF86MonBrightnessDown")
   "exec light -U 5")
+(define-key stumpwm:*top-map*
+  (stumpwm:kbd "XF86ScreenSaver")
+  "exec loginctl lock-session")
 
 ;; Configure mode-line
 (setf *mode-line-screen-position* :top
       *mode-line-frame-position* :top
       *mode-line-timeout* 2)           ; update at least every 2 seconds
-
 
 (defun show-battery-charge ()
   (let ((raw-battery (run-shell-command "acpi | cut -d, -f2" t)))
