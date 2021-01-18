@@ -91,29 +91,12 @@
 
       programs.light.enable = true;
 
-      programs.sway = {
-        enable = true;
-        extraPackages = with pkgs; [
-          xwayland
-          xorg.xrdb
-          waybar
-          swaylock
-          swayidle
-
-          mako
-          kanshi
-        ];
-      };
-
       services.xserver = {
         enable = true;
         xkbVariant = "colemak";
         xkbOptions = "ctrl:nocaps,compose:menu,compose:rwin";
         autoRepeatDelay = 300;
         autoRepeatInterval = 35;
-        autorun = true;
-
-        windowManager.stumpwm.enable = true;
       };
       console.useXkbConfig = true;
 
@@ -312,6 +295,19 @@
         services.syncthing = {
           enable = true;
           tray = false;
+        };
+
+        # Graphical services
+
+        xsession = {
+          enable = true;
+          windowManager.command = "${pkgs.lispPackages.stumpwm}/bin/stumpwm";
+        };
+
+        services.screen-locker = {
+          enable = true;
+          inactiveInterval = 5; # lock after 5min of inactivity
+          lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
         };
 
         services.picom = {

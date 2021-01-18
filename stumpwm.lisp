@@ -1,8 +1,3 @@
-;; X11 is started via a system-wide service, but the below services are
-;; only available as user services, so they cannot be automatically
-;; started. We instead start them here "manually".
-(run-shell-command "systemctl --user start picom")
-
 ;; Configure a preferable mouse pointer
 (run-shell-command "xsetroot -cursor_name left_ptr")
 
