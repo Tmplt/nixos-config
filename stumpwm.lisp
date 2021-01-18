@@ -13,6 +13,12 @@
 
 (define-key *root-map* (kbd "e") "exec emacsclient -c -a emacs")
 (define-key *root-map* (kbd "C-e") "emacs")
+(define-key *root-map* (kbd "t") "exec telegram-desktop")
+(define-key *root-map* (kbd "q") "exec qutebrowser") ; TODO focus if it exists, see emacs cmd impl.
+(define-key *root-map* (kbd "C-w") "windowlist")
+(define-key *root-map* (kbd "m") "mode-line")
+(define-key *root-map* (kbd "c") "exec st")
+(define-key *root-map* (kbd "C-c") "exec st")
 
 ;; Bind XF86 keys
 (define-key stumpwm:*top-map*
