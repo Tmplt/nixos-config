@@ -236,10 +236,19 @@
   ("C-c C-l" . 'org-store-link)
   ("C-c l" . 'org-insert-link)
   ("C-c a" . 'org-agenda)
-  ("C-c c" . 'org-capture))             ; add a template for daily org-roam notes
-
+  ("C-c c" . 'org-capture)) ; add a template for daily org-roam notes
 
 (add-hook 'org-mode-hook #'my/org-mode-font-lock) ; TODO move into the use-package above
+
+(use-package org-agenda
+  :ensure nil
+  :config
+  (org-add-agenda-custom-command
+   '("u" alltodo "Unscheduled"
+     ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
+      (org-agenda-overriding-header "Unscheduled TODO entries: "))))
+  :bind (:map org-agenda-mode-map
+              ("x" . (lambda nil (interactive) (org-agenda-todo "CANCELLED")))))
 
 (use-package org-crypt                  ; TODO set this up properly with a GPG key
   :ensure nil
