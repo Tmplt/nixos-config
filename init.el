@@ -249,6 +249,11 @@
 
 (use-package org-agenda
   :ensure nil
+  :hook
+  (after-init . (lambda ()
+                  (setq inhibit-splash-screen t)
+                  (org-agenda-list)
+                  (delete-other-windows)))
   :config
   (org-add-agenda-custom-command
    '("u" alltodo "Unscheduled"
@@ -459,11 +464,6 @@ there are no attachments."
                                  do (async-shell-command (format "mpv '%s'" it))) ; TODO kill buffer afterwards
                         (mapc #'elfeed-search-update-entry entries)
                         (unless (use-region-p) (forward-line)))))))
-
-(use-package dashboard
-             :diminish dashboard-mode
-             :config
-             (dashboard-setup-startup-hook))
 
 (use-package rust-mode)
 (use-package nix-mode)
