@@ -327,6 +327,8 @@
           enable = true;
           provider = "geoclue2";
         };
+
+        services.unclutter.enable = true;
       };
 
       # System services
