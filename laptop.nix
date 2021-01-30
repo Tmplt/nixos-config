@@ -306,7 +306,7 @@
 
         services.screen-locker = {
           enable = true;
-          inactiveInterval = 5; # lock after 5min of inactivity
+          inactiveInterval = 10; # lock after 10min of inactivity
           lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
         };
 
