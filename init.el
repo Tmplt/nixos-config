@@ -237,6 +237,7 @@
     (font-lock-add-keywords
      nil
      '(("^\s*>\\(.*\\)" 0 'org-green t))))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
   :hook
   (org-agenda-mode . hl-line-mode)
   (org-capture-before-finalize . my/add-property-with-date-captured)
