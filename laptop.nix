@@ -314,6 +314,12 @@
           enable = true;
           vSync = true;
         };
+
+        services.random-background = {
+          enable = true;
+          enableXinerama = true;
+          imageDirectory = "%h/wallpapers";
+        };
       };
 
       # System services
