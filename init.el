@@ -5,8 +5,12 @@
   (add-to-list
    'load-path "/etc/nix/pins/mu/share/emacs/site-lisp")
   (package-initialize)
-  (require 'use-package-ensure)
   (setq use-package-always-ensure t))
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package)
+  (require 'use-package-ensure))
 
 ;;;; Vanilla Emacs options
 
@@ -63,6 +67,7 @@
 (global-set-key (kbd "s-C-<up>") 'enlarge-window)
 
 (use-package switch-window
+  :ensure t
   :config
   (setq switch-window-input-style 'minibuffer)
   (setq switch-window-increase 4)
@@ -141,7 +146,11 @@
 (setq c-default-style "linux")
 
 ;; load a decent colour theme; press F12 to switch between light/dark
-(load-theme 'modus-vivendi t)
+(unless (package-installed-p 'modus-vivendi-theme)
+  (package-install 'modus-vivendi-theme))
+(unless (package-installed-p 'modus-operandi-theme)
+  (package-install 'modus-operandi-theme))
+(load-theme 'modus-operandi t)
 (defun themes-toggle ()
   (interactive)
   (if (eq (car custom-enabled-themes) 'modus-operandi)
