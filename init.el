@@ -522,14 +522,15 @@ there are no attachments."
                     (libmpdel-playback-set-random))
                   (message "mpd: random: %s" (if (not libmpdel--random) ; I have no idea why I must negate here. Behaves as expected in 'eval-expression
                                                  "on" "off"))))))
-(use-package helm
-  :diminish helm-mode
+
+(use-package ivy
   :init
-  (helm-mode 1)
-  :bind
-  ("M-x" . 'helm-M-x)
-  ("C-x C-f" . 'helm-find-files)
-  ("C-x C-r" . 'helm-recentf))
+  (ivy-mode 1))
+(use-package counsel
+  :init
+  (counsel-mode 1))
+(use-package swiper
+  :bind ("C-s" . 'swiper))
 
 (use-package diminish
   :init
@@ -544,9 +545,6 @@ there are no attachments."
   :bind
   ("C-;" . 'avy-goto-char-timer)
   ("C-'" . 'avy-goto-line))
-
-(use-package swiper
-  :bind ("C-s" . 'swiper))
 
 (use-package pdf-tools
   :config
