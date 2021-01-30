@@ -320,11 +320,19 @@
           enableXinerama = true;
           imageDirectory = "%h/wallpapers";
         };
+
+        services.gammastep = {
+          # FIXME kill immidiately on SIGTERM. Don't wait for it to dim
+          # back; that blocks WM termination.
+          enable = true;
+          provider = "geoclue2";
+        };
       };
 
       # System services
 
       systemd.coredump.enable = true;
+      services.geoclue2.enable = true;
       services.udisks2.enable = true;
       services.dictd.enable = true;
       services.acpid.enable = true;
