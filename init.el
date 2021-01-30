@@ -82,22 +82,7 @@
   :diminish eldoc-mode)
 
 ;; eshell
-(setq eshell-prompt-regexp "^[^αλ\n]*[αλ] ")
-(setq eshell-prompt-function
-      (lambda nil
-        (concat
-         (if (string= (eshell/pwd) (getenv "HOME"))
-             (propertize "~" 'face `(:foreground "#99CCFF"))
-           (replace-regexp-in-string
-            (getenv "HOME")
-            (propertize "~" 'face `(:foreground "#99CCFF"))
-            (propertize (eshell/pwd) 'face `(:foreground "#99CCFF"))))
-         (if (= (user-uid) 0)
-             (propertize " α " 'face `(:foreground "#FF6666"))
-         (propertize " λ " 'face `(:foreground "#A6E22E"))))))
-(setq eshell-highlight-prompt nil)
-
-(defalias 'open 'find-file-other-window)
+(defalias 'edit 'find-file-other-window)
 (defalias 'clean 'eshell/clear-scrollback)
 
 (defun eshell-other-window ()
