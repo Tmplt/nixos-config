@@ -556,6 +556,12 @@ there are no attachments."
 (use-package org-pdftools
   :hook (org-mode . org-pdftools-setup-link))
 
+(use-package projectile
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
