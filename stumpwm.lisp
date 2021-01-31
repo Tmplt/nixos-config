@@ -11,14 +11,24 @@
 ;; Fix mousewheel in some programs (nyxt, for example)
 (setf (getenv "GDK_CORE_DEVICE_EVENTS") "1")
 
-(define-key *root-map* (kbd "e") "exec emacsclient -c -a emacs")
+(defcommand qutebrowser () ()
+  "run qutebrowser"
+  (run-or-raise "qutebrowser" '(:instance "qutebrowser")))
+(defcommand telegram () ()
+  "run telegram"
+  (run-or-raise "telegram-desktop" '(:instance "telegram-desktop")))
+
+(define-key *root-map* (kbd "c") "exec xst")
+(define-key *root-map* (kbd "C-c") "exec xst")
+(define-key *root-map* (kbd "e") "emacs")
 (define-key *root-map* (kbd "C-e") "emacs")
-(define-key *root-map* (kbd "t") "exec telegram-desktop")
-(define-key *root-map* (kbd "q") "exec qutebrowser") ; TODO focus if it exists, see emacs cmd impl.
+(define-key *root-map* (kbd "q") "qutebrowser")
+(define-key *root-map* (kbd "C-q") "qutebrowser")
+(define-key *root-map* (kbd "t") "telegram")
 (define-key *root-map* (kbd "C-w") "windowlist")
-(define-key *root-map* (kbd "m") "mode-line")
-(define-key *root-map* (kbd "c") "exec st")
-(define-key *root-map* (kbd "C-c") "exec st")
+
+(define-key *root-map* (kbd "P") "exec passmenu")
+(define-key *root-map* (kbd "!") "exec dmenu_run")
 
 ;; Bind XF86 keys
 (define-key stumpwm:*top-map*
