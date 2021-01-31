@@ -45,39 +45,44 @@ set-sink-volume @DEFAULT_SINK@ -2%")
   (stumpwm:kbd "XF86ScreenSaver")
   "exec loginctl lock-session")
 
+;; windows
+(setf *window-border-style* :thin
+      *ignore-wm-inc-hints* nil)
+(set-win-bg-color "black")
+(set-unfocus-color "black")
+(set-focus-color "white")
+
+;; groups
+(grename "I")
+(gnewbg "II")
+(gnewbg "III")
+
 ;; Configure mode-line
-(setf *mode-line-screen-position* :top
-      *mode-line-frame-position* :top
-      *mode-line-timeout* 2)           ; update at least every 2 seconds
+(setf *mode-line-position* :bottom
+      *mode-line-timeout* 2           ; update at least every 2 seconds
+      *window-format* "%m%n%s%c"
+      *time-modeline-string* "%a %d %b %R"
+      *mode-line-foreground-color* "white"
+      *mode-line-background-color* "black"
+      *modle-line-border-color* "white"
+      *mode-line-pad-x* 5
+      *mode-line-pad-l* 0
+      *mode-line-border-width* 0)
+(define-key *root-map* (kbd "m") "mode-line")
 
-(defun show-battery-charge ()
-  (let ((raw-battery (run-shell-command "acpi | cut -d, -f2" t)))
-    (substitute #\Space #\Newline raw-battery)))
+(defun tmplt/eval-shell (cmd)
+  (let ((retstr (run-shell-command cmd t)))
+    (substitute #\Space #\Newline retstr)))
 
-(defun show-battery-state ()
-  (let ((raw-battery (run-shell-command "acpi | cut -d: -f2 | cut -d, -f1" t)))
-    (substitute #\Space #\Newline raw-battery)))
-
-(defun show-hostname ()
-  (let ((host-name (run-shell-command "hostname" t)))
-    (substitute #\Space #\Newline host-name)))
-
-(defun show-unread-emails ()
-  (let ((unread-mail (run-shell-command "mu find flag:unread | wc -l" t)))
-    (substitute #\Space #\Newline unread-mail)))
-
-(defun show-date ()
-  (let ((raw-date (run-shell-command "date '+%a %d %b %R'" t)))
-    (substitute #\Space #\Newline raw-date)))
-
-
+;; TODO center (show-date)
 (setf *screen-mode-line-format*
       (list
-       '(:eval (show-hostname))
-       "| Battery:"
-       '(:eval (show-battery-charge))
-       '(:eval (show-battery-state))
-       "| "  '(:eval (show-date))
-       "| Mails: " '(:eval (show-unread-emails))
-       "| %g"))
+       "[%d] [^B%n^b]%W^>"
+       "[ "
+       "BAT "
+       '(:eval (tmplt/eval-shell "acpi | awk '{print $4}'")) ; BAT percentage
+       '(:eval (tmplt/eval-shell "acpi | awk '{print $3}' | cut -c1")) ; BAT state
+       "| MAIL: "
+       '(:eval (tmplt/eval-shell "mu find flag:unread AND NOT flag:trashed | wc -l"))
+       "]"))
 (toggle-mode-line (current-screen) (current-head))
