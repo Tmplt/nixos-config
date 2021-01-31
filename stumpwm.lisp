@@ -1,10 +1,3 @@
-;; Configure a preferable mouse pointer
-(run-shell-command "xsetroot -cursor_name left_ptr")
-
-;; Give us a nice wallpaper
-;; TODO randomize this on every start
-(run-shell-command "feh --bg-fill ~/wallpapers/shoebill.jpg")
-
 ;; Change window focus on mouse click
 (setf *mouse-focus-policy* :click)
 
