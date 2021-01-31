@@ -2,15 +2,6 @@
   perscitia = { config, lib, pkgs, ... }:
     let
       secrets = import ./secrets;
-
-      # TODO deprecate
-      zimfw = (import <nixpkgs> { }).pkgs.fetchFromGitHub {
-        owner = "zimfw";
-        repo = "zimfw";
-        rev = "d19c8dde68b338fcc096bbce683c47ad068b46d3";
-        fetchSubmodules = true;
-        sha256 = "0cry0w6hvxb7m4bkrkgcr029w79j5lqsafml265wfvx0sr53x7va";
-      };
     in {
       imports = [
         <nixos-hardware/lenovo/thinkpad/x220>
@@ -65,8 +56,6 @@
 
         extraGroups = [ "wheel" "dialout" "video" "audio" "input" "libvirtd" ];
 
-        shell = "${pkgs.zsh}/bin/zsh";
-
         # Don't forget to set an actual password with passwd(1).
         initialPassword = "password";
       };
@@ -79,14 +68,6 @@
         device = "tmpfs";
         fsType = "tmpfs";
         options = [ "rw" "size=20%" "uid=tmplt" ];
-      };
-
-      programs.zsh = {
-        enable = true;
-        enableCompletion = true;
-
-        # `compinit` is called in the user configuration. Don't call it twice.
-        enableGlobalCompInit = false;
       };
 
       programs.light.enable = true;
@@ -241,74 +222,6 @@
         programs.msmtp.enable = true;
 
         manual.manpages.enable = true;
-
-        home.file = {
-          ".zim".source = "${zimfw}";
-        };
-
-        programs.zsh = {
-          enable = true;
-
-          history = {
-            expireDuplicatesFirst = true;
-            extended = true;
-          };
-
-          initExtra = ''
-            setopt interactivecomments
-            setopt nonomatch # forward wildcard if no match
-            unsetopt correct # don't guess my misspellings
-
-            # Change default zim location
-            # TODO: nixify
-            export ZIM_HOME=''${ZDOTDIR:-''${HOME}}/.zim
-
-            # Start zim
-            [[ -s ''${ZIM_HOME}/init.zsh ]] && source ''${ZIM_HOME}/init.zsh
-
-            mkcd() {
-              mkdir -p "$1" && cd "$1"
-            }
-
-            define() {
-              dict -d english $1 | less --quit-if-one-screen
-            }
-          '';
-
-          plugins = [rec {
-            name = "zsh-z";
-            src = pkgs.fetchFromGitHub {
-              owner = "agkozak";
-              repo = name;
-              rev = "41439755cf06f35e8bee8dffe04f728384905077";
-              sha256 = "1dzxbcif9q5m5zx3gvrhrfmkxspzf7b81k837gdb93c4aasgh6x6";
-            };
-          }];
-
-          shellAliases = {
-            xsel = "xsel -b";
-            e = "emacsclient -t";
-            pls = "sudo $(fc -ln -1)"; # Run previous command as sudo
-            ll = "ls -lh";
-            mkdir = "mkdir -p";
-            disks =
-              "echo '╓───── m o u n t . p o i n t s'; echo '╙────────────────────────────────────── ─ ─ '; lsblk -a; echo ''; echo '╓───── d i s k . u s a g e'; echo '╙────────────────────────────────────── ─ ─ '; df -h;";
-            ytdl = "youtube-dl --output '%(uploader)s - %(title)s.%(ext)s'";
-            zathura = "zathura --fork";
-          };
-
-          sessionVariables = {
-            ALTERNATE_EDITOR =
-              ""; # start emacs server on connect if not already running
-            EDITOR = "emacsclient";
-            VISUAL = "emacsclient -c -a emacs";
-            BROWSER = "qutebrowser";
-
-            # Fix telegram-desktop SEGV
-            QT_QPA_PLATFORM = "wayland";
-            XCURSOR_SIZE = "24";
-          };
-        };
 
         programs.git = {
           enable = true;
