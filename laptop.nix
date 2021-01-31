@@ -112,6 +112,134 @@
       environment.systemPackages = with pkgs; [ spice_gtk ];
 
       home-manager.users.tmplt = {
+        accounts.email.maildirBasePath = "mail";
+        accounts.email.accounts = {
+          "tmplt" = rec {
+            primary = true;
+            address = "v@tmplt.dev";
+            aliases = [ "tmplt@dragons.rocks" ];
+            userName = address;
+            flavor = "plain";
+            folders = {
+              inbox = "INBOX";
+              trash = "Junk";
+            };
+            imap = {
+              host = "imap.migadu.com";
+              port = 993;
+              tls.enable = true;
+            };
+            smtp = {
+              host = "smtp.migadu.com";
+              port = 587;
+              tls.enable = true;
+              tls.useStartTls = true;
+            };
+            passwordCommand = "${pkgs.pass}/bin/pass show email/migadu/v@tmplt.dev | head -1";
+
+            # mbsync.enable = true;
+            # mbsync.create = "both";
+            offlineimap = {
+              enable = true;
+              extraConfig.remote.remotepass = secrets.emails.tmplt;
+              extraConfig.account = {
+                autorefresh = 5;
+                postsynchook = "mu index";
+              };
+            };
+            mu.enable = true;
+            msmtp.enable = true;
+          };
+
+          "personal" = rec {
+            address = "viktor.sonesten@mailbox.org";
+            userName = address;
+            flavor = "plain";
+            folders.inbox = "INBOX";
+            imap = {
+              host = "imap.mailbox.org";
+              port = 993;
+              tls.enable = true;
+            };
+            smtp = {
+              host = "smtp.mailbox.org";
+              port = 587;
+              tls.enable = true;
+              tls.useStartTls = true;
+            };
+            passwordCommand = "${pkgs.pass}/bin/pass show email/mailbox.org | head -1";
+
+            # mbsync.enable = true;
+            # mbsync.create = "both";
+            offlineimap = {
+              enable = true;
+              extraConfig.remote.remotepass = secrets.emails.personal;
+              extraConfig.account = {
+                autorefresh = 5;
+                postsynchook = "mu index";
+              };
+            };
+            mu.enable = true;
+            msmtp.enable = true;
+          };
+
+          "ludd" = rec {
+            address = "tmplt@ludd.ltu.se";
+            userName = "tmplt";
+            flavor = "plain";
+            folders.inbox = "INBOX";
+            imap = {
+              host = "imaphost.ludd.ltu.se";
+              port = 993;
+              tls.enable = true;
+            };
+            smtp = {
+              host = "mailhost.ludd.ltu.se";
+              port = 465;
+            };
+            passwordCommand = "${pkgs.pass}/bin/pass show uni/ludd | head -1";
+
+            offlineimap = {
+              enable = true; # FIXME generic SASL error when mbsync is used
+              extraConfig.remote.remotepass = secrets.emails.ludd;
+              extraConfig.account = {
+                autorefresh = 5;
+                postsynchook = "mu index";
+              };
+            };
+            mu.enable = true;
+            msmtp.enable = true;
+            msmtp.extraConfig.tls_starttls = "off";
+          };
+
+          "uni" = rec {
+            address = "vikson-6@student.ltu.se";
+            aliases = [ "viktor.vilhelm.sonesten@alumni.cern" ];
+            userName = address;
+            flavor = "gmail.com";
+            passwordCommand = "${pkgs.getmail}/bin/getmail-gmail-xoauth-tokens ~/nixops/secrets/gmail.uni.json";
+
+            offlineimap = {
+              enable = true;
+              extraConfig.remote = secrets.emails.uniRemoteConfig;
+              extraConfig.account = {
+                autorefresh = 5;
+                postsynchook = "mu index";
+              };
+            };
+            mu.enable = true;
+            msmtp.enable = true;
+            msmtp.extraConfig.auth = "oauthbearer";
+          };
+        };
+        programs.mbsync.enable = false; # See <https://github.com/NixOS/nixpkgs/issues/108480>
+        programs.offlineimap = {
+          enable = true;
+          extraConfig.general.maxsyncaccounts = 4;
+        };
+        programs.mu.enable = true;
+        programs.msmtp.enable = true;
+
         manual.manpages.enable = true;
 
         home.file = {
@@ -239,7 +367,7 @@
 
           Service = {
             ExecStart =
-              "${pkgs.bash}/bin/bash -c 'PATH=${pkgs.mu}/bin:$PATH ${pkgs.offlineimap}/bin/offlineimap -u basic'";
+              "${pkgs.bash}/bin/bash -c 'PATH=${pkgs.mu}/bin:$PATH ${pkgs.offlineimap}/bin/offlineimap -u syslog'";
             Restart = "on-failure";
             RestartSec = 60;
           };
