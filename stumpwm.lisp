@@ -64,7 +64,7 @@ set-sink-volume @DEFAULT_SINK@ -2%")
 (setf *mode-line-position* :bottom
       *mode-line-timeout* 2           ; update at least every 2 seconds
       *window-format* "%m%n%s%c"
-      *time-modeline-string* "%a %d %b %R"
+      *time-modeline-string* "%a%d %b %R"
       *mode-line-foreground-color* "white"
       *mode-line-background-color* "black"
       *modle-line-border-color* "white"
