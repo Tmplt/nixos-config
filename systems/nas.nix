@@ -58,33 +58,25 @@ in
     '';
 
     services.mpd = {
-      enable = false;
+      enable = true;
       user = "tmplt";
       group = "users";
-      musicDirectory = "/media/music";
+      musicDirectory = "/rpool/media/music";
       extraConfig = ''
         password "${secrets.dulcia.mpdPassword}@read,control,add,admin"
-        bind_to_address "192.168.0.101"
+        bind_to_address "192.168.1.246"
         port "6600"
         max_output_buffer_size "${toString (8192 * 16)}"
 
         audio_output {
-          type "shout"
-          encoding "ogg"
-          name "local icecast stream"
-          host "localhost"
-          port "8000"
-          mount "/mpd.ogg"
-          password "${secrets.dulcia.icecast.sourcePassword}"
-          quality "10.0"
-          format "44100:16:1"
-          description "find /media/music | xargs mpv --shuffle"
-          genre "madness"
-        }
-
-        audio_output {
-          type "null"
-          name "fake out"
+                     type "httpd"
+                     name "HTTPD Stream"
+                     port "8000"
+                     encoder "vorbis"
+                     bitrate "128"
+                     format "44100:16:1"
+                     always_on "yes"
+                     tags "yes"
         }
       '';
     };
