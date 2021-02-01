@@ -143,7 +143,7 @@ in {
     zoom-us
     #nyxt
 
-    ntfs3g
+    ntfs3g                      # so we can mount NTFS parts
   ];
 
   # ... and install some fonts.
