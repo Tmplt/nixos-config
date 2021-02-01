@@ -80,7 +80,7 @@ set-sink-volume @DEFAULT_SINK@ -2%")
 ;; TODO center (show-date)
 (setf *screen-mode-line-format*
       (list
-       "[%d] [^B%n^b]%W^>"
+       "[ %d ] [^B%n^b]%W^>"
        "[ "
        "BAT "
        '(:eval (tmplt/eval-shell "acpi | awk '{print $4}'")) ; BAT percentage
