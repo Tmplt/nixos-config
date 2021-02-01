@@ -99,16 +99,21 @@ in
       declarative = {
         devices.mako.id = secrets.syncthing.phoneID;
 
-        folders."/rpool/phone-mirror/" = {
+        folders."/rpool/syncthing/art/" = {
           devices = [ "mako" ];
-          label = "media";
+          label = "art";
+        };
+
+        folders."/rpool/syncthing/Downloads/" = {
+          devices = [ "mako" ];
+          label = "downloads";
         };
       };
     };
 
     # Open ports in the firewall.
     networking.firewall.allowedTCPPorts = [
-      6600 8000 # MPD and Icecast
+      6600 8000 # MPD
       2049 111 20048 # NFS
     ];
 
