@@ -38,6 +38,7 @@ in
     environment.systemPackages = with pkgs; [
       beets
       ffmpeg
+      aria2
     ];
 
     services.zfs.autoReplication = {
