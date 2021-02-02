@@ -10,7 +10,6 @@ rec {
   imports = [
     ../hardware-configurations/server.nix
     <nixpkgs/nixos/modules/profiles/headless.nix>
-    ../common-server.nix
   ];
 
   # TODO: limit command set to only allow that of backing up data
