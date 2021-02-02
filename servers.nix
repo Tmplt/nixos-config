@@ -1,20 +1,19 @@
-let
-  sshKeys = import ./ssh-keys.nix;
-  secrets = import ./secrets;
-  automationEmail = "robots@tmplt.dev";
-in {
+{
   network = {
     description = "my personal remote systems";
     enableRollback = true;
   };
 
-  defaults = { pkgs, ... }: {
-    users.users.tmplt = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keys = with sshKeys; [ tmplt mako ];
+  defaults = { pkgs, ... }: let automationEmail = "robots@tmplt.dev"; in {
+    users.users = let sshKeys = import ./ssh-keys.nix; in {
+      root.openssh.authorizedKeys.keys = with sshKeys; [ tmplt ];
+
+      tmplt = {
+        isNormalUser = true;
+        extraGroups = [ "wheel" ];
+        openssh.authorizedKeys.keys = with sshKeys; [ tmplt ];
+      };
     };
-    users.users.root.openssh.authorizedKeys.keys = [ sshKeys.tmplt ];
 
     services.openssh = {
       enable = true;
