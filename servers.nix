@@ -20,8 +20,8 @@
       passwordAuthentication = false;
     };
 
-    deployment.keys.ssmpt-authpass = {
-      text = "this is a secret";
+    deployment.keys.ssmtp-authpass = {
+      text = (import ./secrets).ssmtp.authPass;
       user = "tmplt";
       group = "wheel";
       permissions = "0400";
