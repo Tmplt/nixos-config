@@ -300,9 +300,9 @@
                              (mu4e-message-contact-field-matches msg :to "vikson-6@student.ltu.se")))
              :vars `( (user-mail-address  . "vikson-6@student.ltu.se")
                       (user-full-name     . "Viktor Sonesten")
-                      (mu4e-sent-folder   . "/uni/Sent Mail")
-                      (mu4e-drafts-folder . "/uni/Drafts")
-                      (mu4e-trash-folder  . "/uni/Trash")
+                      (mu4e-sent-folder   . "/uni/[Gmail].Sent Mail")
+                      (mu4e-drafts-folder . "/uni/[Gmail].Drafts")
+                      (mu4e-trash-folder  . "/uni/[Gmail].Trash")
                       (mu4e-refile-folder . "/uni/archive")))
            ,(make-mu4e-context
              :name "tmplt"
