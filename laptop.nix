@@ -210,8 +210,12 @@
           # See <https://github.com/NixOS/nixpkgs/issues/108480>.
           postExec = with pkgs; "${writeScript "mbsync-post" ''
             #!${stdenv.shell}
-            ${pkgs.offlineimap}/bin/offlineimap -a uni
+            ${pkgs.offlineimap}/bin/offlineimap -a uni || exit $?
+
             ${pkgs.mu}/bin/mu index --quiet
+            # If the DB is already locked by mu4e, don't fail
+            retval=$?
+            [[ $retval -eq 19 ]] && exit 0 || exit $retval
           ''}";
         };
 
