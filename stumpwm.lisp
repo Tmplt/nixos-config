@@ -83,7 +83,7 @@ set-sink-volume @DEFAULT_SINK@ -2%")
        "[ %d ] [^B%n^b]%W^>"
        "[ "
        "BAT "
-       '(:eval (tmplt/eval-shell "acpi | awk '{print $4}'")) ; BAT percentage
+       '(:eval (tmplt/eval-shell "acpi | awk '{print $4}' | tr -d ,")) ; BAT percentage
        '(:eval (tmplt/eval-shell "acpi | awk '{print $3}' | cut -c1")) ; BAT state
        "| MAIL: "
        '(:eval (tmplt/eval-shell "mu find flag:unread AND NOT flag:trashed | wc -l"))
