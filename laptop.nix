@@ -116,18 +116,11 @@
               tls.enable = true;
               tls.useStartTls = true;
             };
-            passwordCommand = "${pkgs.pass}/bin/pass show email/migadu/v@tmplt.dev | head -1";
+            passwordCommand = "echo ${secrets.emails.tmplt}";
 
-            # mbsync.enable = true;
-            # mbsync.create = "both";
-            offlineimap = {
-              enable = true;
-              extraConfig.remote.remotepass = secrets.emails.tmplt;
-              extraConfig.account = {
-                autorefresh = 5;
-                postsynchook = "mu index";
-              };
-            };
+            mbsync.enable = true;
+            mbsync.create = "both";
+
             mu.enable = true;
             msmtp.enable = true;
           };
@@ -148,18 +141,11 @@
               tls.enable = true;
               tls.useStartTls = true;
             };
-            passwordCommand = "${pkgs.pass}/bin/pass show email/mailbox.org | head -1";
+            passwordCommand = "echo ${secrets.emails.personal}";
 
-            # mbsync.enable = true;
-            # mbsync.create = "both";
-            offlineimap = {
-              enable = true;
-              extraConfig.remote.remotepass = secrets.emails.personal;
-              extraConfig.account = {
-                autorefresh = 5;
-                postsynchook = "mu index";
-              };
-            };
+            mbsync.enable = true;
+            mbsync.create = "both";
+
             mu.enable = true;
             msmtp.enable = true;
           };
@@ -178,16 +164,11 @@
               host = "mailhost.ludd.ltu.se";
               port = 465;
             };
-            passwordCommand = "${pkgs.pass}/bin/pass show uni/ludd | head -1";
+            passwordCommand = "echo ${secrets.emails.ludd}";
 
-            offlineimap = {
-              enable = true; # FIXME generic SASL error when mbsync is used
-              extraConfig.remote.remotepass = secrets.emails.ludd;
-              extraConfig.account = {
-                autorefresh = 5;
-                postsynchook = "mu index";
-              };
-            };
+            mbsync.enable = true;
+            mbsync.create = "both";
+
             mu.enable = true;
             msmtp.enable = true;
             msmtp.extraConfig.tls_starttls = "off";
@@ -203,23 +184,36 @@
             offlineimap = {
               enable = true;
               extraConfig.remote = secrets.emails.uniRemoteConfig;
-              extraConfig.account = {
-                autorefresh = 5;
-                postsynchook = "mu index";
-              };
             };
             mu.enable = true;
             msmtp.enable = true;
             msmtp.extraConfig.auth = "oauthbearer";
           };
         };
-        programs.mbsync.enable = false; # See <https://github.com/NixOS/nixpkgs/issues/108480>
-        programs.offlineimap = {
-          enable = true;
-          extraConfig.general.maxsyncaccounts = 4;
-        };
+        programs.mbsync.enable = true;
+        programs.mbsync.package = with pkgs; isync.overrideAttrs (old: {
+          buildInputs = [ openssl db gsasl zlib ];
+        });
+        programs.offlineimap.enable = true;
         programs.mu.enable = true;
         programs.msmtp.enable = true;
+        services.mbsync = {
+          enable = true;
+          package = with pkgs; isync.overrideAttrs (old: {
+            buildInputs = [ openssl db gsasl zlib ];
+          });
+          preExec = ''
+            ${pkgs.coreutils}/bin/mkdir -p %h/mail/{tmplt,personal,ludd,personal}
+          '';
+
+          # FIXME mbsync isn't yet packaged to properly auth with gmail.
+          # See <https://github.com/NixOS/nixpkgs/issues/108480>.
+          postExec = with pkgs; "${writeScript "mbsync-post" ''
+            #!${stdenv.shell}
+            ${pkgs.offlineimap}/bin/offlineimap -a uni
+            ${pkgs.mu}/bin/mu index --quiet
+          ''}";
+        };
 
         manual.manpages.enable = true;
 
@@ -269,23 +263,6 @@
               extraOptions = { StrictHostKeyChecking = "no"; };
             };
           };
-        };
-
-        # Automatically fetch email every 5m.
-        systemd.user.services.offlineimap = {
-          Unit = {
-            Description = "Offlineimap Service";
-            Documentation = "man:offlineimap(1)";
-          };
-
-          Service = {
-            ExecStart =
-              "${pkgs.bash}/bin/bash -c 'PATH=${pkgs.mu}/bin:$PATH ${pkgs.offlineimap}/bin/offlineimap -u syslog'";
-            Restart = "on-failure";
-            RestartSec = 60;
-          };
-
-          Install.WantedBy = [ "default.target" ];
         };
 
         services.mpd = {
