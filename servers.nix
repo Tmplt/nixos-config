@@ -37,9 +37,6 @@
       setSendmail = true;
     };
 
-    disabledModules = [ "services/monitoring/smartd.nix" ];
-    imports = [ ./modules/smartd.nix ];
-
     services.smartd = {
       enable = true;
 
@@ -49,7 +46,7 @@
 
       notifications.mail = {
         enable = true;
-        sender = automationEmail; # <https://github.com/NixOS/nixpkgs/pull/91432>
+        sender = automationEmail;
         mailer = "/run/wrappers/bin/sendmail";
         recipient = "v@tmplt.dev";
       };
