@@ -11,7 +11,7 @@
       tmplt = {
         isNormalUser = true;
         extraGroups = [ "wheel" ];
-        openssh.authorizedKeys.keys = with sshKeys; [ tmplt ];
+        openssh.authorizedKeys.keys = with sshKeys; [ tmplt mako ];
       };
     };
 
