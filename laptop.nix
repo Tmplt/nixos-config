@@ -360,6 +360,7 @@
       services.udisks2.enable = true;
       services.dictd.enable = true;
       services.acpid.enable = true;
+      services.thermald.enable = true;
       virtualisation.libvirtd.enable = true;
 
       # Misc. options
