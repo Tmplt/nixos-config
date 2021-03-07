@@ -53,8 +53,24 @@ in
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
       /rpool/media         perscitia.localdomain(rw,crossmnt,no_subtree_check)
-      /rpool/media         192.168.1.194(ro,crossmnt,no_subtree_check)
+  '';
+
+  services.samba = {
+    enable = true;
+    extraConfig = ''
+      mangled names = no
     '';
+    shares.media = {
+      path = "/rpool/media";
+      browsable = "yes";
+      "read only" = "no";
+      "guest ok" = "no";
+      comment = "Public SMB share.";
+    };
+    # XXX Don't forget to set credentials:
+    #
+    #    # nix-shell -p samba --run "smbpasswd -a tmplt"
+  };
 
   services.mpd = {
     enable = true;
@@ -114,6 +130,10 @@ in
   networking.firewall.allowedTCPPorts = [
     6600 8000 # MPD
     2049 111 20048 # NFS
+    139 445 # SMB
+  ];
+  networking.firewall.allowedUDPPorts = [
+    137 138 # SMB
   ];
 
   # This value determines the NixOS release with which your system is to be
