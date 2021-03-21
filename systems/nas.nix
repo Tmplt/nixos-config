@@ -72,6 +72,33 @@ in
     #    # nix-shell -p samba --run "smbpasswd -a tmplt"
   };
 
+  services.nginx = {
+    enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    virtualHosts = {
+      "den.dragons.rocks" = {
+        default = true;
+        forceSSL = true;
+        enableACME = true;
+
+        locations."/" = {
+          root = "/rpool/media/movies";
+          extraConfig = ''
+            autoindex on;
+          '';
+        };
+      };
+    };
+  };
+  security.acme = {
+    email = "v@tmplt.dev";
+    acceptTerms = true;
+  };
+
   services.mpd = {
     enable = true;
     user = "tmplt";
@@ -131,6 +158,7 @@ in
     6600 8000 # MPD
     2049 111 20048 # NFS
     139 445 # SMB
+    80 443 # nginx
   ];
   networking.firewall.allowedUDPPorts = [
     137 138 # SMB
