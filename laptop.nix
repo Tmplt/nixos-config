@@ -329,7 +329,7 @@
         services.screen-locker = {
           enable = true;
           inactiveInterval = 10; # lock after 10min of inactivity
-          lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
+          lockCmd = "${pkgs.i3lock}/bin/i3lock -n -i ~/wallpapers/shoebill.png";
         };
 
         services.picom = {
