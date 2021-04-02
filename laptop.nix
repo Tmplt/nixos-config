@@ -269,6 +269,44 @@
           };
         };
 
+        programs.autorandr = let
+          laptopEDID = "00ffffffffffff0030e4d3020000000000150103801c1078ea10a59658578f2820505400000001010101010101010101010101010101381d56d45000163030202500159c1000001b000000000000000000000000000000000000000000fe004c4720446973706c61790a2020000000fe004c503132355748322d544c423100f7";
+          dockedEDID = "00ffffffffffff0022f057290000000025160104b53c2278222e25a7554d9e260c505420000081c00101010101010101010101010101565e00a0a0a029503020220255502100001a1a1d008051d01c204080750055502100001e000000fc004850205a5232373430770a2020000000ff00434e54323337573046560a2020009f";
+        in {
+          enable = true;
+          profiles = {
+            "mobile" = {
+              fingerprint.LVDS-1 = laptopEDID;
+              config = {
+                LVDS-1 = {
+                  enable = true;
+                  mode = "1366x768";
+                };
+              };
+            };
+
+            "docked" = {
+              fingerprint.LVDS-1 = laptopEDID;
+              fingerprint.DP-2 = dockedEDID;
+              config = {
+                LVDS-1 = {
+                  enable = true;
+                  mode = "1366x768";
+                };
+                DP-2 = {
+                  enable = true;
+                  mode = "2560x1440";
+                  position = "1366x0";
+                };
+              };
+            };
+          };
+
+          hooks.postswitch = {
+            "change-background" = "${pkgs.systemd}/bin/systemctl --user start random-background";
+          };
+        };
+
         services.mpd = {
           enable = true;
           musicDirectory = "/mnt/dulcia/music";
