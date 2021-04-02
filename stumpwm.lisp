@@ -11,6 +11,11 @@
   "run telegram"
   (run-or-raise "telegram-desktop" '(:instance "telegram-desktop")))
 
+(defcommand autorandr () ()
+  "run autorandr -c"
+  ;; TODO make this (message) what profile we switched to.
+  (run-commands "exec autorandr -c"))
+
 (define-key *root-map* (kbd "c") "exec xst")
 (define-key *root-map* (kbd "C-c") "exec xst")
 (define-key *root-map* (kbd "e") "emacs")
