@@ -66,10 +66,10 @@ set-sink-volume @DEFAULT_SINK@ -2%")
 (gnewbg "III")
 
 ;; Configure mode-line
-(setf *mode-line-position* :bottom
+(setf *mode-line-position* :top
       *mode-line-timeout* 2           ; update at least every 2 seconds
       *window-format* "%m%n%s%c"
-      *time-modeline-string* "%a%d %b %R"
+      *time-modeline-string* "%a %d %b %R"
       *mode-line-foreground-color* "white"
       *mode-line-background-color* "black"
       *modle-line-border-color* "white"
