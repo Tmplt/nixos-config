@@ -67,6 +67,13 @@ in
       "guest ok" = "no";
       comment = "Public SMB share.";
     };
+    shares.volatile = {
+      path = "/vpool";
+      browsable = "yes";
+      "read only" = "no";
+      "guest ok" = "no";
+      comment = "Public volatile SMB share.";
+    };
     # XXX Don't forget to set credentials:
     #
     #    # nix-shell -p samba --run "smbpasswd -a tmplt"
