@@ -565,6 +565,15 @@ there are no attachments."
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map)))
 
+(use-package openwith
+  :custom
+  (openwith-associations ((lambda (asocs)
+                            (cl-loop for (prog . exts) in asocs
+                                     collect (list (concat "\\." (regexp-opt exts) "\\'") prog '(file))))
+                          '(("mpv" . ("mkv" "mp4" "webm")))))
+  :config
+  (openwith-mode t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
