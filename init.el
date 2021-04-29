@@ -459,7 +459,16 @@ there are no attachments."
                         (mapc #'elfeed-search-update-entry entries)
                         (unless (use-region-p) (forward-line)))))))
 
-(use-package rust-mode)
+(use-package rust-mode
+  :bind
+  ("C-c C-c" . (lambda ()
+                 (interactive)
+                 (save-buffer)
+                 (rust-compile)))
+  ("C-c C-r" . (lambda ()
+                 (interactive)
+                 (save-buffer)
+                 (rust-run))))
 (use-package nix-mode)
 (use-package haskell-mode)
 (use-package yaml-mode)
