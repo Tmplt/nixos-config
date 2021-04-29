@@ -69,17 +69,20 @@
 (global-set-key (kbd "s-C-<down>") 'shrink-window)
 (global-set-key (kbd "s-C-<up>") 'enlarge-window)
 
-(use-package switch-window
-  :ensure t
-  :config
-  (setq switch-window-input-style 'minibuffer)
-  (setq switch-window-increase 4)
-  (setq switch-window-threshold 2)
-  (setq switch-window-shortcut-style 'qwerty)
-  (setq switch-window-qwerty-shortcuts
-        '("a" "r" "s" "t" "d" "h" "n"))
+(setq dired-listing-switches "-alsh --group-directories-first"
+      dired-use-ls-dired t)
+
+(setq mouse-autoselect-window t)
+
+(defhydra hydra-zoom (global-map "<f2>")
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
+
+(use-package ace-window
   :bind
-  ([remap other-window] . switch-window))
+  ([remap other-window] . ace-window)
+  ("M-o" . ace-window))
 
 (use-package eldoc
   :diminish eldoc-mode)
@@ -121,6 +124,8 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (tooltip-mode -1)
+
+(setq pdf-view-midnight-colors (cons "#ffffff" "#000000"))
 
 (setq backward-delete-char-untabify-method 'nil)
 
@@ -491,9 +496,6 @@ there are no attachments."
           ("NOTE"   . success)
           ("XXX"    . error))))
 
-(use-package slime
-  :config
-  (setq inferior-lisp-program "/home/tmplt/.nix-profile/bin/sbcl"))
 
 (use-package mpdel
   :bind (("C-x u" . 'mpdel-core-map)    ; TODO replace this with some 'mpdel-status that behaves like 'magit-status
@@ -545,6 +547,8 @@ there are no attachments."
   :hook (org-mode . org-pdftools-setup-link))
 
 (use-package projectile
+  :config
+  (setq projectile-enable-caching t)
   :init
   (projectile-mode +1)
   :bind (:map projectile-mode-map
@@ -555,6 +559,8 @@ there are no attachments."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("96c56bd2aab87fd92f2795df76c3582d762a88da5c0e54d30c71562b7bf9c605" default))
  '(package-selected-packages
    '(mpdel elfeed diff-hl json-mode org-mime doom-themes slime use-package dashboard modus-vivendi-theme yaml-mode rust-mode nix-mode modus-operandi-theme magit latex-preview-pane hl-todo haskell-mode cmake-mode auctex)))
 (custom-set-faces
