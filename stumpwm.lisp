@@ -1,5 +1,5 @@
 ;; Change window focus on mouse click
-(setf *mouse-focus-policy* :click)
+(setf *mouse-focus-policy* :sloppy)
 
 ;; Fix mousewheel in some programs (nyxt, for example)
 (setf (getenv "GDK_CORE_DEVICE_EVENTS") "1")
