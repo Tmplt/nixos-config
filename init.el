@@ -46,6 +46,9 @@
                             ))
 (electric-pair-mode t)
 
+;; Disable some bindings
+(global-unset-key (kbd "C-z"))          ; (suspend-frame)
+
 ;; Windows
 (defun split-and-follow-horizontally ()
   (interactive)
