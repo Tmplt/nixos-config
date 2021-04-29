@@ -427,7 +427,9 @@ there are no attachments."
   :hook
   (message-send . (lambda nil (mbork/message-warn-if-no-attachments)))
   :bind
-  ("C-x m" . 'mu4e)
+  ("C-x m" . (lambda ()
+               (interactive)
+               (mu4e-headers-search-bookmark "flag:unread AND NOT flag:trashed")))
   ;; TODO quit mu4e when done?
   ;; NOTE context query is overridden by mu update status
   ("C-x C-m" . 'compose-mail))
