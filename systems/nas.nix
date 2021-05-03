@@ -93,7 +93,7 @@ in
         enableACME = true;
 
         locations."/" = {
-          root = "/rpool/media/movies";
+          root = "/rpool/media/";
           extraConfig = ''
             autoindex on;
           '';
