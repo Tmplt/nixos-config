@@ -239,6 +239,7 @@
   ("C-c C-l" . 'org-store-link)
   ("C-c l" . 'org-insert-link)
   ("C-c a" . 'org-agenda)
+  ("C-c d" . 'org-todo)
   ("C-c c" . 'org-capture))    ; add a template for daily org-roam notes
 
 (use-package org-agenda
