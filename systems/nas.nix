@@ -99,6 +99,15 @@ in
           '';
         };
       };
+
+      "public.dragons.rocks" = {
+        locations."/" = {
+          root = "/rpool/media/public";
+          extraConfig = ''
+            autoindex on;
+          '';
+        };
+      };
     };
   };
   security.acme = {
