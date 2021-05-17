@@ -87,7 +87,7 @@ in
     recommendedTlsSettings = true;
 
     virtualHosts = {
-      "den.dragons.rocks" = {
+      "den.dragons.rocks" = secrets.nasSettings // {
         default = true;
         forceSSL = true;
         enableACME = true;
