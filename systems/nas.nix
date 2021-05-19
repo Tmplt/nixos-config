@@ -21,6 +21,7 @@ in
   imports = [
     ../hardware-configurations/nas.nix
     <nixpkgs/nixos/modules/profiles/headless.nix>
+    ../docker.nix
   ];
 
   # Use the GRUB 2 boot loader.
