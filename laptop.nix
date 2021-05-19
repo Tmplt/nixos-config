@@ -35,7 +35,7 @@
         '';
 
         trackpoint.enable = true;
-        trackpoint.emulateWheel = false;
+        trackpoint.emulateWheel = true;
 
         bluetooth.enable = true;
       };
