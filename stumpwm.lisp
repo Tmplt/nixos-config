@@ -25,6 +25,7 @@
 (define-key *root-map* (kbd "t") "telegram")
 (define-key *root-map* (kbd "C-w") "windowlist")
 
+;; TODO replace with stumpwm list?
 (define-key *root-map* (kbd "P") "exec passmenu")
 (define-key *root-map* (kbd "!") "exec dmenu_run")
 
