@@ -129,7 +129,7 @@ in {
     rustup
 
     zoom-us
-    #nyxt
+    unstable.nyxt
 
     ntfs3g                      # so we can mount NTFS parts
   ];
