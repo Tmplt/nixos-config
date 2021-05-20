@@ -59,10 +59,26 @@
       ];
       extraOptions = [ "--network=adhoc" ];
     };
+
+    jackett = {
+      image = "ghcr.io/linuxserver/jackett";
+      environment = {
+        "PUID" = "1000";
+        "GUID" = "1000";
+        "TZ" = "Europe/Stockholm";
+      };
+      ports = [ "9117:9117" ];
+      volumes = [
+        "/rpool/dockers/jackett/config:/config"
+        "/vpool/dockers/jackett/blackhole:/downloads"
+      ];
+      extraOptions = [ "--network=adhoc" ];
+    };
   };
 
   networking.firewall.allowedTCPPorts = [
     7878 # radarr
     8888 # rutorrent
+    9117 # jackett
   ];
 }
