@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
-
+let
+  secrets = import ./secrets;
+in
 {
   virtualisation.docker.enable = true;
 
@@ -60,6 +62,8 @@
       extraOptions = [ "--network=adhoc" ];
     };
 
+    # TODO sonarr
+
     jackett = {
       image = "ghcr.io/linuxserver/jackett";
       environment = {
@@ -74,11 +78,43 @@
       ];
       extraOptions = [ "--network=adhoc" ];
     };
+
+    bazarr = {
+      image = "ghcr.io/linuxserver/bazarr";
+      environment = {
+        "PUID" = "1000";
+        "GUID" = "1000";
+        "TZ" = "Europe/Stockholm";
+      };
+      ports = [ "6767:6767" ];
+      volumes = [
+        "/rpool/dockers/bazarr/config:/config"
+        "/rpool/media/movies:/movies"
+      ];
+      extraOptions = [ "--network=adhoc" ];
+    };
+  };
+
+  services.nginx.virtualHosts = {
+    "den.dragons.rocks" = secrets.nasSettings // {
+      default = true;
+      forceSSL = true;
+      enableACME = true;
+
+      locations."/radarr".proxyPass = "http://localhost:7878";
+      locations."/bazarr".proxyPass = "http://localhost:6767";
+      locations."/jackett".proxyPass = "http://localhost:9117";
+
+      locations."/" = {
+        root = "/rpool/media/";
+        extraConfig = ''
+            autoindex on;
+        '';
+      };
+    };
   };
 
   networking.firewall.allowedTCPPorts = [
-    7878 # radarr
     8888 # rutorrent
-    9117 # jackett
   ];
 }

@@ -88,19 +88,6 @@ in
     recommendedTlsSettings = true;
 
     virtualHosts = {
-      "den.dragons.rocks" = secrets.nasSettings // {
-        default = true;
-        forceSSL = true;
-        enableACME = true;
-
-        locations."/" = {
-          root = "/rpool/media/";
-          extraConfig = ''
-            autoindex on;
-          '';
-        };
-      };
-
       "public.dragons.rocks" = {
         locations."/" = {
           root = "/rpool/media/public";
