@@ -5,23 +5,11 @@
 { config, pkgs, lib, ... }:
 
 let
-  fetchChannel = name: let
-    json = builtins.fromJSON (builtins.readFile (./pkgs-revs + "/${name}.json"));
-  in import (fetchTarball {
-    url = "${lib.removeSuffix ".git" json.url}/archive/${json.rev}.tar.gz";
-    sha256 = json.sha256;
-  }) { config.allowUnfree = true; };
-
-  # Instead of relying on Nix channels and ending up with out-of-sync
-  # situations between machines, the commit for stable/unstable is pinned here.
-  stable = fetchChannel "stable";
-  unstable = fetchChannel "unstable";
+  unstable = import <unstable> {};
 in {
   nixpkgs = {
     config.allowUnfree = true;
     config.packageOverrides = pkgs: {
-      # Store whole unstable channel in case any module need it
-      inherit unstable;
 
       # Latest tagged release is from 2017, which lacks some scripts I need.
       openocdRecent = with pkgs; openocd.overrideAttrs (old: {
