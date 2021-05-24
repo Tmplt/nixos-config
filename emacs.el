@@ -81,11 +81,14 @@
 
 (use-package ace-window
   :bind
-  ([remap other-window] . ace-window)
+  ("s-M-o" . other-window) ; XXX why does this not work?
   ("M-o" . ace-window))
 
 (use-package eldoc
   :diminish eldoc-mode)
+
+;; XXX what if we use a staging area, some ~/org-mobile, and syncthing that instead? Perhaps org-mobile-{push,pull} handle things better?
+;; (setq org-mobile-directory)
 
 ;; eshell
 (defalias 'edit 'find-file-other-window)
@@ -115,9 +118,9 @@
   ;; Highlight current line
   (add-hook 'prog-mode-hook #'hl-line-mode)
   (add-hook 'conf-mode-hook #'hl-line-mode)
-  (add-hook 'text-mode-hook #'hl-line-mode)
+  (add-hook 'text-mode-hook #'hl-line-mode))
   ;; Auto-fill mode
-  (add-hook 'text-mode-hook #'auto-fill-mode))
+  ;; (add-hook 'text-mode-hook #'auto-fill-mode))
 
 ;; Disable unecessary GUI elements
 (scroll-bar-mode -1)
@@ -171,7 +174,7 @@
       (let* ((change (max (- (window-width) 90) 0))
              (left (/ change 2))
              (right (- change left)))
-        (set-face-background 'fringe "#ff6f6f") ; TODO: set accent colour from theme
+        ;; (set-face-background 'fringe "#ff6f6f") ; TODO: set accent colour from theme
         (set-window-margins nil left right)))))
 (global-set-key [f9] 'toggle-editting-columns-balanced)
 
@@ -204,7 +207,8 @@
   (setq org-agenda-files (list "~/org/work.org"
                                "~/org/school.org"
                                "~/org/home.org"
-                               "~/org/tasks.org"))
+                               "~/org/tasks.org"
+                               "~/exjobb/thesis/scratch.org"))
   (setq org-agenda-start-on-weekday 1)
   (setq org-list-allow-alphabetical t)
   (setq org-deadline-warning-days 5)
@@ -274,6 +278,15 @@
          ("C-c n i" . org-roam-insert)
          ("C-c n f" . org-roam-find-file)
          ("C-c n j" . org-roam-jump-to-index)))
+
+(use-package org-ref
+  :config
+  (setq reftex-default-bibliography '("~/org/bib/ref.bib")
+        org-ref-default-bibliography reftex-default-bibliography
+        org-ref-bibliography-notes '("~/org/bib/notes.org")
+        org-ref-pdf-directory "~/org/bib/pdfs/"))
+
+(setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdfxe %f"))
 
 ;; Disable latex-mode mathmode super- and sub-scripts
 (setq tex-fontify-script nil)
@@ -443,6 +456,15 @@ there are no attachments."
   (defun youtube-xml (cid) (format "https://www.youtube.com/feeds/videos.xml?channel_id=%s" cid))
   (setq elfeed-feeds
         `(("https://planet.emacslife.com/atom.xml" emacs)
+          ("https://prequeladventure.com/feed/" comic)
+          ("https://www.valsalia.com/feed/" comic)
+          ;; Youtube
+          ;; TODO open with mpv <https://www.reddit.com/r/emacs/comments/7usz5q/youtube_subscriptions_using_elfeed_mpv_no_browser/>
+          ;; NOTE curl -sfLS "https://www.youtube.com/c/<channel name>" | fgrep -i '<meta itemprop="channelId" ' | awk -F'"' '//{print $4}'
+          ;;      gives channel ID for xml feed. Can we cache results and just specify channel names instead?
+          ;; XXX  Doesn't always work with channel name, but any video from that channel seems to work.
+          ;; XXX Are we rate limited?
+          ;; XXX some feeds 404
           ;; TODO paid LWN articles (contains "[$]") become free after a few weeks. Delay their display until they are free.
           ;;      In case delay isn't static (or if it is subject to change) we can grep for the date by curling the link.
           ("https://lwn.net/headlines/rss" linux)
@@ -530,7 +552,10 @@ there are no attachments."
   (ivy-mode 1))
 (use-package counsel
   :init
-  (counsel-mode 1))
+  (counsel-mode 1)
+  :bind (("M-y" . counsel-yank-pop)
+         :map ivy-minibuffer-map
+         ("M-y" . ivy-next-line)))
 (use-package swiper
   :bind ("C-s" . 'swiper))
 
@@ -566,6 +591,59 @@ there are no attachments."
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map)))
 
+;; https://sachachua.com/blog/2021/02/guest-post-bookmarking-pdfs-in-emacs-with-pdf-tools-and-registers/
+;; Make <C-f1> and <C-f2> save at point & jump to region.
+;; Useful when going back-and-forth between definitions in a file.
+;; The code below makes this work for pdf-tools as well.
+;;
+;; You can use <C-f3> and <C-f4> to have more save and load slots.
+;; They are named by single characters, i.e. try
+;; <C-f3> 5
+;; to save to slot 5 (you can use a letter as well)
+;; <C-f4> 5
+;; to load from slot 5. The default slot name is 1.
+(use-package saveplace-pdf-view)
+
+(defvar my-bookmarks nil
+  "List of bookmarks, useful for pdf-mode where I save my positions with <C-f1> etc.")
+
+(defconst my-default-bookmark ?1
+  "This is the default bookmark name")
+
+(defun my-save-pdf-position (&optional b)
+  "Saves the current PDF position of pdf-tools at a bookmark named B."
+  (unless b (setq b my-default-bookmark))
+  (setf (alist-get b my-bookmarks)
+  (pdf-view-bookmark-make-record)))
+
+(defun my-load-pdf-position (&optional b)
+  "Loads the PDF position saved at the bookmark named B."
+  (unless b (setq b my-default-bookmark))
+  (pdf-view-bookmark-jump (alist-get b my-bookmarks)))
+
+(define-key pdf-view-mode-map (kbd "<C-f1>")
+  (lambda ()
+    (interactive)
+    (my-save-pdf-position)))
+
+(define-key pdf-view-mode-map (kbd "<C-f2>")
+  (lambda ()
+    (interactive)
+    (my-load-pdf-position)))
+
+(define-key pdf-view-mode-map (kbd "<C-f3>")
+  (lambda (b) (interactive "cSaving to bookmark name (single character): ")
+    (my-save-pdf-position b)))
+
+(define-key pdf-view-mode-map (kbd "<C-f4>")
+  (lambda (b) (interactive "cLoading from bookmark name (single character): ")
+    (my-load-pdf-position b)))
+
+(global-set-key (kbd "<C-f1>") (lambda () (interactive) (point-to-register my-default-bookmark)))
+(global-set-key (kbd "<C-f2>") (lambda () (interactive) (jump-to-register my-default-bookmark)))
+(global-set-key (kbd "<C-f3>") #'point-to-register)
+(global-set-key (kbd "<C-f4>") #'jump-to-register)
+
 (use-package openwith
   :custom
   (openwith-associations ((lambda (asocs)
@@ -582,11 +660,14 @@ there are no attachments."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("96c56bd2aab87fd92f2795df76c3582d762a88da5c0e54d30c71562b7bf9c605" default))
+ '(org-agenda-files
+   '("~/exjobb/thesis/thesis.org" "~/org/work.org" "~/org/school.org" "~/org/home.org" "~/org/tasks.org" "~/exjobb/thesis/scratch.org"))
  '(package-selected-packages
-   '(mpdel elfeed diff-hl json-mode org-mime doom-themes slime use-package dashboard modus-vivendi-theme yaml-mode rust-mode nix-mode modus-operandi-theme magit latex-preview-pane hl-todo haskell-mode cmake-mode auctex)))
+   '(sticky markdown-mode frame-purpose rainbow-identifiers ht esxml tracking ov a request dash-functional anaphora matrix-client quelpa-use-package quelpa openwith saveplace-pdf-view ace-window org-ref counsel projectile pdf-tools yaml-mode which-key use-package switch-window swiper rust-mode org-roam org-mime nix-mode mpdel magit hl-todo helm haskell-mode elfeed diminish diff-hl cmake-mode avy)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'upcase-region 'disabled nil)
