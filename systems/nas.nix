@@ -139,24 +139,6 @@ in
       '';
   };
 
-  services.syncthing = {
-    enable = true;
-    openDefaultPorts = true;
-    declarative = {
-      devices.mako.id = secrets.syncthing.phoneID;
-
-      folders."/rpool/syncthing/art/" = {
-        devices = [ "mako" ];
-        label = "art";
-      };
-
-      folders."/rpool/syncthing/Downloads/" = {
-        devices = [ "mako" ];
-        label = "downloads";
-      };
-    };
-  };
-
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
     6600 8000 # MPD
