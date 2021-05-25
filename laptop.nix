@@ -9,7 +9,6 @@
         ./hardware-configurations/laptop.nix
         ./wlan.nix
         ./packages.nix
-        ./adhoc.nix
       ];
 
       # Basic options
@@ -465,6 +464,8 @@
       };
 
       nix = {
+        package = pkgs.nixUnstable;
+
         distributedBuilds = true;
         buildMachines = [{
           hostName = "tmplt.dev";
@@ -478,6 +479,7 @@
         # Builder has much faster Internet connection.
         extraOptions = ''
           builders-use-substitutes = true
+          experimental-features = nix-command flakes
         '';
       };
 

@@ -4,9 +4,7 @@
 
 { config, pkgs, lib, ... }:
 
-let
-  unstable = import <unstable> {};
-in {
+{
   nixpkgs = {
     config.allowUnfree = true;
     config.packageOverrides = pkgs: {
@@ -123,20 +121,20 @@ in {
     clang
     gcc-arm-embedded
     gdb-multitarget
-    openocdRecent
+    # openocdRecent # compilation warnings must not become errors
     openssl
     pkgconfig
     rustup
 
     zoom-us
-    unstable.nyxt
+    nyxt
 
     ntfs3g                      # so we can mount NTFS parts
   ];
 
   # ... and install some fonts.
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     enableDefaultFonts = true;
     enableGhostscriptFonts = true;
     fontconfig.enable = true;
