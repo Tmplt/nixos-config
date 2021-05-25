@@ -484,6 +484,9 @@
       };
 
       # Hibernate after the lid has been closed for 1h.
+      #
+      # TODO add some 10min delay before we go to sleep? (that is, 10min
+      # of nothing when lid is closed)
       environment.etc."systemd/sleep.conf".text = "HibernateDelaySec=1h";
       services.logind = {
         lidSwitch = "suspend-then-hibernate";
