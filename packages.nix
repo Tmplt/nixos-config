@@ -19,7 +19,7 @@
         };
 
         # no longer applies
-        patches = [];
+        patches = [ ];
         postPatch = ''
           ${gnused}/bin/sed -i "s/\''${libtoolize}/libtoolize/g" ./bootstrap
           ${gnused}/bin/sed -i '7,14d' ./bootstrap
@@ -129,7 +129,7 @@
     zoom-us
     nyxt
 
-    ntfs3g                      # so we can mount NTFS parts
+    ntfs3g # so we can mount NTFS parts
   ];
 
   # ... and install some fonts.

@@ -40,7 +40,7 @@ rec {
   boot.supportedFilesystems = [ "zfs" ];
 
   nix.trustedUsers = [ "root" "@builders" ];
-  users.groups.builders = {};
+  users.groups.builders = { };
   users.users.builder = {
     isNormalUser = false;
     group = "builders";
@@ -79,14 +79,14 @@ rec {
     bandwidth = 128000;
 
     # TODO: PR options for these
-    extraConfig =  ''
-        username=.*
-        channelname=.*
-        rememberchannel=false
-        defaultchannel=67
-        suggestVersion=1.3.0
-        opusthreshold=0
-      '';
+    extraConfig = ''
+      username=.*
+      channelname=.*
+      rememberchannel=false
+      defaultchannel=67
+      suggestVersion=1.3.0
+      opusthreshold=0
+    '';
 
     sslCert = "/var/lib/acme/mumble.dragons.rocks/fullchain.pem";
     sslKey = "/var/lib/acme/mumble.dragons.rocks/key.pem";
@@ -100,10 +100,10 @@ rec {
 
     # Tell murmur to reload its SSL settings, if it is running
     postRun = ''
-        if ${pkgs.systemd}/bin/systemctl is-active murmur.service; then
-          ${pkgs.systemd}/bin/systemctl kill -s SIGUSR1 murmur.service
-        fi
-      '';
+      if ${pkgs.systemd}/bin/systemctl is-active murmur.service; then
+        ${pkgs.systemd}/bin/systemctl kill -s SIGUSR1 murmur.service
+      fi
+    '';
   };
   users.groups."mumble-dragons-rocks".members = [ "murmur" "nginx" ];
 
@@ -114,15 +114,15 @@ rec {
     serviceConfig.Type = "oneshot";
     path = with pkgs; [ git ];
     script = ''
-        mkdir -p /var/lib/www/tmplt.dev
-        cd /var/lib/www/tmplt.dev
-        if [ ! $(git rev-parse --is-inside-work-tree) ]; then
-          git clone https://github.com/tmplt/tmplt.dev.git .
-        else
-          git fetch origin master
-          git reset --hard origin/master
-        fi
-      '';
+      mkdir -p /var/lib/www/tmplt.dev
+      cd /var/lib/www/tmplt.dev
+      if [ ! $(git rev-parse --is-inside-work-tree) ]; then
+        git clone https://github.com/tmplt/tmplt.dev.git .
+      else
+        git fetch origin master
+        git reset --hard origin/master
+      fi
+    '';
     startAt = "hourly";
     wantedBy = [ "multi-user.target" ];
     before = [ "nginx.service" ];
@@ -134,12 +134,12 @@ rec {
     serviceConfig.Type = "oneshot";
     path = with pkgs; [ git ];
     script = ''
-        set -euox pipefail
-        mkdir -p ~/passwd.git && cd ~/passwd.git
-        if [ ! $(git rev-parse --is-inside-work-tree) ]; then
-          git init --bare .
-        fi
-      '';
+      set -euox pipefail
+      mkdir -p ~/passwd.git && cd ~/passwd.git
+      if [ ! $(git rev-parse --is-inside-work-tree) ]; then
+        git init --bare .
+      fi
+    '';
     wantedBy = [ "multi-user.target" ];
   };
 

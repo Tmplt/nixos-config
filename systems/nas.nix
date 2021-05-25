@@ -53,7 +53,7 @@ in
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
-      /rpool/media         perscitia.localdomain(rw,crossmnt,no_subtree_check)
+    /rpool/media         perscitia.localdomain(rw,crossmnt,no_subtree_check)
   '';
 
   services.samba = {
@@ -109,22 +109,22 @@ in
     group = "users";
     musicDirectory = "/rpool/media/music";
     extraConfig = ''
-        password "${secrets.dulcia.mpdPassword}@read,control,add,admin"
-        bind_to_address "192.168.1.246"
-        port "6600"
-        max_output_buffer_size "${toString (8192 * 16)}"
+      password "${secrets.dulcia.mpdPassword}@read,control,add,admin"
+      bind_to_address "192.168.1.246"
+      port "6600"
+      max_output_buffer_size "${toString (8192 * 16)}"
 
-        audio_output {
-                     type "httpd"
-                     name "HTTPD Stream"
-                     port "8000"
-                     encoder "vorbis"
-                     bitrate "128"
-                     format "44100:16:1"
-                     always_on "yes"
-                     tags "yes"
-        }
-      '';
+      audio_output {
+                   type "httpd"
+                   name "HTTPD Stream"
+                   port "8000"
+                   encoder "vorbis"
+                   bitrate "128"
+                   format "44100:16:1"
+                   always_on "yes"
+                   tags "yes"
+      }
+    '';
   };
 
   services.icecast = {
@@ -133,10 +133,10 @@ in
     hostname = "den.dragons.rocks";
     listen.port = 8000;
     extraConf = ''
-        <authentication>
-          <source-password>${secrets.dulcia.icecast.sourcePassword}</source-password>
-        </authentication>
-      '';
+      <authentication>
+        <source-password>${secrets.dulcia.icecast.sourcePassword}</source-password>
+      </authentication>
+    '';
   };
 
   # Open ports in the firewall.

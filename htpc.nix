@@ -13,17 +13,19 @@ in
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig.Type = "oneshot";
-    script = let dockercli = "${config.virtualisation.docker.package}/bin/docker";
-             in ''
-             # Put a true at the end to prevent getting non-zero return code, which will
-             # crash the whole service.
-             check=$(${dockercli} network ls | grep "adhoc" || true)
-             if [ -z "$check" ]; then
-               ${dockercli} network create adhoc
-             else
-               echo "adhoc already exists in docker"
-             fi
-           '';
+    script =
+      let dockercli = "${config.virtualisation.docker.package}/bin/docker";
+      in
+      ''
+        # Put a true at the end to prevent getting non-zero return code, which will
+        # crash the whole service.
+        check=$(${dockercli} network ls | grep "adhoc" || true)
+        if [ -z "$check" ]; then
+          ${dockercli} network create adhoc
+        else
+          echo "adhoc already exists in docker"
+        fi
+      '';
   };
 
   virtualisation.oci-containers.containers = {
@@ -108,7 +110,7 @@ in
       locations."/" = {
         root = "/rpool/media/";
         extraConfig = ''
-            autoindex on;
+          autoindex on;
         '';
       };
     };

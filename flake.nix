@@ -15,7 +15,9 @@
 
           ./laptop.nix
 
-          home-manager.nixosModules.home-manager {
+          # TODO split into own file
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.tmplt = { pkgs, ... }: {

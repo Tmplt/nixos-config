@@ -10,18 +10,19 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/877009bb-f63b-46ad-a00e-3fc44a12c89a";
+    {
+      device = "/dev/disk/by-uuid/877009bb-f63b-46ad-a00e-3fc44a12c89a";
       fsType = "xfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/CFAA-4F2C";
+    {
+      device = "/dev/disk/by-uuid/CFAA-4F2C";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/97a0358b-d20f-4b22-a7bb-31eb1f016b08"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/97a0358b-d20f-4b22-a7bb-31eb1f016b08"; }];
 
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
