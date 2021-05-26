@@ -127,14 +127,14 @@
     rustup
 
     zoom-us
-    nyxt
+    # nyxt
 
     ntfs3g # so we can mount NTFS parts
   ];
 
   # ... and install some fonts.
   fonts = {
-    fontDir.enable = true;
+    enableFontDir = true;
     enableDefaultFonts = true;
     enableGhostscriptFonts = true;
     fontconfig.enable = true;
