@@ -116,14 +116,14 @@ let secrets = import ./secrets; in
     # FIXME mbsync isn't yet packaged to properly auth with gmail.
     # See <https://github.com/NixOS/nixpkgs/issues/108480>.
     postExec = with pkgs; "${writeScript "mbsync-post" ''
-                #!${stdenv.shell}
-          #       ${pkgs.offlineimap}/bin/offlineimap -a uni || exit $?
+      #!${stdenv.shell}
+      ${pkgs.offlineimap}/bin/offlineimap -a uni || exit $?
 
-                ${pkgs.mu}/bin/mu index --quiet
-                # If the DB is already locked by mu4e, don't fail
-                retval=$?
-                [[ $retval -eq 19 ]] && exit 0 || exit $retval
-              ''}";
+      ${pkgs.mu}/bin/mu index --quiet
+      # If the DB is already locked by mu4e, don't fail
+      retval=$?
+      [[ $retval -eq 19 ]] && exit 0 || exit $retval
+    ''}";
   };
 
   manual.manpages.enable = true;
