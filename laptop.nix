@@ -1,8 +1,5 @@
 { config, lib, pkgs, ... }:
 
-let
-  secrets = import ./secrets;
-in
 {
   imports = [
     ./hardware-configurations/laptop.nix
