@@ -3,7 +3,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  secrets = (import ./secrets);
+  secrets = (import ../secrets);
   networkSecrets = secrets.networkCredentials;
 in
 {
@@ -15,6 +15,8 @@ in
   environment.systemPackages = with pkgs; [
     wpa_supplicant_gui
   ];
+
+  # TODO try blocklisting intel_ips in /etc/modules for dropouts
 
   networking.wireless.networks = secrets.networkConfigs // {
     "WiiVafan" = {

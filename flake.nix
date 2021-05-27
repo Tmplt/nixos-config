@@ -7,20 +7,22 @@
 
   outputs = { self, nixpkgs, home-manager, nixos-hardware, ... }: {
 
-    nixosConfigurations.perscitia = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        nixos-hardware.nixosModules.lenovo-thinkpad-x220
+    nixosConfigurations = {
+      perscitia = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          nixos-hardware.nixosModules.lenovo-thinkpad-x220
 
-        ./laptop.nix
+          ./systems/laptop.nix
 
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.tmplt = import ./home.nix;
-        }
-      ];
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.tmplt = import ./modules/home.nix;
+          }
+        ];
+      };
     };
   };
 }

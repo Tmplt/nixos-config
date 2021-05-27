@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  secrets = import ./secrets;
+  secrets = import ../secrets;
 in
 {
   virtualisation.docker.enable = true;

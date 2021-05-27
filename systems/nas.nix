@@ -21,7 +21,7 @@ in
   imports = [
     ../hardware-configurations/nas.nix
     <nixpkgs/nixos/modules/profiles/headless.nix>
-    ../htpc.nix
+    ../modules/htpc.nix
   ];
 
   # Use the GRUB 2 boot loader.

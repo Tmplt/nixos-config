@@ -2,9 +2,9 @@
 
 {
   imports = [
-    ./hardware-configurations/laptop.nix
-    ./wlan.nix
-    ./packages.nix
+    ../hardware-configurations/laptop.nix
+    ../modules/wlan.nix
+    ../modules/packages.nix
   ];
 
   # Basic options
@@ -15,7 +15,7 @@
     name = "root";
     device = "/dev/disk/by-uuid/${
             lib.removeSuffix "\n"
-            (builtins.readFile ./hardware-configurations/laptop-luks.uuid)
+            (builtins.readFile ../hardware-configurations/laptop-luks.uuid)
           }";
     preLVM = true;
     allowDiscards = true;

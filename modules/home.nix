@@ -1,4 +1,4 @@
-let secrets = import ./secrets; in
+let secrets = import ../secrets; in
 { pkgs, ... }: {
   accounts.email.maildirBasePath = "mail";
   accounts.email.accounts = {
