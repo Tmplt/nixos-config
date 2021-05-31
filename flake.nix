@@ -23,6 +23,9 @@
           }
         ];
       };
+
+      # TODO add servers here when nixops properly supports flakes. We
+      # cannot use flakes because of `deployment.keys`.
     };
   };
 }
