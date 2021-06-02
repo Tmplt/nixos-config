@@ -2,7 +2,7 @@
 # It does not contain configuration for software that is already covered
 # by other NixOS options.
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
   nixpkgs = {
@@ -134,7 +134,7 @@
 
   # ... and install some fonts.
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     enableDefaultFonts = true;
     enableGhostscriptFonts = true;
     fontconfig.enable = true;

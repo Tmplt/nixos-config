@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -14,7 +14,7 @@
   boot.initrd.luks.devices.root = {
     name = "root";
     device = "/dev/disk/by-uuid/${
-            lib.removeSuffix "\n"
+            pkgs.lib.removeSuffix "\n"
             (builtins.readFile ../hardware-configurations/laptop-luks.uuid)
           }";
     preLVM = true;
@@ -98,7 +98,7 @@
   # Misc. options
 
   # Allow certain USB interfaces to be accessed without root privelages.
-  services.udev.extraRules = with lib;
+  services.udev.extraRules = with pkgs.lib;
     let
       toUdevRule = vid: pid: ''
         SUBSYSTEM=="usb", ATTR{idVendor}=="${vid}", ATTR{idProduct}=="${pid}", TAG+="uaccess", RUN{builtin}+="uaccess" MODE:="0666"

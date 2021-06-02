@@ -1,6 +1,6 @@
 # Declare wlan configuration for mobile devices.
 
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   secrets = (import ../secrets);
