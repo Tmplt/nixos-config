@@ -68,7 +68,11 @@
     ncdu
     neofetch
     nfs-utils
-    octave
+    (octave.withPackages (ps: [
+      ps.symbolic
+      ps.control
+      ps.signal
+    ]))
     offlineimap
     p7zip
     pandoc
