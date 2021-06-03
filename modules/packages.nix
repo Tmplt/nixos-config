@@ -76,8 +76,13 @@
     offlineimap
     p7zip
     pandoc
-    pass
-    pass-otp # TODO: investigate why this doesn't work
+    (pass.withExtensions (ps: [
+      ps.pass-otp
+      ps.pass-checkup
+      ps.pass-genphrase
+      ps.pass-update
+      ps.pass-tomb
+    ]))
     pavucontrol
     qutebrowser
     sxiv
