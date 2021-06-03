@@ -43,39 +43,25 @@
     foot
 
     acpi
-    arc-icon-theme
-    arc-theme
     aria
     atool
     binutils
-    curl
     dmenu
     file
-    fzf
     getmail
     gnupg
     htop
-    imagemagick
-    irssi
-    krita
-    libnotify
-    lxappearance
     manpages
-    mpc_cli
     mpv
-    msmtp
     mumble
     ncdu
-    neofetch
     nfs-utils
     (octave.withPackages (ps: [
       ps.symbolic
       ps.control
       ps.signal
     ]))
-    offlineimap
     p7zip
-    pandoc
     (pass.withExtensions (ps: [
       ps.pass-otp
       ps.pass-checkup
@@ -93,24 +79,15 @@
     unzip
     usbutils
     virtmanager
-    w3m
-    wine
-    winetricks
-    xdotool
-    xorg.xev
-    xorg.xmodmap
-    xorg.xprop
-    xorg.xwininfo
     xsel
     xdg_utils
 
-    xurls
     youtube-dl
     zathura
 
     # Typesetting
-    python3Packages.pygments
-    texlive.combined.scheme-full # for minted
+    python3Packages.pygments # for minted
+    texlive.combined.scheme-full
 
     # Development
     cmake
@@ -118,7 +95,6 @@
     gdb
     git-crypt
     gnumake
-    neovim
     nixops
     nix-prefetch-git
     patchelf
