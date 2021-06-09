@@ -143,6 +143,7 @@ let secrets = import ../secrets; in
 
   home.packages = with pkgs; [
     imagemagick # needed by epkgs.pdf-tools
+    msmtp # needed by mu4e
   ];
 
   programs.direnv = {
