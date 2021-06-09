@@ -140,6 +140,10 @@ let secrets = import ../secrets; in
     extraPackages = epkgs: [ epkgs.pdf-tools epkgs.org-pdftools ]; # non-trivial
   };
 
+  home.packages = with pkgs; [
+    imagemagick # needed by epkgs.pdf-tools
+  ];
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
