@@ -106,6 +106,7 @@ let secrets = import ../secrets; in
   programs.msmtp.enable = true;
   services.mbsync = {
     enable = true;
+    frequency = "*:0/1"; # every minute
     package = with pkgs; isync.overrideAttrs (old: {
       buildInputs = [ openssl db gsasl zlib ];
     });
