@@ -4,9 +4,9 @@
 ;; Fix mousewheel in some programs (nyxt, for example)
 (setf (getenv "GDK_CORE_DEVICE_EVENTS") "1")
 
-(defcommand nyxt () ()
-  "run nyxt"
-  (run-or-raise "nyxt" '(:instance "nyxt")))
+(defcommand qutebrowser () ()
+  "run qutebrowser"
+  (run-or-raise "qutebrowser" '(:instance "qutebrowser")))
 (defcommand telegram () ()
   "run telegram"
   (run-or-raise "telegram-desktop" '(:instance "telegram-desktop")))
@@ -20,8 +20,8 @@
 (define-key *root-map* (kbd "C-c") "exec xst")
 (define-key *root-map* (kbd "e") "emacs")
 (define-key *root-map* (kbd "C-e") "emacs")
-(define-key *root-map* (kbd "q") "nyxt")
-(define-key *root-map* (kbd "C-q") "nyxt")
+(define-key *root-map* (kbd "q") "qutebrowser")
+(define-key *root-map* (kbd "C-q") "qutebrowser")
 (define-key *root-map* (kbd "t") "telegram")
 (define-key *root-map* (kbd "C-w") "windowlist")
 
