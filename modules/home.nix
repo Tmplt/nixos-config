@@ -1,5 +1,7 @@
 let secrets = import ../secrets; in
 { pkgs, ... }: {
+  home.sessionPath = [ "/home/tmplt/.cargo/bin" ];
+
   accounts.email.maildirBasePath = "mail";
   accounts.email.accounts = {
     "tmplt" = rec {
@@ -144,6 +146,7 @@ let secrets = import ../secrets; in
   home.packages = with pkgs; [
     imagemagick # needed by epkgs.pdf-tools
     msmtp # needed by mu4e
+    pandoc ripgrep fd # neede by epkgs.rustic
   ];
 
   programs.direnv = {
